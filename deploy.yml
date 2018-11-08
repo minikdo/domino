@@ -23,5 +23,11 @@
   - name: install requirements
     pip:
       requirements: "{{ proj_path }}requirements/prod.txt"
-      virtualenv: "{{ venv_path}}"
+      virtualenv: "{{ venv_path }}"
     tags: venv
+
+  - name: copy secrets.json
+    copy:
+      src: domino/settings/secrets.json
+      dest: "{{ proj_path }}/domino/settings/"
+    tags: secrets
