@@ -1,0 +1,22 @@
+{% extends 'inventory/base.html' %}
+
+{% block title %}wybierz remanent{% endblock %}
+
+{% block body %}
+
+<h3>wybierz remanent</h3>
+<p>Jeśli nie ma, to utwórz nowy <a href="{% url 'inventory_create' %}">tutaj</a></p>
+
+<p><strong>użytkownik:</strong> {{ user.username }} ({{ user.first_name }} {{ user.last_name }})</p>
+<form method='post' action="{% url 'inventory_select' %}">
+
+  {% csrf_token %}
+
+  {{ form.errors }}
+
+  {{ form }}
+
+  <div><input type="submit" value="wybierz"/></div>
+</form>
+
+{% endblock %}

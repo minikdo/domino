@@ -1,0 +1,17 @@
+{% extends 'inventory/base.html' %}
+
+{% block title %}dodawanie{% endblock %}
+
+{% block body %}
+
+<form method='post' action="{% url 'create' %}">
+
+  {% csrf_token %}
+
+  {{ form }}
+  <p style="color:orange;">{{ form.errors }}</p>
+
+  <div><input type="submit" value="dodaj"/></div>
+</form>
+
+{% endblock %}

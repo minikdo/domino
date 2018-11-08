@@ -1,0 +1,24 @@
+{% extends 'inventory/base.html' %}
+
+{% block title %}logowanie{% endblock %}
+
+{% block body %}
+
+<h3>Logowanie</h3>
+
+<form method='post' action="{% url 'login' %}">
+
+  {% csrf_token %}
+
+  {{ form.username.label_tag }}
+  {{ form.username }}
+  {{ form.password.label_tag }}
+  {{ form.password }}
+
+  {{ form.errors }}
+  
+  <div><input type="submit" value="zaloguj"/></div>
+</form>
+<p>Jeśli nie posiadasz loginu, zarejestruj się <a href="{% url 'register' %}">tutaj</a></p>
+
+{% endblock %}

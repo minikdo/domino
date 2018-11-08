@@ -1,0 +1,22 @@
+{% extends 'inventory/base.html' %}
+
+{% block title %}edycja{% endblock %}
+
+{% block body %}
+
+<h3>edycja towaru</h3>
+
+<p>jeśli chcesz wrócić bez zmian, naciśnij <a onClick="javascript:history.go(-1);">tutaj</a></p>
+
+<form method='post' action="">
+
+  {% csrf_token %}
+
+  {{ form }}
+
+  <div><input type="submit" value="zmień"/></div>
+</form>
+
+<p>Jeśli chcesz usunąć pozycję, naciśnij <a href="{% url 'delete' item.pk %}">tutaj</a></p>
+
+{% endblock %}

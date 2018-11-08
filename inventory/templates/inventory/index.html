@@ -1,0 +1,60 @@
+{% extends 'inventory/base.html' %}
+{% load static %}
+{% block title %}remanent{% endblock %}
+
+{% block body %}
+<h3>remanent</h3>
+<!-- Karol -->
+<!-- {% if user.is_authenticated %} -->
+<p>
+  sklep: <strong>#{{ current_inventory.pk }} {{ current_inventory.shop.address }}</strong>
+  <a href="{% url 'inventory_select' %}">zmień</a> lub
+  <a href="{% url 'inventory_create' %}">dodaj</a>
+  // zalogowano: <strong>{{ user.username }}</strong>
+  <a href="{% url 'logout' %}">zmień osobę</a>
+  // wyszukiwarka <a href="">tutaj</a>
+  
+</p>
+
+{% if object_list %}
+
+<table class="items">
+  <tr>
+    <th>id</th>
+    <th>nazwa</th>
+    <th>cena</th>
+    <th>ilość</th>
+    <th>j.m.</th>
+    <th></th>
+  </tr>
+  
+{% for item in object_list %}
+
+<tr>
+  <td><a class="item_id" href="{% url 'update' item.pk %}">{{ item.pk }}</a></td>
+  <td>{{ item.make.name }}</td>
+  <td>{{ item.price }}</td>
+  <td>{{ item.quantity }}</td>
+  <td>{{ item.unit.name }}</td>
+  <td></td>
+</tr>
+
+{% endfor %}
+
+{% endif %}
+
+
+</table>
+
+<form action="{% url 'create' %}" method="post">
+  {% csrf_token %}
+
+  {{ form }}
+
+  <input name="" type="submit" value="zapisz"/>
+</form>
+
+<!-- {% else %} -->
+<!-- <h2>nie jesteś zalogowany</h2> -->
+<!-- {% endif %} -->
+{% endblock %}
