@@ -1,0 +1,27 @@
+---
+- hosts: "{{ remote_host }}"
+
+  remote_user: "{{ remote_user }}"
+
+  tasks:
+  - name: git pull project
+    git:
+      repo: "{{ git_repo }}"
+      dest: "{{ proj_path }}"
+    tags: pull
+      
+  - name: touch wsgi.py
+    file:
+      path: '{{ proj_path }}/domino/wsgi.py'
+      state: touch
+    tags: touch
+
+  - name: install venv itself using pip
+    command: virtualenv "{{ venv_path }}" -p python3 creates="{{ venv_path }}"
+    tags: venv
+
+  - name: install requirements
+    pip:
+      requirements: "{{ proj_path }}requirements/prod.txt"
+      virtualenv: "{{ venv_path}}"
+    tags: venv
