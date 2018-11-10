@@ -1,0 +1,1017 @@
+[
+{
+  "model": "inventory.unit",
+  "pk": 1,
+  "fields": {
+    "name": "szt."
+  }
+},
+{
+  "model": "inventory.unit",
+  "pk": 2,
+  "fields": {
+    "name": "g"
+  }
+},
+{
+  "model": "inventory.shop",
+  "pk": 1,
+  "fields": {
+    "address": "shop I"
+  }
+},
+{
+  "model": "inventory.shop",
+  "pk": 2,
+  "fields": {
+    "address": "shop II"
+  }
+},
+{
+  "model": "inventory.shop",
+  "pk": 3,
+  "fields": {
+    "address": "shop III"
+  }
+},
+{
+  "model": "inventory.shop",
+  "pk": 4,
+  "fields": {
+    "address": "test"
+  }
+},
+{
+  "model": "inventory.makegroup",
+  "pk": 1,
+  "fields": {
+    "name": "bi\u017cuteria (srebro i inne)"
+  }
+},
+{
+  "model": "inventory.makegroup",
+  "pk": 2,
+  "fields": {
+    "name": "wyroby art., zegarki"
+  }
+},
+{
+  "model": "inventory.makegroup",
+  "pk": 3,
+  "fields": {
+    "name": "bielizna"
+  }
+},
+{
+  "model": "inventory.makegroup",
+  "pk": 4,
+  "fields": {
+    "name": "z\u0142oto"
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 1,
+  "fields": {
+    "name": "bi\u017cuteria - CK",
+    "name_print": "bi\u017cuteria - CK",
+    "group": 1
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 2,
+  "fields": {
+    "name": "bi\u017cuteria --- inne",
+    "name_print": "bi\u017cuteria --- inne",
+    "group": 1
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 3,
+  "fields": {
+    "name": "bursztyn - bi\u017cuteria",
+    "name_print": "bursztyn - bi\u017cuteria",
+    "group": 1
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 4,
+  "fields": {
+    "name": "kamienie - bi\u017cuteria",
+    "name_print": "kamienie - bi\u017cuteria",
+    "group": 1
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 5,
+  "fields": {
+    "name": "koralowiec - korale",
+    "name_print": "koralowiec - korale",
+    "group": 1
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 6,
+  "fields": {
+    "name": "opakowanie",
+    "name_print": "opakowanie",
+    "group": 1
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 7,
+  "fields": {
+    "name": "per\u0142y",
+    "name_print": "per\u0142y",
+    "group": 1
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 8,
+  "fields": {
+    "name": "rzemyk",
+    "name_print": "rzemyk",
+    "group": 1
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 9,
+  "fields": {
+    "name": "srebro",
+    "name_print": "srebro pr. 925",
+    "group": 1
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 10,
+  "fields": {
+    "name": "srebro - bursztyn",
+    "name_print": "srebro - bursztyn",
+    "group": 1
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 11,
+  "fields": {
+    "name": "turkusy",
+    "name_print": "turkusy",
+    "group": 1
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 12,
+  "fields": {
+    "name": "zegarek - srebrny pr. 925",
+    "name_print": "zegarek - srebrny pr. 925",
+    "group": 1
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 13,
+  "fields": {
+    "name": "alabaster - chi\u0144ski (masa, np. od Fika)",
+    "name_print": "alabaster - chi\u0144ski",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 14,
+  "fields": {
+    "name": "alabaster - grecki (bia\u0142e, Hanipol)",
+    "name_print": "alabaster - grecki",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 15,
+  "fields": {
+    "name": "album",
+    "name_print": "album",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 16,
+  "fields": {
+    "name": "artystyczne wyr., ozdoby, dekor. (figurki, kwiaty)",
+    "name_print": "wyroby artystyczne",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 17,
+  "fields": {
+    "name": "barek (globobar)",
+    "name_print": "barek (globobar)",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 18,
+  "fields": {
+    "name": "barometr",
+    "name_print": "barometr",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 19,
+  "fields": {
+    "name": "bateria",
+    "name_print": "bateria",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 20,
+  "fields": {
+    "name": "ceramika (donice, wazony)",
+    "name_print": "ceramika",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 21,
+  "fields": {
+    "name": "ceramika - figurka",
+    "name_print": "ceramika - figurka",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 22,
+  "fields": {
+    "name": "drewno (wyr. drewno: figurki, ramki, wazony, itp.)",
+    "name_print": "wyroby z drewna",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 23,
+  "fields": {
+    "name": "kamie\u0144 (wyroby z kamienia: onyks, malachit i inne)",
+    "name_print": "wyroby z kamienia",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 24,
+  "fields": {
+    "name": "kartka okoliczno\u015bciowa",
+    "name_print": "kartka okoliczno\u015bciowa",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 25,
+  "fields": {
+    "name": "lampa",
+    "name_print": "lampa",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 26,
+  "fields": {
+    "name": "lustro",
+    "name_print": "lustro",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 27,
+  "fields": {
+    "name": "materia\u0142 (poduszka, krawat, makatka, \u015bliniak)",
+    "name_print": "wyroby z materia\u0142u",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 28,
+  "fields": {
+    "name": "metal (mosi\u0105dz; figurki, \u015bwieczniki, itp.)",
+    "name_print": "wyroby z metalu",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 29,
+  "fields": {
+    "name": "obrazek",
+    "name_print": "obrazek",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 30,
+  "fields": {
+    "name": "olej",
+    "name_print": "olej",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 31,
+  "fields": {
+    "name": "opakowanie",
+    "name_print": "opakowanie",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 32,
+  "fields": {
+    "name": "paliwo (gaz, knot i inne)",
+    "name_print": "paliwo",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 33,
+  "fields": {
+    "name": "pasta do bi\u017cuterii",
+    "name_print": "pasta do bi\u017cuterii",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 34,
+  "fields": {
+    "name": "plater",
+    "name_print": "plater",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 35,
+  "fields": {
+    "name": "porcelana",
+    "name_print": "porcelana",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 36,
+  "fields": {
+    "name": "porcelana - angielska",
+    "name_print": "porcelana - angielska",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 37,
+  "fields": {
+    "name": "porcelana - chi\u0144ska",
+    "name_print": "porcelana - chi\u0144ska",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 38,
+  "fields": {
+    "name": "porcelana - \u015bl\u0105ska",
+    "name_print": "porcelana - \u015bl\u0105ska",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 39,
+  "fields": {
+    "name": "po\u015bciel",
+    "name_print": "po\u015bciel",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 40,
+  "fields": {
+    "name": "replika broni",
+    "name_print": "replika broni",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 41,
+  "fields": {
+    "name": "r\u0119cznik",
+    "name_print": "r\u0119cznik",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 42,
+  "fields": {
+    "name": "scyzoryk",
+    "name_print": "scyzoryk",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 43,
+  "fields": {
+    "name": "sk\u00f3ra (portfele, etui, saszetki, organizer, itp.)",
+    "name_print": "wyroby ze sk\u00f3ry",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 44,
+  "fields": {
+    "name": "sk\u00f3ra - pasek",
+    "name_print": "sk\u00f3ra - pasek",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 45,
+  "fields": {
+    "name": "sk\u00f3ra - r\u0119kawiczki",
+    "name_print": "sk\u00f3ra - r\u0119kawiczki",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 46,
+  "fields": {
+    "name": "sk\u00f3ra - torebka - teczka",
+    "name_print": "sk\u00f3ra - torebka - teczka",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 47,
+  "fields": {
+    "name": "szachy",
+    "name_print": "szachy",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 48,
+  "fields": {
+    "name": "szk\u0142o",
+    "name_print": "szk\u0142o",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 49,
+  "fields": {
+    "name": "szk\u0142o - bursztyn",
+    "name_print": "szk\u0142o - bursztyn",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 50,
+  "fields": {
+    "name": "sztu\u0107ce",
+    "name_print": "sztu\u0107ce",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 51,
+  "fields": {
+    "name": "zabawka (r\u00f3\u017cne rzeczy mog\u0105ce by\u0107 zabawk\u0105)",
+    "name_print": "zabawka",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 52,
+  "fields": {
+    "name": "zapalniczka",
+    "name_print": "zapalniczka",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 53,
+  "fields": {
+    "name": "zegar (lub budzik)",
+    "name_print": "zegar - budzik",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 54,
+  "fields": {
+    "name": "zegarek",
+    "name_print": "zegarek",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 55,
+  "fields": {
+    "name": "zegarek - CK",
+    "name_print": "zegarek - CK",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 56,
+  "fields": {
+    "name": "zegarek - adidas",
+    "name_print": "zegarek - adidas",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 57,
+  "fields": {
+    "name": "zegarek - adriatica",
+    "name_print": "zegarek - adriatica",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 58,
+  "fields": {
+    "name": "zegarek - atlantic",
+    "name_print": "zegarek - atlantic",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 59,
+  "fields": {
+    "name": "zegarek - casio",
+    "name_print": "zegarek - casio",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 60,
+  "fields": {
+    "name": "zegarek - certina",
+    "name_print": "zegarek - certina",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 61,
+  "fields": {
+    "name": "zegarek - citizen",
+    "name_print": "zegarek - citizen",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 62,
+  "fields": {
+    "name": "zegarek - delbana",
+    "name_print": "zegarek - delbana",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 63,
+  "fields": {
+    "name": "zegarek - esprit",
+    "name_print": "zegarek - esprit",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 64,
+  "fields": {
+    "name": "zegarek - grovana",
+    "name_print": "zegarek - grovana",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 65,
+  "fields": {
+    "name": "zegarek - junghans",
+    "name_print": "zegarek - junghans",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 66,
+  "fields": {
+    "name": "zegarek - longines",
+    "name_print": "zegarek - longines",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 67,
+  "fields": {
+    "name": "zegarek - maurice lacroix",
+    "name_print": "zegarek - maurice lacroix",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 68,
+  "fields": {
+    "name": "zegarek - pacific",
+    "name_print": "zegarek - pacific",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 69,
+  "fields": {
+    "name": "zegarek - pasek do zegarka",
+    "name_print": "pasek do zegarka",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 70,
+  "fields": {
+    "name": "zegarek - qq",
+    "name_print": "zegarek - qq",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 71,
+  "fields": {
+    "name": "zegarek - reveil",
+    "name_print": "zegarek - reveil",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 72,
+  "fields": {
+    "name": "zegarek - roamer",
+    "name_print": "zegarek - roamer",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 73,
+  "fields": {
+    "name": "zegarek - seiko",
+    "name_print": "zegarek - seiko",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 74,
+  "fields": {
+    "name": "zegarek - swatch",
+    "name_print": "zegarek - swatch",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 75,
+  "fields": {
+    "name": "zegarek - timemaster",
+    "name_print": "zegarek - timemaster",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 76,
+  "fields": {
+    "name": "zegarek - timex",
+    "name_print": "zegarek - timex",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 77,
+  "fields": {
+    "name": "zegarek - tissot",
+    "name_print": "zegarek - tissot",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 78,
+  "fields": {
+    "name": "zestaw przybor\u00f3w (biurowe, korkoci\u0105gi)",
+    "name_print": "zestaw przybor\u00f3w (biurowe, korkoci\u0105gi)",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 79,
+  "fields": {
+    "name": "\u015bwieca",
+    "name_print": "\u015bwieca",
+    "group": 2
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 80,
+  "fields": {
+    "name": "apaszka (szal)",
+    "name_print": "apaszka (szal)",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 81,
+  "fields": {
+    "name": "biustonosz",
+    "name_print": "biustonosz",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 87,
+  "fields": {
+    "name": "body",
+    "name_print": "body",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 95,
+  "fields": {
+    "name": "figi",
+    "name_print": "figi",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 101,
+  "fields": {
+    "name": "inne - bielizna",
+    "name_print": "inne - bielizna",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 102,
+  "fields": {
+    "name": "koszula nocna",
+    "name_print": "koszula nocna",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 105,
+  "fields": {
+    "name": "koszulka (bluzka, halka)",
+    "name_print": "koszulka (bluzka, halka)",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 107,
+  "fields": {
+    "name": "k\u0105piel\u00f3wki m\u0119skie",
+    "name_print": "k\u0105piel\u00f3wki m\u0119skie",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 108,
+  "fields": {
+    "name": "majtki",
+    "name_print": "majtki",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 114,
+  "fields": {
+    "name": "pareo",
+    "name_print": "pareo",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 115,
+  "fields": {
+    "name": "pi\u017cama",
+    "name_print": "pi\u017cama",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 118,
+  "fields": {
+    "name": "podkolan\u00f3wki",
+    "name_print": "podkolan\u00f3wki",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 119,
+  "fields": {
+    "name": "po\u0144czochy",
+    "name_print": "po\u0144czochy",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 120,
+  "fields": {
+    "name": "rajstopy",
+    "name_print": "rajstopy",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 123,
+  "fields": {
+    "name": "skarpety",
+    "name_print": "skarpety",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 124,
+  "fields": {
+    "name": "sloggi",
+    "name_print": "sloggi",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 126,
+  "fields": {
+    "name": "stringi",
+    "name_print": "stringi",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 132,
+  "fields": {
+    "name": "str\u00f3j k\u0105pielowy",
+    "name_print": "str\u00f3j k\u0105pielowy",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 135,
+  "fields": {
+    "name": "odzie\u017c pla\u017cowa",
+    "name_print": "odzie\u017c pla\u017cowa",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 136,
+  "fields": {
+    "name": "szlafrok",
+    "name_print": "szlafrok",
+    "group": 3
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 137,
+  "fields": {
+    "name": "zegarek - z\u0142oty pr. 585",
+    "name_print": "zegarek - z\u0142oty pr. 585",
+    "group": 4
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 138,
+  "fields": {
+    "name": "z\u0142oto",
+    "name_print": "z\u0142oto pr. 585",
+    "group": 4
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 139,
+  "fields": {
+    "name": "z\u0142oto - brylanty",
+    "name_print": "z\u0142oto - brylanty",
+    "group": 4
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 140,
+  "fields": {
+    "name": "z\u0142oto - kam. naturalne",
+    "name_print": "z\u0142oto - kam. naturalne",
+    "group": 4
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 141,
+  "fields": {
+    "name": "z\u0142oto - kam. szlachetne",
+    "name_print": "z\u0142oto - kam. szlachetne",
+    "group": 4
+  }
+},
+{
+  "model": "inventory.make",
+  "pk": 142,
+  "fields": {
+    "name": "z\u0142oto pr. 333",
+    "name_print": "z\u0142oto pr. 333",
+    "group": 4
+  }
+}
+]
