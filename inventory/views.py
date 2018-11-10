@@ -56,7 +56,7 @@ class IndexView(FormMixin, ListView):
         self.inventory = request.session.get('inventory_id')
         self.group = request.session.get('group_id')
 
-        if self.inventory is None: 
+        if self.inventory is None:
             return redirect('inventory_select')
         
         return super().dispatch(request, *args, **kwargs)
@@ -148,7 +148,6 @@ def register(request):
             user = authenticate(username=username,
                                 password=password)
             login(request, user)
-            request.session['shop'] = 2
             return redirect('index')
     else:
         form = SignUpForm()
