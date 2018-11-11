@@ -1,5 +1,14 @@
 /* custom settings */
 
+#navbar ul li {
+    float: right;
+    list-style-type: none;
+    display: inline-block;
+    padding: 3px 5px 0 10px;
+}
+#navbar a:active {
+    color: orange;
+}
 table.items tr td:nth-child(1n+3) {
     text-align: right;
 }

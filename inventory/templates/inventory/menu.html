@@ -1,8 +1,18 @@
+<div class="row">
+  <div class="three columns">
+    <h3>remanent</h3>
+  </div>
+  <div class="nine columns" id="navbar">
+    <ul>
+      <li><a href="{% url 'logout' %}">wyloguj</a></li>
+      <li><strong>{{ user.username }}</strong></li>
+      <li><a href="{% url 'inventory_select' %}">zmień sklep</a></li>
+      <li><a href="{% url 'item_search' %}">szukaj</a></li>
+      <li><a href="{% url 'index' %}">pisz dalej</a></li>
+    </ul>
+  </div>
+</div>
+
 <p>
   sklep: <strong>#{{ current_inventory.pk }} {{ current_inventory.shop.address }}</strong>
-  <a href="{% url 'inventory_select' %}">zmień</a> lub
-  <a href="{% url 'inventory_create' %}">dodaj</a>
-  // zalogowano: <strong>{{ user.username }}</strong>
-  <a href="{% url 'logout' %}">zmień osobę</a>
-  // wyszukiwarka <a href="{% url 'item_search' %}">tutaj</a>
 </p>

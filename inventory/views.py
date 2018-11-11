@@ -117,7 +117,7 @@ def inventory_select(request):
     if not inventories:
         return redirect('inventory_create')
     
-    last_inventory = inventories.latest('pk').id
+    last_inventory = inventories.latest('pk')
     
     if request.POST:
         request.session['inventory_id'] = request.POST.get('inventory')
@@ -125,13 +125,14 @@ def inventory_select(request):
 
         return redirect('index')
 
-    inventory = request.session.get('inventory_id', last_inventory)
+    inventory = request.session.get('inventory_id', last_inventory.id)
     group = request.session.get('group_id', 1)
     form = InventorySelectForm({'inventory': inventory,
                                 'group': group})
 
     return render(request, template, {"form": form,
-                                      "inventories": inventories})
+                                      "inventories": inventories,
+                                      "current_inventory": last_inventory})
 
 
 @method_decorator(login_required, name='dispatch')
@@ -155,6 +156,12 @@ class ItemSearch(FormMixin, ListView):
             
         query = query.order_by('-pk')
         return query
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_inventory'] = Inventory.objects.filter(
+            pk=self.inventory).first()
+        return context
 
     def get_initial(self):
         return {'make': self.make,
