@@ -1,23 +1,28 @@
 {% extends 'inventory/base.html' %}
 
 {% load static %}
-{% load templatehelpers %}
 
 {% block title %}wyszukiwarka{% endblock %}
 
 {% block body %}
 <h3>remanent</h3>
 
+<!-- menu -->
+
 {% include 'inventory/menu.html' %}
 
+<!-- search form -->
 
-<form action="{% url 'item_search' %}" method="get">
-
-  {{ form }}
-
-  <input name="" type="submit" value="szukaj"/>
+<form class="item_search" action="{% url 'item_search' %}" method="get">
+  <ul>
+    {{ form.as_ul }}
+    <li>
+      <input name="" type="submit" value="szukaj"/>
+    </li>
+  </ul>
 </form>
 
+<!-- item list -->
 
 {% if object_list %}
 
@@ -44,26 +49,12 @@
 
 {% endfor %}
 
-<div class="pagination">
-  <span class="step-links">
-    {% if page_obj.has_previous %}
-    <a href="{% relative_url page_obj.previous_page_number 'page' request.GET.urlencode %}">&laquo; poprzednia</a>
-    {% endif %}
+<!-- paginator -->
 
-    <span class="current">
-      strona {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}.
-    </span>
-
-    {% if page_obj.has_next %}
-    <a href="{% relative_url page_obj.next_page_number 'page' request.GET.urlencode %}">następna &raquo;</a>
-    {% endif %}
-  </span>
-</div>
+{% include 'inventory/paginator.html' %}
 
 {% endif %}
 
-
 </table>
-
 
 {% endblock %}

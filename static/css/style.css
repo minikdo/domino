@@ -14,3 +14,10 @@ a.item_id:hover {
 .errorlist {
     color: #8846e0;
 }
+form.item_search ul {
+
+}
+form.item_search ul li {
+    list-style-type: none;
+    display: inline-block;
+}

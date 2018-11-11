@@ -1,0 +1,17 @@
+{% load templatehelpers %}
+
+<div class="pagination">
+  <span class="step-links">
+    {% if page_obj.has_previous %}
+    <a href="{% relative_url page_obj.previous_page_number 'page' request.GET.urlencode %}">&laquo; poprzednia</a>
+    {% endif %}
+
+    <span class="current">
+      strona {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}.
+    </span>
+
+    {% if page_obj.has_next %}
+    <a href="{% relative_url page_obj.next_page_number 'page' request.GET.urlencode %}">następna &raquo;</a>
+    {% endif %}
+  </span>
+</div>

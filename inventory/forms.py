@@ -54,4 +54,7 @@ class ItemSearchForm(forms.Form):
                                   required=False,
                                   widget=forms.Select(
                                       attrs={'autofocus': True}))
-    price = forms.FloatField(label="cena brutto", required=False)
+    price = forms.FloatField(label="cena brutto", required=False,
+                             widget=forms.TextInput(attrs={
+                                 'size': 6
+                             }))
