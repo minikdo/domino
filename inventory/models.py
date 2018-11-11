@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
@@ -60,7 +60,7 @@ class Item(models.Model):
     price = models.FloatField(verbose_name="cena brutto")
     quantity = models.FloatField(verbose_name="ilość")
     unit = models.ForeignKey('Unit', on_delete=models.CASCADE,
-                              verbose_name="j.m.")
+                             verbose_name="j.m.")
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -77,13 +77,15 @@ class Item(models.Model):
                                    _('Cena nie może wynosić 0 lub mniej')})
         if self.quantity <= 0 or self.quantity > 100:
             raise ValidationError({'quantity':
-                                   _('Ilość musi być większa od 0 i mniejsza od 100')})
+                                   _('Ilość musi być większa od 0 i mniejsza '
+                                     'od 100')})
         if self.unit.pk == 1 and int(self.quantity) != self.quantity:
             raise ValidationError({'quantity':
                                    _('Ilość sztuk nie może być ułamkowa')})
         if self.unit.pk == 2 and self.make.group_id != 4:
             raise ValidationError({'unit':
-                                   _('W tej grupie towarowej nie można stosować gramów')})
+                                   _('W tej grupie towarowej nie można '
+                                     'stosować gramów')})
 
 
 class Inventory(models.Model):
