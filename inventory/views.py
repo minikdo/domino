@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.edit import FormMixin
 from .models import Inventory, Item
-from .forms import ItemForm, InventorySelectForm, SignUpForm
+from .forms import ItemForm, InventorySelectForm, SignUpForm, ItemSearchForm
+from django.core.paginator import Paginator
 
 
 @method_decorator(login_required, name='dispatch')
@@ -17,8 +17,6 @@ class IndexView(FormMixin, ListView):
     model = Item
     template_name = 'inventory/index.html'
     form_class = ItemForm
-    # inventory = None
-    # group = 1
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -27,7 +25,8 @@ class IndexView(FormMixin, ListView):
         return context
                 
     def get_queryset(self):
-        query = Item.objects.filter(inventory=self.inventory, created_by=self.request.user)
+        query = Item.objects.filter(inventory=self.inventory,
+                                    created_by=self.request.user)
         query = query.order_by('-pk')[:5][::-1]
         return query
 
@@ -69,7 +68,6 @@ class ItemCreate(CreateView):
     model = Item
     template_name = 'inventory/index.html'
     fields = ['make', 'price', 'quantity', 'unit']
-    # form_class = InventoryForm
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -134,6 +132,44 @@ def inventory_select(request):
 
     return render(request, template, {"form": form,
                                       "inventories": inventories})
+
+
+@method_decorator(login_required, name='dispatch')
+class ItemSearch(FormMixin, ListView):
+    """ item search """
+
+    model = Item
+    template_name = 'inventory/item_search.html'
+    form_class = ItemSearchForm
+    paginate_by = 10
+    
+    def get_queryset(self):
+        # import pdb; pdb.set_trace()
+        query = Item.objects.filter(inventory=self.inventory,
+                                    created_by=self.request.user)
+
+        if self.make:
+            query = query.filter(make=self.make)
+        if self.price:
+            query = query.filter(price=self.price)
+            
+        query = query.order_by('-pk')
+        return query
+
+    def get_initial(self):
+        return {'make': self.make,
+                'price': self.price}
+        
+    def dispatch(self, request, *args, **kwargs):
+        self.inventory = request.session.get('inventory_id')
+
+        self.make = request.GET.get('make', None)
+        self.price = request.GET.get('price', None)
+
+        if not self.inventory:
+            return redirect('inventory_select')
+        
+        return super().dispatch(request, *args, **kwargs)
 
 
 def register(request):

@@ -1,0 +1,8 @@
+<p>
+  sklep: <strong>#{{ current_inventory.pk }} {{ current_inventory.shop.address }}</strong>
+  <a href="{% url 'inventory_select' %}">zmień</a> lub
+  <a href="{% url 'inventory_create' %}">dodaj</a>
+  // zalogowano: <strong>{{ user.username }}</strong>
+  <a href="{% url 'logout' %}">zmień osobę</a>
+  // wyszukiwarka <a href="{% url 'item_search' %}">tutaj</a>
+</p>

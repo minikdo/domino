@@ -44,3 +44,14 @@ class SignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
         fields = UserCreationForm.Meta.fields + ('first_name', 'last_name')
+
+
+class ItemSearchForm(forms.Form):
+    """ Item search """
+
+    make = forms.ModelChoiceField(queryset=Make.objects.all(),
+                                  label="nazwa towaru",
+                                  required=False,
+                                  widget=forms.Select(
+                                      attrs={'autofocus': True}))
+    price = forms.FloatField(label="cena brutto", required=False)
