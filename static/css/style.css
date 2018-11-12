@@ -1,14 +1,30 @@
 /* custom settings */
 
+/* icons by:  */
+/* Open Iconic — www.useiconic.com/open */
+
+/* navbar */
+
+#navbar {
+    border-bottom: 3px solid #1EAEDB;
+    margin: 10px 0 14px 0;
+    padding-bottom: 8px;
+}
+#navbar h3 {
+    margin: 0;
+}
 #navbar ul li {
     float: right;
     list-style-type: none;
     display: inline-block;
-    padding: 3px 5px 0 10px;
+    padding: 17px 0 0 47px;
 }
-#navbar a:active {
-    color: orange;
+#navbar a {
+    text-decoration: none;
 }
+
+/* table */
+
 table.items tr td:nth-child(1n+3) {
     text-align: right;
 }
@@ -20,6 +36,9 @@ a.item_id:hover {
     color: #000;
     text-decoration: underline;
 }
+
+/* forms */
+
 .errorlist {
     color: #8846e0;
 }
@@ -29,4 +48,12 @@ form.item_search ul {
 form.item_search ul li {
     list-style-type: none;
     display: inline-block;
+}
+
+/* other */
+
+.ico {
+    width:13px;
+    height:13px;
+    vertical-align: middle;
 }

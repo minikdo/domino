@@ -22,14 +22,18 @@
   <body>
     <div class="container">
 
-      <!-- menu -->
+      {% if user.is_authenticated %}
 
-      {% include 'inventory/menu.html' %}
+        <!-- menu -->
 
+        {% include 'inventory/menu.html' %}
+
+      {% endif %}
+        
       <!-- body -->
 
       {% block body %}{% endblock %}
-      
+
     </div>
   </body>
 </html>

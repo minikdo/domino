@@ -1,11 +1,17 @@
-<div class="row">
+{% load static %}
+
+<div class="row" id="navbar">
   <div class="three columns">
     <h3>remanent</h3>
   </div>
-  <div class="nine columns" id="navbar">
+  <div class="nine columns">
     <ul>
-      <li><a href="{% url 'logout' %}">wyloguj</a></li>
-      <li><strong>{{ user.username }}</strong></li>
+      <li>
+        <strong>{{ user.username }}</strong>
+        <a href="{% url 'logout' %}" title="wyloguj się">
+          <img  class="ico" alt="logout" src="{% static 'icons/account-logout.svg' %}"/>
+        </a>
+      </li>
       <li><a href="{% url 'inventory_select' %}">zmień sklep</a></li>
       <li><a href="{% url 'item_search' %}">szukaj</a></li>
       <li><a href="{% url 'index' %}">pisz dalej</a></li>
@@ -14,5 +20,7 @@
 </div>
 
 <p>
+  {% if current_inventory %}
   sklep: <strong>#{{ current_inventory.pk }} {{ current_inventory.shop.address }}</strong>
+  {% endif %}
 </p>
