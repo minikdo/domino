@@ -72,6 +72,12 @@ class Item(models.Model):
         return reverse_lazy('index')
 
     def clean(self):
+        if not isinstance(self.price, (int, float)):
+            raise ValidationError({'price':
+                                   _('pole powinno zawierać liczbę')})
+        if not isinstance(self.quantity, (int, float)):
+            raise ValidationError({'quantity':
+                                   _('pole powinno zawierać liczbę')})
         if self.price <= 0:
             raise ValidationError({'price':
                                    _('Cena nie może wynosić 0 lub mniej')})
