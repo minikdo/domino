@@ -14,13 +14,20 @@
       </li>
       <li><a href="{% url 'inventory_select' %}">zmień sklep</a></li>
       <li><a href="{% url 'item_search' %}">szukaj</a></li>
-      <li><a href="{% url 'index' %}">pisz dalej</a></li>
+      <li><a href="{% url 'shelf_update' %}">pisz dalej</a></li>
     </ul>
   </div>
 </div>
 
-<p>
-  {% if current_inventory %}
-  sklep: <strong>#{{ current_inventory.pk }} {{ current_inventory.shop.address }}</strong>
-  {% endif %}
-</p>
+<div class="row" id="current_shop">
+  <div class="eight columns">
+    {% if current_inventory %}
+    sklep: <strong>#{{ current_inventory.pk }} {{ current_inventory.shop.address }}</strong>
+    {% endif %}
+  </div>
+  <div class="four columns" id="shelf_counter">
+    {% if shelf_counter %}
+    <a href="{% url 'item_search' %}" title="wyświetl półkę">{{ shelf_counter.piece|add:shelf_counter.weight }}</a>
+    {% endif %}
+  </div>
+</div>

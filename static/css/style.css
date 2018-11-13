@@ -22,6 +22,9 @@
 #navbar a {
     text-decoration: none;
 }
+#current_shop {
+    margin-bottom: 10px;
+}
 
 /* item table */
 
@@ -59,4 +62,9 @@ form.item_search ul li {
     width:13px;
     height:13px;
     vertical-align: middle;
+}
+#shelf_counter a {
+    float: right;
+    text-decoration: none;
+    font-weight: bold;
 }

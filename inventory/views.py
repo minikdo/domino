@@ -5,9 +5,18 @@ from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.edit import FormMixin
+from django.db.models import Sum, Q, Count, Value
+from django.db.models.functions import Coalesce
 from .models import Inventory, Item
 from .forms import ItemForm, InventorySelectForm, SignUpForm, ItemSearchForm
 from django.core.paginator import Paginator
+
+
+@login_required()
+def shelf_counter(inventory, user_id, shelf):
+    """ get number of item """
+
+    pass
 
 
 @method_decorator(login_required, name='dispatch')
@@ -22,6 +31,13 @@ class IndexView(FormMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['current_inventory'] = Inventory.objects.filter(
             pk=self.inventory).first()
+        context['shelf_counter'] = Item.objects.filter(
+        Q(inventory_id=self.inventory),
+        Q(created_by=self.request.user.id),
+        Q(pk__gte=self.shelf)).aggregate(
+            piece=Coalesce(Sum('quantity', filter=Q(unit_id=1)), Value(0)),
+            weight=Count('pk', filter=Q(unit_id=2)))
+        
         return context
                 
     def get_queryset(self):
@@ -54,10 +70,11 @@ class IndexView(FormMixin, ListView):
     def dispatch(self, request, *args, **kwargs):
         self.inventory = request.session.get('inventory_id')
         self.group = request.session.get('group_id')
-
+        self.shelf = request.session.get('shelf_id')
+        
         if self.inventory is None:
             return redirect('inventory_select')
-        
+
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -177,6 +194,17 @@ class ItemSearch(FormMixin, ListView):
             return redirect('inventory_select')
         
         return super().dispatch(request, *args, **kwargs)
+
+
+@login_required()
+def shelf_update(request):
+    """ update shelf counter """
+
+    last_item_id = Item.objects.filter(created_by=request.user,
+                                       inventory_id=request.session.get('inventory_id')).last().id
+    request.session['shelf_id'] = last_item_id + 1
+    
+    return redirect('index')
 
 
 def register(request):

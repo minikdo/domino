@@ -13,5 +13,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('inventory/add/', views.InventoryCreate.as_view(),
          name='inventory_create'),
-    path('inventory/select/', views.inventory_select, name='inventory_select')
+    path('inventory/select/', views.inventory_select, name='inventory_select'),
+    path('shelf/update', views.shelf_update, name='shelf_update')
 ]

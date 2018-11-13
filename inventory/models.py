@@ -88,7 +88,7 @@ class Item(models.Model):
         if self.unit.pk == 1 and int(self.quantity) != self.quantity:
             raise ValidationError({'quantity':
                                    _('Ilość sztuk nie może być ułamkowa')})
-        if self.unit.pk == 2 and self.make.group_id != 4:
+        if self.unit.pk == 2 and self.make.group_id not in [1, 4]:
             raise ValidationError({'unit':
                                    _('W tej grupie towarowej nie można '
                                      'stosować gramów')})
