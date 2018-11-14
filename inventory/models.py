@@ -101,7 +101,7 @@ class Inventory(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     shop = models.ForeignKey('Shop', on_delete=models.CASCADE,
                              verbose_name="sklep")
-    active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         string = str(self.pk) + ', '
