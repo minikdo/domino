@@ -5,39 +5,29 @@ from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.edit import FormMixin
-from django.db.models import Sum, Q, Count, Value
-from django.db.models.functions import Coalesce
+from django.core.paginator import Paginator
+from django.db.models import Q
 from .models import Inventory, Item
 from .forms import ItemForm, InventorySelectForm, SignUpForm, ItemSearchForm
-from django.core.paginator import Paginator
-
-
-@login_required()
-def shelf_counter(inventory, user_id, shelf):
-    """ get number of item """
-
-    pass
+from .utils import shelf_counter
 
 
 @method_decorator(login_required, name='dispatch')
 class IndexView(FormMixin, ListView):
     """ index """
-
+    
     model = Item
     template_name = 'inventory/index.html'
     form_class = ItemForm
     
     def get_context_data(self, **kwargs):
+        # import pdb; pdb.set_trace()
         context = super().get_context_data(**kwargs)
         context['current_inventory'] = Inventory.objects.filter(
             pk=self.inventory).first()
-        context['shelf_counter'] = Item.objects.filter(
-        Q(inventory_id=self.inventory),
-        Q(created_by=self.request.user.id),
-        Q(pk__gte=self.shelf)).aggregate(
-            piece=Coalesce(Sum('quantity', filter=Q(unit_id=1)), Value(0)),
-            weight=Count('pk', filter=Q(unit_id=2)))
-        
+        context['shelf_counter'] = shelf_counter(self.inventory,
+                                                 self.request.user.id,
+                                                 self.shelf)
         return context
                 
     def get_queryset(self):
@@ -162,7 +152,6 @@ class ItemSearch(FormMixin, ListView):
     paginate_by = 10
     
     def get_queryset(self):
-        # import pdb; pdb.set_trace()
         query = Item.objects.filter(inventory=self.inventory,
                                     created_by=self.request.user)
 
@@ -170,14 +159,19 @@ class ItemSearch(FormMixin, ListView):
             query = query.filter(make=self.make)
         if self.price:
             query = query.filter(price=self.price)
+        if not self.make and not self.price and self.shelf:
+            query = query.filter(pk__gte=self.shelf)
             
-        query = query.order_by('-pk')
+        query = query.order_by('pk')
         return query
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['current_inventory'] = Inventory.objects.filter(
             pk=self.inventory).first()
+        context['shelf_counter'] = shelf_counter(self.inventory,
+                                                 self.request.user.id,
+                                                 self.shelf)
         return context
 
     def get_initial(self):
@@ -192,12 +186,14 @@ class ItemSearch(FormMixin, ListView):
 
         if not self.inventory:
             return redirect('inventory_select')
-        
+
+        self.shelf = request.session.get('shelf_id')
+
         return super().dispatch(request, *args, **kwargs)
 
 
 @login_required()
-def shelf_update(request):
+def shelf_reset(request):
     """ update shelf counter """
 
     last_item_id = Item.objects.filter(created_by=request.user,
@@ -208,6 +204,8 @@ def shelf_update(request):
 
 
 def register(request):
+    """ registration form """
+    
     if request.method == 'POST':
         form = SignUpForm(request.POST)
 
