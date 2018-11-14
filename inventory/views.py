@@ -21,10 +21,8 @@ class IndexView(FormMixin, ListView):
     form_class = ItemForm
     
     def get_context_data(self, **kwargs):
-        # import pdb; pdb.set_trace()
         context = super().get_context_data(**kwargs)
-        context['current_inventory'] = Inventory.objects.filter(
-            pk=self.inventory).first()
+        context['current_inventory'] = self.inventory
         context['shelf_counter'] = shelf_counter(self.inventory,
                                                  self.request.user.id,
                                                  self.shelf)
@@ -33,8 +31,8 @@ class IndexView(FormMixin, ListView):
     def get_queryset(self):
         query = Item.objects.filter(inventory=self.inventory,
                                     created_by=self.request.user)
-        query = query.order_by('-pk')[:5][::-1]
-        return query
+
+        return query.order_by('-pk')[:5][::-1]
 
     def get_initial(self):
         try:
@@ -161,7 +159,8 @@ class ItemSearch(FormMixin, ListView):
             query = query.filter(price=self.price)
         if not self.make and not self.price and self.shelf:
             query = query.filter(pk__gte=self.shelf)
-            
+
+        self.item_num  = query.count()
         query = query.order_by('pk')
         return query
 
@@ -172,6 +171,8 @@ class ItemSearch(FormMixin, ListView):
         context['shelf_counter'] = shelf_counter(self.inventory,
                                                  self.request.user.id,
                                                  self.shelf)
+
+        context['item_num'] = self.item_num
         return context
 
     def get_initial(self):

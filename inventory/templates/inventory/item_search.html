@@ -21,6 +21,8 @@
 
 {% if object_list %}
 
+<p>wynik: <strong>{{ item_num }}</strong></p>
+
 <table class="items">
   <tr>
     <th>id</th>
@@ -44,12 +46,12 @@
 
 {% endfor %}
 
+</table>
+
 <!-- paginator -->
 
 {% include 'inventory/paginator.html' %}
 
 {% endif %}
-
-</table>
 
 {% endblock %}

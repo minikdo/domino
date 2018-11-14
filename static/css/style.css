@@ -71,3 +71,6 @@ form.item_search ul li {
 .red {
     color: red;
 }
+.pagination {
+    margin-bottom: 30px;
+}
