@@ -12,6 +12,9 @@
           <img  class="ico" alt="logout" src="{% static 'icons/account-logout.svg' %}"/>
         </a>
       </li>
+      {% if request.user.is_superuser %}
+      <li><a href="{% url 'stats' %}">stats</a></li>
+      {% endif %}
       <li><a href="{% url 'inventory_select' %}">zmień sklep</a></li>
       <li><a href="{% url 'item_search' %}">szukaj</a></li>
       <li><a href="{% url 'shelf_reset' %}">zeruj licznik</a></li>
@@ -23,7 +26,7 @@
 <div class="row" id="current_shop">
   <div class="eight columns">
     {% if current_inventory %}
-    sklep: <strong>#{{ current_inventory.pk }} {{ current_inventory.shop.address }}</strong>
+    sklep: <strong>#{{ current_inventory }}</strong>
     {% endif %}
   </div>
   <div class="four columns" id="shelf_counter">

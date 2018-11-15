@@ -14,5 +14,6 @@ urlpatterns = [
     path('inventory/add/', views.InventoryCreate.as_view(),
          name='inventory_create'),
     path('inventory/select/', views.inventory_select, name='inventory_select'),
-    path('shelf/reset', views.shelf_reset, name='shelf_reset')
+    path('shelf/reset', views.shelf_reset, name='shelf_reset'),
+    path('stats/', views.Stats.as_view(), name='stats')
 ]

@@ -5,11 +5,9 @@ from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.edit import FormMixin
-from django.core.paginator import Paginator
-from django.db.models import Q
 from .models import Inventory, Item
 from .forms import ItemForm, InventorySelectForm, SignUpForm, ItemSearchForm
-from .utils import shelf_counter
+from .utils import shelf_counter, stats
 
 
 @method_decorator(login_required, name='dispatch')
@@ -21,8 +19,10 @@ class IndexView(FormMixin, ListView):
     form_class = ItemForm
     
     def get_context_data(self, **kwargs):
+        # import pdb; pdb.set_trace()
         context = super().get_context_data(**kwargs)
-        context['current_inventory'] = self.inventory
+        context['current_inventory'] = Inventory.objects.filter(
+            pk=self.inventory).first()
         context['shelf_counter'] = shelf_counter(self.inventory,
                                                  self.request.user.id,
                                                  self.shelf)
@@ -160,7 +160,7 @@ class ItemSearch(FormMixin, ListView):
         if not self.make and not self.price and self.shelf:
             query = query.filter(pk__gte=self.shelf)
 
-        self.item_num  = query.count()
+        self.item_num = query.count()
         query = query.order_by('pk')
         return query
 
@@ -198,11 +198,29 @@ def shelf_reset(request):
     """ update shelf counter """
 
     last_item_id = Item.objects.filter(created_by=request.user,
-                                       inventory_id=request.session.get('inventory_id')).last().id
+                                       inventory_id=request.session.get(
+                                           'inventory_id')).last().id
     request.session['shelf_id'] = last_item_id + 1
     
     return redirect('index')
 
+
+@method_decorator(login_required, name='dispatch')
+class Stats(ListView):
+    """ sums and statistics """
+
+    model = Item
+    template_name = 'inventory/stats.html'
+
+    def get_queryset(self):
+        return stats
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['counts'] = Item.objects.filter(
+            inventory_id=self.inventory).count()
+        return context
+    
 
 def register(request):
     """ registration form """
