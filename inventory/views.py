@@ -219,6 +219,7 @@ class Stats(ListView):
         context = super().get_context_data(**kwargs)
         context['counts'] = Item.objects.filter(
             inventory_id=self.inventory).count()
+
         return context
     
 
