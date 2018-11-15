@@ -1,4 +1,4 @@
-from django.db.models import Sum, Q, Count, Value
+from django.db.models import Sum, Q, Count, Value, F
 from django.db.models.functions import Coalesce
 from .models import Item
 
@@ -16,3 +16,14 @@ def shelf_counter(inventory, created_by, shelf_id):
             weight=Count('pk', filter=Q(unit_id=2)))
 
     return item_num
+
+
+def stats():
+
+    sum_gross = Item.objects.all().aggregate(
+        piece=Coalesce(
+            Sum(F('price') * F('quantity'), filter=Q(unit_id=1)), Value(0)),
+        weight=Coalesce(
+            Sum('price', filter=Q(unit_id=2)), Value(0)))
+    
+    return sum_gross

@@ -1,0 +1,17 @@
+{% extends 'inventory/base.html' %}
+
+{% load static %}
+
+{% block title %}podsumowanie{% endblock %}
+
+{% block body %}
+
+{% if object_list %}
+
+<p>suma brutto:
+  <h3>{{ object_list.piece|add:object_list.weight }}</h3>
+</p>
+
+{% endif %}
+
+{% endblock %}
