@@ -147,7 +147,7 @@ class ItemSearch(FormMixin, ListView):
     model = Item
     template_name = 'inventory/item_search.html'
     form_class = ItemSearchForm
-    paginate_by = 10
+    paginate_by = 30
     
     def get_queryset(self):
         query = Item.objects.filter(inventory=self.inventory,
