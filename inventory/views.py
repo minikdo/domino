@@ -9,8 +9,9 @@ from django.views.generic.edit import FormMixin
 from .models import Inventory, Item
 from .forms import ItemForm, InventorySelectForm, SignUpForm, ItemSearchForm
 from .utils import shelf_counter, stats
-
+# tmp
 from django.db.models import Count
+
 
 @method_decorator(login_required, name='dispatch')
 class IndexView(FormMixin, ListView):
