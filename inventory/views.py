@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
+from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -9,6 +10,7 @@ from .models import Inventory, Item
 from .forms import ItemForm, InventorySelectForm, SignUpForm, ItemSearchForm
 from .utils import shelf_counter, stats
 
+from django.db.models import Count
 
 @method_decorator(login_required, name='dispatch')
 class IndexView(FormMixin, ListView):
@@ -205,7 +207,7 @@ def shelf_reset(request):
     return redirect('index')
 
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(staff_member_required, name='dispatch')
 class Stats(ListView):
     """ sums and statistics """
 
@@ -213,15 +215,27 @@ class Stats(ListView):
     template_name = 'inventory/stats.html'
 
     def get_queryset(self):
-        return stats
+        return stats(self.inventory)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['counts'] = Item.objects.filter(
-            # inventory_id=self.inventory).count()
+        context['count'] = Item.objects.filter(
+            inventory_id=self.inventory).count()
+        context['count_by_user'] = Item.objects.values(
+            'created_by__username').filter(
+                inventory_id=self.inventory).annotate(
+                count=Count('pk'))
 
         return context
     
+    def dispatch(self, request, *args, **kwargs):
+        self.inventory = request.session.get('inventory_id')
+
+        if not self.inventory:
+            return redirect('inventory_select')
+
+        return super().dispatch(request, *args, **kwargs)
+
 
 def register(request):
     """ registration form """

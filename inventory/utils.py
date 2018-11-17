@@ -18,9 +18,9 @@ def shelf_counter(inventory, created_by, shelf_id):
     return item_num
 
 
-def stats():
+def stats(inventory):
 
-    sum_gross = Item.objects.all().aggregate(
+    sum_gross = Item.objects.filter(inventory_id=inventory).aggregate(
         piece=Coalesce(
             Sum(F('price') * F('quantity'), filter=Q(unit_id=1)), Value(0)),
         weight=Coalesce(
