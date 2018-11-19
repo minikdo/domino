@@ -7,19 +7,19 @@ from django.utils.translation import gettext_lazy as _
 
 class Shop(models.Model):
     """ shop list """
-    
+
     address = models.TextField(verbose_name="sklep")
 
     def __str__(self):
         return self.address
-    
+
     def get_absolute_url(self):
         return reverse_lazy('index')
 
 
 class Make(models.Model):
     """ product names """
-    
+
     name = models.CharField(max_length=70, verbose_name="nazwa towaru")
     name_print = models.CharField(max_length=70,
                                   verbose_name="nazwa do druku",
@@ -48,11 +48,11 @@ class Unit(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 
 class Item(models.Model):
     """ item list """
-    
+
     inventory = models.ForeignKey('Inventory', on_delete=models.CASCADE,
                                   verbose_name="remanent", null=True)
     make = models.ForeignKey('Make', on_delete=models.CASCADE,
@@ -67,12 +67,12 @@ class Item(models.Model):
         string = '#' + str(self.pk) + ', ' + self.make.name
         string += ', cena: ' + str(self.price) + ' zł'
         return string
-    
+
     def get_absolute_url(self):
         return reverse_lazy('index')
 
     def clean(self):
-        if not isinstance(self.price, (int, float)):
+        if not isinstance(self.price, (int, float)):  # to chyba nie jest potrzebne, bo zdefiniowałeś FloatField
             raise ValidationError({'price':
                                    _('pole powinno zawierać liczbę')})
         if not isinstance(self.quantity, (int, float)):
@@ -81,11 +81,12 @@ class Item(models.Model):
         if self.price <= 0:
             raise ValidationError({'price':
                                    _('Cena nie może wynosić 0 lub mniej')})
-        if self.quantity <= 0 or self.quantity > 100:
+        if self.quantity <= 0 or self.quantity > 100:   # użyj MaxValueValidator, MinValueValidator
             raise ValidationError({'quantity':
                                    _('Ilość musi być większa od 0 i mniejsza '
                                      'od 100')})
-        if self.unit.pk == 1 and int(self.quantity) != self.quantity:
+        if self.unit.pk == 1 and int(self.quantity) != self.quantity:  # może jakieś stałe na to unit
+                                                                       # self.unit.pk == UNIT_CTY_ID jest bardziej czytelne
             raise ValidationError({'quantity':
                                    _('Ilość sztuk nie może być ułamkowa')})
         if self.unit.pk == 2 and self.make.group_id not in [1, 4]:
@@ -104,10 +105,9 @@ class Inventory(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        string = str(self.pk) + ', '
-        string += self.created.strftime('%Y-%m-%d') + ', ' + self.shop.address
-        string += ', utworzył: ' + self.created_by.username
-        return string
+        return "{pk} {created}, {shop}, utworzył: {created_by}"\
+            .format(pk=self.pk, created=self.created.strftime("%Y-%m-%d"),
+                    shop=self.shop.address, created_by=self.created_by.username)
 
     class Meta:
         verbose_name = "remanent"

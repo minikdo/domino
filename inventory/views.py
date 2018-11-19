@@ -16,13 +16,12 @@ from django.db.models import Count
 @method_decorator(login_required, name='dispatch')
 class IndexView(FormMixin, ListView):
     """ index """
-    
+
     model = Item
     template_name = 'inventory/index.html'
     form_class = ItemForm
-    
+
     def get_context_data(self, **kwargs):
-        # import pdb; pdb.set_trace()
         context = super().get_context_data(**kwargs)
         context['current_inventory'] = Inventory.objects.filter(
             pk=self.inventory).first()
@@ -30,24 +29,24 @@ class IndexView(FormMixin, ListView):
                                                  self.request.user.id,
                                                  self.shelf)
         return context
-                
+
     def get_queryset(self):
         query = Item.objects.filter(inventory=self.inventory,
                                     created_by=self.request.user)
 
-        return query.order_by('-pk')[:5][::-1]
+        return query.order_by('-pk')[:5]  # [::-1] co tu sie dzieje?
 
     def get_initial(self):
         try:
             last_choice = Item.objects.filter(created_by=self.request.user)
             last_choice = last_choice.latest('pk')
-        except:
+        except:  # powinieneś wypisać wyjątki explicit
             last_make = 1
             last_unit = 1
         else:
             last_make = last_choice.make.id
             last_unit = last_choice.unit.id
-            
+
         return {"make": last_make,
                 "unit": last_unit,
                 "quantity": 1}
@@ -62,7 +61,7 @@ class IndexView(FormMixin, ListView):
         self.inventory = request.session.get('inventory_id')
         self.group = request.session.get('group_id')
         self.shelf = request.session.get('shelf_id')
-        
+
         if self.inventory is None:
             return redirect('inventory_select')
 
@@ -90,7 +89,7 @@ class ItemUpdate(UpdateView):
     model = Item
     fields = ['make', 'price', 'quantity', 'unit']
     template_name_suffix = '_update_form'
-    
+
 
 @method_decorator(login_required, name='dispatch')
 class ItemDelete(DeleteView):
@@ -99,9 +98,9 @@ class ItemDelete(DeleteView):
     model = Item
     template_name = 'inventory/inventory_confirm_delete.html'
     success_url = '/'
-    
 
-@method_decorator(login_required, name='dispatch')
+
+@method_decorator(login_required, name='dispatch')    # można też użyć mixina LoginRequiredMixin
 class InventoryCreate(CreateView):
     """ create an inventory session """
 
@@ -112,21 +111,20 @@ class InventoryCreate(CreateView):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
 
-    
+
 @login_required()
 def inventory_select(request):
     """ select an inventory """
-    # import pdb; pdb.set_trace()
-    
+
     template = "inventory/inventory_select.html"
     form = InventorySelectForm()
     inventories = Inventory.objects.all()
 
     if not inventories:
         return redirect('inventory_create')
-    
+
     last_inventory = inventories.latest('pk')
-    
+
     if request.POST:
         request.session['inventory_id'] = request.POST.get('inventory')
         request.session['group_id'] = request.POST.get('group')
@@ -151,7 +149,7 @@ class ItemSearch(FormMixin, ListView):
     template_name = 'inventory/item_search.html'
     form_class = ItemSearchForm
     paginate_by = 30
-    
+
     def get_queryset(self):
         query = Item.objects.filter(inventory=self.inventory,
                                     created_by=self.request.user)
@@ -181,7 +179,7 @@ class ItemSearch(FormMixin, ListView):
     def get_initial(self):
         return {'make': self.make,
                 'price': self.price}
-        
+
     def dispatch(self, request, *args, **kwargs):
         self.inventory = request.session.get('inventory_id')
 
@@ -202,10 +200,11 @@ def shelf_reset(request):
 
     last_item_id = Item.objects.filter(created_by=request.user,
                                        inventory_id=request.session.get(
-                                           'inventory_id')).last().id
+                                           'inventory_id')).last().id   # przydałaby się jakaś obsługa wyjątku
+                                                                        # byłoby bardziej spójnie używać wszędzie pk
     request.session['shelf_id'] = last_item_id + 1
-    
-    return redirect('index')
+
+    return redirect('index')   # może jakiś message (django.contrib.messages), tylko to musi być też templatach
 
 
 @method_decorator(staff_member_required, name='dispatch')
@@ -228,7 +227,7 @@ class Stats(ListView):
                 count=Count('pk'))
 
         return context
-    
+
     def dispatch(self, request, *args, **kwargs):
         self.inventory = request.session.get('inventory_id')
 
@@ -240,7 +239,7 @@ class Stats(ListView):
 
 def register(request):
     """ registration form """
-    
+
     if request.method == 'POST':
         form = SignUpForm(request.POST)
 
@@ -255,7 +254,7 @@ def register(request):
             return redirect('index')
     else:
         form = SignUpForm()
-        
+
     context = {'form': form}
-    
+
     return render(request, 'registration/register.html', context)
