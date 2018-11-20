@@ -22,6 +22,10 @@ from django.core.exceptions import ImproperlyConfigured
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(
     os.path.abspath(__file__))))
 
+# LaTeX
+TEX_HOME = os.path.join(BASE_DIR, 'inventory', 'tex_home')
+
+
 # JSON-based secrets module
 with open(os.path.join(BASE_DIR, 'domino', 'settings', 'secrets.json')) as f:
     secrets = json.loads(f.read())

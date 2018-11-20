@@ -15,5 +15,6 @@ urlpatterns = [
          name='inventory_create'),
     path('inventory/select/', views.inventory_select, name='inventory_select'),
     path('shelf/reset', views.shelf_reset, name='shelf_reset'),
-    path('stats/', views.Stats.as_view(), name='stats')
+    path('stats/', views.Stats.as_view(), name='stats'),
+    path('latex/', views.latex, name='latex')
 ]

@@ -1,0 +1,15 @@
+{% extends 'inventory/base.html' %}
+{% load static %}
+{% block title %}latex{% endblock %}
+
+{% block body %}
+
+<form action="" method="post">
+
+  {% csrf_token %}
+  {{ form }}
+  <input name="" type="submit" value="pdf"/>
+
+</form>
+
+{% endblock %}
