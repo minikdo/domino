@@ -58,3 +58,7 @@ class ItemSearchForm(forms.Form):
                              widget=forms.TextInput(attrs={
                                  'size': 6
                              }))
+    myuser = forms.ModelChoiceField(queryset=User.objects.exclude(item__created_by=None),
+                                  label="osoba",
+                                  required=False)
+    show_all = forms.BooleanField(label="wszystko", required=False)

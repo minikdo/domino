@@ -30,7 +30,7 @@
     <th>cena</th>
     <th>ilość</th>
     <th>j.m.</th>
-    <th></th>
+    <th>osoba</th>
   </tr>
   
 {% for item in object_list %}
@@ -41,7 +41,7 @@
   <td>{{ item.price }}</td>
   <td>{{ item.quantity }}</td>
   <td>{{ item.unit.name }}</td>
-  <td></td>
+  <td>{{ item.created_by.username }}</td>
 </tr>
 
 {% endfor %}

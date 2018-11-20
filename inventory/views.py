@@ -150,18 +150,22 @@ class ItemSearch(FormMixin, ListView):
     model = Item
     template_name = 'inventory/item_search.html'
     form_class = ItemSearchForm
-    paginate_by = 30
+    paginate_by = 50
     
     def get_queryset(self):
-        query = Item.objects.filter(inventory=self.inventory,
-                                    created_by=self.request.user)
+        query = Item.objects.filter(inventory=self.inventory)
 
-        if self.make:
+        # import pdb; pdb.set_trace()
+        if self.myuser:
+            query = query.filter(created_by=self.myuser)
+        if self.make and self.make is not '':
             query = query.filter(make=self.make)
-        if self.price:
+        if self.price and self.price is not '':
             query = query.filter(price=self.price)
-        if not self.make and not self.price and self.shelf:
+        if (not self.show_all and not self.myuser and not self.make and
+            not self.price and self.shelf):
             query = query.filter(pk__gte=self.shelf)
+            query = query.filter(created_by=self.request.user.id)
 
         self.item_num = query.count()
         query = query.order_by('pk')
@@ -180,14 +184,17 @@ class ItemSearch(FormMixin, ListView):
 
     def get_initial(self):
         return {'make': self.make,
-                'price': self.price}
+                'price': self.price,
+                'myuser': self.myuser}
         
     def dispatch(self, request, *args, **kwargs):
         self.inventory = request.session.get('inventory_id')
 
         self.make = request.GET.get('make', None)
         self.price = request.GET.get('price', None)
-
+        self.myuser = request.GET.get('myuser', None)
+        self.show_all = request.GET.get('show_all', None)
+        
         if not self.inventory:
             return redirect('inventory_select')
 
