@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse_lazy
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
 
 
@@ -34,6 +35,11 @@ class Make(models.Model):
 class MakeGroup(models.Model):
     """ make groups """
 
+    SILVER_ID = 1
+    CRAFT_ID = 2
+    LINGERIE_ID = 3
+    GOLD_ID = 4
+    
     name = models.CharField(max_length=70,
                             verbose_name="nazwa grupy towarowej")
 
@@ -44,8 +50,11 @@ class MakeGroup(models.Model):
 class Unit(models.Model):
     """ units """
 
-    name = models.CharField(max_length=10)
+    QTY_ID = 1
+    GRAM_ID = 2
 
+    name = models.CharField(max_length=10)
+    
     def __str__(self):
         return self.name
     
@@ -57,38 +66,31 @@ class Item(models.Model):
                                   verbose_name="remanent", null=True)
     make = models.ForeignKey('Make', on_delete=models.CASCADE,
                              verbose_name="nazwa towaru")
-    price = models.FloatField(verbose_name="cena brutto")
-    quantity = models.FloatField(verbose_name="ilość")
+    price = models.FloatField(verbose_name="cena brutto",
+                              validators=(MinValueValidator(0.1),
+                                          MaxValueValidator(11000)))
+    quantity = models.FloatField(verbose_name="ilość",
+                                 validators=(MinValueValidator(0.01),
+                                             MaxValueValidator(100)))
     unit = models.ForeignKey('Unit', on_delete=models.CASCADE,
                              verbose_name="j.m.")
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        string = '#' + str(self.pk) + ', ' + self.make.name
-        string += ', cena: ' + str(self.price) + ' zł'
+        string = "#{}, {}, cena: {} zł".format(
+            str(self.pk), self.make.name, str(self.price))
         return string
     
     def get_absolute_url(self):
         return reverse_lazy('index')
 
     def clean(self):
-        if not isinstance(self.price, (int, float)):
-            raise ValidationError({'price':
-                                   _('pole powinno zawierać liczbę')})
-        if not isinstance(self.quantity, (int, float)):
-            raise ValidationError({'quantity':
-                                   _('pole powinno zawierać liczbę')})
-        if self.price <= 0:
-            raise ValidationError({'price':
-                                   _('Cena nie może wynosić 0 lub mniej')})
-        if self.quantity <= 0 or self.quantity > 100:
-            raise ValidationError({'quantity':
-                                   _('Ilość musi być większa od 0 i mniejsza '
-                                     'od 100')})
-        if self.unit.pk == 1 and int(self.quantity) != self.quantity:
+        if self.unit.pk == Unit.QTY_ID and self.quantity is not None and\
+           not self.quantity.is_integer():
             raise ValidationError({'quantity':
                                    _('Ilość sztuk nie może być ułamkowa')})
-        if self.unit.pk == 2 and self.make.group_id not in [1, 4]:
+        if self.unit.pk == Unit.GRAM_ID and\
+           self.make.group_id not in [MakeGroup.SILVER_ID, MakeGroup.GOLD_ID]:
             raise ValidationError({'unit':
                                    _('W tej grupie towarowej nie można '
                                      'stosować gramów')})
@@ -104,9 +106,9 @@ class Inventory(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        string = str(self.pk) + ', '
-        string += self.created.strftime('%Y-%m-%d') + ', ' + self.shop.address
-        string += ', utworzył: ' + self.created_by.username
+        string = "{}, {}, {}, utworzył: {}".format(
+            str(self.pk), self.created.strftime('%Y-%m-%d'),
+            self.shop.address, self.created_by.username)
         return string
 
     class Meta:

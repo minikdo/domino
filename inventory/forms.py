@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from collections import OrderedDict
-from .models import Make, MakeGroup, Inventory, Unit
+from .models import Make, MakeGroup, Inventory, Unit, Item
 
 
 class ItemForm(forms.Form):
@@ -10,13 +10,16 @@ class ItemForm(forms.Form):
 
     def __init__(self, *args, session_data=None, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['make'] = forms.ModelChoiceField(
-            Make.objects.filter(group=session_data['group_id'])
-            .order_by('name'),
-            empty_label=None, label="")
+        self.fields['make'].queryset = self.fields['make'].queryset.filter(
+            group=session_data['group_id']).order_by('name')
+
+        # field ordering
         keys = ['make', 'price', 'quantity', 'unit']
         self.fields = OrderedDict(sorted(self.fields.items(),
                                          key=lambda x: keys.index(x[0])))
+
+    make = forms.ModelChoiceField(Make.objects.all(),
+                                  label="")
 
     price = forms.CharField(label="",
                             widget=forms.TextInput(
@@ -49,16 +52,29 @@ class SignUpForm(UserCreationForm):
 class ItemSearchForm(forms.Form):
     """ Item search """
 
-    make = forms.ModelChoiceField(queryset=Make.objects.all(),
-                                  label="nazwa towaru",
-                                  required=False,
-                                  widget=forms.Select(
-                                      attrs={'autofocus': True}))
+    def __init__(self, *args, session_data=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        make_ids = Item.objects.filter(inventory_id=session_data['inventory_id']).values_list('make_id', flat=True)
+        self.fields['make'].queryset = self.fields['make'].queryset.filter(id__in=set(make_ids)).order_by('name')
+        
+    make = forms.ModelChoiceField(
+        queryset=Make.objects.exclude(item__make=None),
+        label="nazwa towaru",
+        required=False,
+        widget=forms.Select(
+            attrs={'autofocus': True}))
     price = forms.FloatField(label="cena brutto", required=False,
                              widget=forms.TextInput(attrs={
                                  'size': 6
                              }))
-    myuser = forms.ModelChoiceField(queryset=User.objects.exclude(item__created_by=None),
-                                  label="osoba",
-                                  required=False)
+    myuser = forms.ModelChoiceField(
+        queryset=User.objects.exclude(item__created_by=None),
+        label="osoba",
+        required=False)
     show_all = forms.BooleanField(label="wszystko", required=False)
+
+
+class ArticleForm(forms.Form):
+    author = forms.CharField(label='Author', min_length=1, max_length=100)
+    title = forms.CharField(label='Title', min_length=1, max_length=100)

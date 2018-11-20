@@ -6,15 +6,41 @@ from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.edit import FormMixin
-from .models import Inventory, Item
-from .forms import ItemForm, InventorySelectForm, SignUpForm, ItemSearchForm
-from .utils import shelf_counter, stats
-# tmp
 from django.db.models import Count
+from django.conf import settings
+
+from djatex import render_latex
+
+from .models import Inventory, Item, Unit
+from .forms import ItemForm, InventorySelectForm, SignUpForm
+from .forms import ItemSearchForm, ArticleForm
+from .utils import shelf_counter, stats
+from .mixins import InventorySessionMixin
 
 
+def latex(request):
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        
+        if form.is_valid():
+            author = form.cleaned_data['author']
+            title = form.cleaned_data['title']
+            form_context = {
+                'form': form,
+                'author': author,
+                'title': title}
+            return render_latex(request, 'testfile.pdf', 'inventory/item.tex',
+                                error_template_name='inventory/error.html',
+                                home_dir=settings.TEX_HOME,
+                                context=form_context)
+    else:
+        form = ArticleForm()
+        context = {'form': form}
+    return render(request, 'inventory/latex.html', context)
+                                
+                                    
 @method_decorator(login_required, name='dispatch')
-class IndexView(FormMixin, ListView):
+class IndexView(InventorySessionMixin, FormMixin, ListView):
     """ index """
     
     model = Item
@@ -35,15 +61,15 @@ class IndexView(FormMixin, ListView):
         query = Item.objects.filter(inventory=self.inventory,
                                     created_by=self.request.user)
 
-        return query.order_by('-pk')[:5][::-1]
+        return query.order_by('-pk')[:5][::-1]  # reversed 5 last items
 
     def get_initial(self):
         try:
-            last_choice = Item.objects.filter(created_by=self.request.user)
-            last_choice = last_choice.latest('pk')
-        except:
-            last_make = 1
-            last_unit = 1
+            last_choice = Item.objects.filter(created_by=self.request.user)\
+                          .latest('pk')
+        except Item.DoesNotExist:
+            last_make = None
+            last_unit = Unit.QTY_ID
         else:
             last_make = last_choice.make.id
             last_unit = last_choice.unit.id
@@ -51,22 +77,6 @@ class IndexView(FormMixin, ListView):
         return {"make": last_make,
                 "unit": last_unit,
                 "quantity": 1}
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs.update(session_data={'inventory_id': self.inventory,
-                                    'group_id': self.group})
-        return kwargs
-
-    def dispatch(self, request, *args, **kwargs):
-        self.inventory = request.session.get('inventory_id')
-        self.group = request.session.get('group_id')
-        self.shelf = request.session.get('shelf_id')
-        
-        if self.inventory is None:
-            return redirect('inventory_select')
-
-        return super().dispatch(request, *args, **kwargs)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -144,7 +154,7 @@ def inventory_select(request):
 
 
 @method_decorator(login_required, name='dispatch')
-class ItemSearch(FormMixin, ListView):
+class ItemSearch(InventorySessionMixin, FormMixin, ListView):
     """ item search """
 
     model = Item
@@ -162,13 +172,14 @@ class ItemSearch(FormMixin, ListView):
             query = query.filter(make=self.make)
         if self.price and self.price is not '':
             query = query.filter(price=self.price)
-        if (not self.show_all and not self.myuser and not self.make and
-            not self.price and self.shelf):
+        if not self.show_all and not self.myuser and not self.make and\
+           not self.price and self.shelf:
             query = query.filter(pk__gte=self.shelf)
             query = query.filter(created_by=self.request.user.id)
 
         self.item_num = query.count()
-        query = query.order_by('pk')
+        query = query.prefetch_related('unit', 'make', 'created_by')\
+                     .order_by('pk')
         return query
 
     def get_context_data(self, **kwargs):
@@ -188,18 +199,11 @@ class ItemSearch(FormMixin, ListView):
                 'myuser': self.myuser}
         
     def dispatch(self, request, *args, **kwargs):
-        self.inventory = request.session.get('inventory_id')
-
         self.make = request.GET.get('make', None)
         self.price = request.GET.get('price', None)
         self.myuser = request.GET.get('myuser', None)
         self.show_all = request.GET.get('show_all', None)
         
-        if not self.inventory:
-            return redirect('inventory_select')
-
-        self.shelf = request.session.get('shelf_id')
-
         return super().dispatch(request, *args, **kwargs)
 
 
