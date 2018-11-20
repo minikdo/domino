@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
@@ -39,8 +40,8 @@ def latex(request):
     return render(request, 'inventory/latex.html', context)
                                 
                                     
-@method_decorator(login_required, name='dispatch')
-class IndexView(InventorySessionMixin, FormMixin, ListView):
+class IndexView(LoginRequiredMixin, InventorySessionMixin, FormMixin,
+                ListView):
     """ index """
     
     model = Item
@@ -78,8 +79,7 @@ class IndexView(InventorySessionMixin, FormMixin, ListView):
                 "quantity": 1}
 
 
-@method_decorator(login_required, name='dispatch')
-class ItemCreate(CreateView):
+class ItemCreate(LoginRequiredMixin, CreateView):
     """ add an item to the inventory """
 
     model = Item
@@ -92,8 +92,7 @@ class ItemCreate(CreateView):
         return super().form_valid(form)
 
 
-@method_decorator(login_required, name='dispatch')
-class ItemUpdate(UpdateView):
+class ItemUpdate(LoginRequiredMixin, UpdateView):
     """ update an item """
 
     model = Item
@@ -101,8 +100,7 @@ class ItemUpdate(UpdateView):
     template_name_suffix = '_update_form'
     
 
-@method_decorator(login_required, name='dispatch')
-class ItemDelete(DeleteView):
+class ItemDelete(LoginRequiredMixin, DeleteView):
     """ delete an item """
 
     model = Item
@@ -110,8 +108,7 @@ class ItemDelete(DeleteView):
     success_url = '/'
     
 
-@method_decorator(login_required, name='dispatch')
-class InventoryCreate(CreateView):
+class InventoryCreate(LoginRequiredMixin, CreateView):
     """ create an inventory session """
 
     model = Inventory
@@ -152,19 +149,18 @@ def inventory_select(request):
                                       "current_inventory": last_inventory})
 
 
-@method_decorator(login_required, name='dispatch')
-class ItemSearch(InventorySessionMixin, FormMixin, ListView):
+class ItemSearch(LoginRequiredMixin, InventorySessionMixin, FormMixin,
+                 ListView):
     """ item search """
 
     model = Item
-    template_name = 'inventory/item_search.html'
     form_class = ItemSearchForm
+    template_name = 'inventory/item_search.html'
     paginate_by = 50
     
     def get_queryset(self):
         query = Item.objects.filter(inventory=self.inventory)
 
-        # import pdb; pdb.set_trace()
         if self.myuser:
             query = query.filter(created_by=self.myuser)
         if self.make and self.make is not '':
@@ -210,10 +206,17 @@ class ItemSearch(InventorySessionMixin, FormMixin, ListView):
 def shelf_reset(request):
     """ update shelf counter """
 
-    last_item_id = Item.objects.filter(created_by=request.user,
-                                       inventory_id=request.session.get(
-                                           'inventory_id')).last().id
-    request.session['shelf_id'] = last_item_id + 1
+    if request.session.get('inventory_id') is None:
+            return redirect('inventory_select')
+
+    try:
+        last_item_id = Item.objects.filter(created_by=request.user,
+                                           inventory_id=request.session.get(
+                                               'inventory_id')).last().pk
+    except Item.DoesNotExist:
+        request.session['shelf_id'] = 0
+    else:
+        request.session['shelf_id'] = last_item_id + 1
     
     return redirect('index')
 

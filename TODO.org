@@ -1,0 +1,1 @@
+- validator MAX_PRICE and MAX_QTY set by shop

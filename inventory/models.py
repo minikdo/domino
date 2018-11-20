@@ -61,6 +61,9 @@ class Unit(models.Model):
 
 class Item(models.Model):
     """ item list """
+
+    MAX_PRICE = 11000
+    MAX_QTY = 100
     
     inventory = models.ForeignKey('Inventory', on_delete=models.CASCADE,
                                   verbose_name="remanent", null=True)
@@ -68,10 +71,10 @@ class Item(models.Model):
                              verbose_name="nazwa towaru")
     price = models.FloatField(verbose_name="cena brutto",
                               validators=(MinValueValidator(0.1),
-                                          MaxValueValidator(11000)))
+                                          MaxValueValidator(MAX_PRICE)))
     quantity = models.FloatField(verbose_name="ilość",
                                  validators=(MinValueValidator(0.01),
-                                             MaxValueValidator(100)))
+                                             MaxValueValidator(MAX_QTY)))
     unit = models.ForeignKey('Unit', on_delete=models.CASCADE,
                              verbose_name="j.m.")
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
