@@ -129,17 +129,16 @@ USE_THOUSAND_SEPARATOR = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-
 STATIC_URL = '/static/'
 
+# Auth
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/'
 
 # Admin settings
-
-ADMIN_NAME = get_secret('ADMIN_NAME')
 ADMIN_EMAIL = get_secret('ADMIN_EMAIL')
 
+# Sessions
 SESSION_COOKIE_AGE = 86400
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
