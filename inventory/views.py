@@ -48,7 +48,6 @@ class IndexView(InventorySessionMixin, FormMixin, ListView):
     form_class = ItemForm
     
     def get_context_data(self, **kwargs):
-        # import pdb; pdb.set_trace()
         context = super().get_context_data(**kwargs)
         context['current_inventory'] = Inventory.objects.filter(
             pk=self.inventory).first()
