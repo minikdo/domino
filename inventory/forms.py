@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Make, MakeGroup, Inventory, Unit
 from collections import OrderedDict
+from .models import Make, MakeGroup, Inventory, Unit
 
 
 class ItemForm(forms.Form):
