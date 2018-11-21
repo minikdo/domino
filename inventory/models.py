@@ -11,6 +11,10 @@ class Shop(models.Model):
     
     address = models.TextField(verbose_name="sklep")
 
+    class Meta:
+        verbose_name = "adres sklepu"
+        verbose_name_plural = "adresy sklepów"
+        
     def __str__(self):
         return self.address
     
@@ -28,6 +32,10 @@ class Make(models.Model):
     group = models.ForeignKey('MakeGroup', verbose_name="grupa towarowa",
                               on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = "nazwa towaru"
+        verbose_name_plural = "nazwy towarów"
+        
     def __str__(self):
         return self.name
 
@@ -43,6 +51,10 @@ class MakeGroup(models.Model):
     name = models.CharField(max_length=70,
                             verbose_name="nazwa grupy towarowej")
 
+    class Meta:
+        verbose_name = "grupa towarowa"
+        verbose_name_plural = "grupy towarowe"
+
     def __str__(self):
         return self.name
 
@@ -54,7 +66,11 @@ class Unit(models.Model):
     GRAM_ID = 2
 
     name = models.CharField(max_length=10)
-    
+
+    class Meta:
+        verbose_name = "jednostka miary"
+        verbose_name_plural = "jednostki miar"
+        
     def __str__(self):
         return self.name
     
@@ -79,6 +95,10 @@ class Item(models.Model):
                              verbose_name="j.m.")
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = "remanent"
+        verbose_name_plural = "remanenty"
+        
     def __str__(self):
         string = "#{}, {}, cena: {} zł".format(
             str(self.pk), self.make.name, str(self.price))
@@ -108,15 +128,15 @@ class Inventory(models.Model):
                              verbose_name="sklep")
     is_active = models.BooleanField(default=True)
 
+    class Meta:
+        verbose_name = "lista remanentów"
+        verbose_name_plural = "lista remanentów"
+        
     def __str__(self):
         string = "{}, {}, {}, utworzył: {}".format(
             str(self.pk), self.created.strftime('%Y-%m-%d'),
             self.shop.address, self.created_by.username)
         return string
-
-    class Meta:
-        verbose_name = "remanent"
-        verbose_name_plural = "remanenty"
 
     def get_absolute_url(self):
         return reverse_lazy('inventory_select')
