@@ -30,7 +30,7 @@
     {% for item in items %}
       {{ forloop.counter|texify }} &
       {{ item.make__name_print|texify }} &
-      {{ item.qty|texify }} &
+      \makebox[1cm][r]{ {{ item.qty|texify }} } &
       {{ item.unit__name|texify }} &
       \makebox[2cm][r]{ {{ item.price|texify }} } &
       \makebox[2cm][r]{ {{ item.total|texify }} } \\
