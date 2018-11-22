@@ -26,8 +26,18 @@ def stats(inventory):
 
     gramms = Item.objects.filter(inventory_id=inventory, unit_id=Unit.GRAM_ID)\
                          .aggregate(sum=Sum('price'))
+
+    if isinstance(qty['sum'], (int, float)):
+        qty = qty['sum']
+    else:
+        qty = 0
+
+    if isinstance(gramms['sum'], (int, float)):
+        gramms = gramms['sum']
+    else:
+        gramms = 0
     
-    return qty['sum'] + gramms['sum']
+    return qty + gramms
 
 
 def get_total_items(inventory):
