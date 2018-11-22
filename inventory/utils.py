@@ -56,6 +56,6 @@ def get_total_items(inventory):
                                         filter=Q(unit=1)),
                                     1) * F('price')))\
                         .prefetch_related('make', 'unit')\
-                        .order_by('make__name_print', 'total')
+                        .order_by('make__name_print', 'price')
 
     return items
