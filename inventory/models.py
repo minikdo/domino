@@ -93,7 +93,7 @@ class Item(models.Model):
                                              MaxValueValidator(MAX_QTY)))
     unit = models.ForeignKey('Unit', on_delete=models.CASCADE,
                              verbose_name="j.m.")
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         verbose_name = "remanent"
@@ -122,7 +122,7 @@ class Item(models.Model):
 class Inventory(models.Model):
     """ inventory list """
 
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     created = models.DateTimeField(auto_now_add=True)
     shop = models.ForeignKey('Shop', on_delete=models.CASCADE,
                              verbose_name="sklep")
