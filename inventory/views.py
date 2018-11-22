@@ -7,39 +7,36 @@ from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.edit import FormMixin
-from django.db.models import Count
+from django.db.models import Count, Sum, F
 from django.conf import settings
 
 from djatex import render_latex
 
 from .models import Inventory, Item, Unit
 from .forms import ItemForm, InventorySelectForm, SignUpForm
-from .forms import ItemSearchForm, LatexForm
+from .forms import ItemSearchForm
 from .utils import shelf_counter, stats
 from .mixins import InventorySessionMixin
 
 
 def latex(request):
-    if request.method == 'POST':
-        form = LatexForm(request.POST)
-        
-        if form.is_valid():
-            query = Item.objects.all()
-            author = form.cleaned_data['author']
-            title = form.cleaned_data['title']
-            form_context = {
-                'query': query,
-                'form': form,
-                'author': author,
-                'title': title}
-            return render_latex(request, 'testfile.pdf', 'inventory/item.tex',
-                                error_template_name='inventory/error.html',
-                                home_dir=settings.TEX_HOME,
-                                context=form_context)
-    else:
-        form = LatexForm()
-        context = {'form': form}
-    return render(request, 'inventory/latex.html', context)
+    query = Item.objects.filter(inventory=request.session.get('inventory_id'))\
+                        .values('make__name_print', 'price', 'unit__name')\
+                        .annotate(qty=Sum('quantity'),
+                                  total=(Sum('quantity') * F('price')))\
+                        .prefetch_related('make', 'unit')
+    inventory = Inventory.objects.get(pk=request.session.get('inventory_id'))
+                             
+    context = {'query': query,
+               'counter': query.count(),
+               'total_sum': stats(request.session.get('inventory_id')),
+               'inventory': inventory.shop.address,
+               'date': inventory.created}
+    
+    return render_latex(request, 'testfile.pdf', 'inventory/item.tex',
+                        error_template_name='inventory/error.html',
+                        home_dir=settings.TEX_HOME,
+                        context=context)
                                 
                                     
 class IndexView(LoginRequiredMixin, InventorySessionMixin, FormMixin,

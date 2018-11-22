@@ -55,8 +55,13 @@ class ItemSearchForm(forms.Form):
     def __init__(self, *args, session_data=None, **kwargs):
         super().__init__(*args, **kwargs)
 
-        make_ids = Item.objects.filter(inventory_id=session_data['inventory_id']).values_list('make_id', flat=True)
-        self.fields['make'].queryset = self.fields['make'].queryset.filter(id__in=set(make_ids)).order_by('name')
+        make_ids = Item.objects\
+                       .filter(inventory_id=session_data['inventory_id'])\
+                       .values_list('make_id', flat=True)
+        self.fields['make'].queryset = self.fields['make']\
+                                           .queryset\
+                                           .filter(id__in=set(make_ids))\
+                                           .order_by('name')
         
     make = forms.ModelChoiceField(
         queryset=Make.objects.exclude(item__make=None),
@@ -73,8 +78,3 @@ class ItemSearchForm(forms.Form):
         label="osoba",
         required=False)
     show_all = forms.BooleanField(label="wszystko", required=False)
-
-
-class LatexForm(forms.Form):
-    author = forms.CharField(label='Author', min_length=1, max_length=100)
-    title = forms.CharField(label='Title', min_length=1, max_length=100)

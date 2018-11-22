@@ -13,6 +13,8 @@
   % \date{\today}
   % \maketitle
 
+  {\center {\large {{ inventory|texify }} z dnia {{ date|date:"Y-m-d"|texify }} }
+
   \sffamily
 
   \footnotesize
@@ -25,15 +27,19 @@
     \hline
     % \hline
     {% for item in query %}
-      {{ item.pk|texify }} &
-      {{ item.make.name_print|texify }} &
-      {{ item.quantity|texify }} &
-      {{ item.unit.name|texify }} &
+      {{ forloop.counter|texify }} &
+      {{ item.make__name_print|texify }} &
+      {{ item.qty|texify }} &
+      {{ item.unit__name|texify }} &
       \makebox[2cm][r]{ {{ item.price|texify }} } &
-      \makebox[2cm][r]{ {{ item.price|texify }} } \\
+      \makebox[2cm][r]{ {{ item.total|texify }} } \\
     {% endfor %}
 
-  \end{longtable}
+    \end{longtable}
+
+    Zakończono na pozycji nr {{ counter|texify }}. Łączna suma towarów brutto:
+    {{ total_sum.piece|add:total_sum.weight|texify }} zł
+    
   {% endif %}
 
   \end{document}
