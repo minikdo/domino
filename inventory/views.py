@@ -63,7 +63,8 @@ class IndexView(LoginRequiredMixin, InventorySessionMixin, FormMixin,
                 
     def get_queryset(self):
         query = Item.objects.filter(inventory=self.inventory,
-                                    created_by=self.request.user)
+                                    created_by=self.request.user)\
+                                    .prefetch_related('make', 'unit')
 
         return query.order_by('-pk')[:5][::-1]  # reversed 5 last items
 
@@ -150,7 +151,7 @@ def inventory_select(request):
 
     return render(request, template, {"form": form,
                                       "inventories": inventories,
-                                      "current_inventory": last_inventory})
+                                      "current_inventory": inventory})
 
 
 class ItemSearch(LoginRequiredMixin, InventorySessionMixin, FormMixin,
