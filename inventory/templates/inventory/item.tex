@@ -1,19 +1,40 @@
-\documentclass[11pt]{article}{% load tex_tools %}{% autoescape off %}
-  \begin{document}
+\documentclass[10pt]{article}{% load tex_tools %}{% autoescape off %}
+  \usepackage{geometry}
+  \usepackage{longtable}
+  \geometry{verbose,a4paper,tmargin=10mm,bmargin=18mm,lmargin=30mm,rmargin=20mm}
+  \setlength\parindent{0pt}
 
+  \begin{document}
+  
   % Here are two ways to deal with curly braces, if you don't want spaces around
   % the variable.
-  \title{ {{ title|texify }} }
-  \author{% templatetag openbrace %}{{ author|texify }}}
-    \date{\today}
-    \maketitle
+  % \title{ {{ title|texify }} }
+  % \author{% templatetag openbrace %}{{ author|texify }}}
+  % \date{\today}
+  % \maketitle
 
-    Blah blah blah!
+  \sffamily
 
-    $$
-    \log x = \int_1^x\frac{dt}{t}
-    $$
+  \footnotesize
+
+  {% if query %}
+
+    \begin{longtable}[l]{|p{1cm}|p{6cm}|c @{ } p{0.5cm}|c|c|}
+    \hline
+    lp. & nazwa towaru & \makebox[1cm][r]{ilość} & jm & \makebox[2cm][r]{cena brutto} & \makebox[2cm][r]{wartość brutto} \\
+    \hline
+    % \hline
+    {% for item in query %}
+      {{ item.pk|texify }} &
+      {{ item.make.name_print|texify }} &
+      {{ item.quantity|texify }} &
+      {{ item.unit.name|texify }} &
+      \makebox[2cm][r]{ {{ item.price|texify }} } &
+      \makebox[2cm][r]{ {{ item.price|texify }} } \\
+    {% endfor %}
+
+  \end{longtable}
+  {% endif %}
 
   \end{document}
   {% endautoescape %}
-  

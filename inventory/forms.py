@@ -75,6 +75,6 @@ class ItemSearchForm(forms.Form):
     show_all = forms.BooleanField(label="wszystko", required=False)
 
 
-class ArticleForm(forms.Form):
+class LatexForm(forms.Form):
     author = forms.CharField(label='Author', min_length=1, max_length=100)
     title = forms.CharField(label='Title', min_length=1, max_length=100)

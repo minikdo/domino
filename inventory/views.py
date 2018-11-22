@@ -14,19 +14,21 @@ from djatex import render_latex
 
 from .models import Inventory, Item, Unit
 from .forms import ItemForm, InventorySelectForm, SignUpForm
-from .forms import ItemSearchForm, ArticleForm
+from .forms import ItemSearchForm, LatexForm
 from .utils import shelf_counter, stats
 from .mixins import InventorySessionMixin
 
 
 def latex(request):
     if request.method == 'POST':
-        form = ArticleForm(request.POST)
+        form = LatexForm(request.POST)
         
         if form.is_valid():
+            query = Item.objects.all()
             author = form.cleaned_data['author']
             title = form.cleaned_data['title']
             form_context = {
+                'query': query,
                 'form': form,
                 'author': author,
                 'title': title}
@@ -35,7 +37,7 @@ def latex(request):
                                 home_dir=settings.TEX_HOME,
                                 context=form_context)
     else:
-        form = ArticleForm()
+        form = LatexForm()
         context = {'form': form}
     return render(request, 'inventory/latex.html', context)
                                 
