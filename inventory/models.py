@@ -140,3 +140,7 @@ class Inventory(models.Model):
 
     def get_absolute_url(self):
         return reverse_lazy('inventory_select')
+
+    def _creation_date(self):
+        string = self.created.strftime('%Y-%m-%d')
+        return string

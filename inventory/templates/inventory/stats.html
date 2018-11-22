@@ -8,8 +8,9 @@
 
 {% if object_list %}
 
+{{ object_list.piece }}
 <p>suma brutto:
-  <h3>{{ object_list.piece|add:object_list.weight }}</h3>
+  <h3>{{ object_list }}</h3>
 </p>
 <p>ilość pozycji:
   <h4>{{ count }}</h4>
@@ -22,7 +23,7 @@
 {% for item in count_by_user %}
 <tr>
   <td>{{ item.created_by__username }}</td>
-  <td>{{ item.count }} szt.</td>
+  <td>{{ item.count }} pozycji</td>
 </tr>
 {% endfor %}
 </table>

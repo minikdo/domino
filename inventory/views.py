@@ -15,25 +15,29 @@ from djatex import render_latex
 from .models import Inventory, Item, Unit
 from .forms import ItemForm, InventorySelectForm, SignUpForm
 from .forms import ItemSearchForm
-from .utils import shelf_counter, stats
+from .utils import shelf_counter, stats, get_total_items
 from .mixins import InventorySessionMixin
 
 
+@staff_member_required
 def latex(request):
-    query = Item.objects.filter(inventory=request.session.get('inventory_id'))\
-                        .values('make__name_print', 'price', 'unit__name')\
-                        .annotate(qty=Sum('quantity'),
-                                  total=(Sum('quantity') * F('price')))\
-                        .prefetch_related('make', 'unit')
-    inventory = Inventory.objects.get(pk=request.session.get('inventory_id'))
-                             
-    context = {'query': query,
-               'counter': query.count(),
-               'total_sum': stats(request.session.get('inventory_id')),
+    inventory_id = request.session.get('inventory_id')
+
+    items = get_total_items(inventory_id)
+           
+    inventory = Inventory.objects.get(pk=inventory_id)
+
+    file_name = "rem_nr_{id}_z_{date}.pdf".format(
+        id=inventory_id,
+        date=inventory._creation_date())
+    
+    context = {'items': items,
+               'counter': items.count(),
+               'total_sum': stats(inventory_id),
                'inventory': inventory.shop.address,
                'date': inventory.created}
     
-    return render_latex(request, 'testfile.pdf', 'inventory/item.tex',
+    return render_latex(request, file_name, 'inventory/item.tex',
                         error_template_name='inventory/error.html',
                         home_dir=settings.TEX_HOME,
                         context=context)

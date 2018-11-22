@@ -13,20 +13,21 @@
   % \date{\today}
   % \maketitle
 
-  {\center {\large {{ inventory|texify }} z dnia {{ date|date:"Y-m-d"|texify }} }
+  {\center {\large Remanent z dnia {{ date|date:"Y-m-d"|texify }} }
+  {\center {\large {{ inventory|texify }} }
 
   \sffamily
 
   \footnotesize
 
-  {% if query %}
+  {% if items %}
 
     \begin{longtable}[l]{|p{1cm}|p{6cm}|c @{ } p{0.5cm}|c|c|}
     \hline
     lp. & nazwa towaru & \makebox[1cm][r]{ilość} & jm & \makebox[2cm][r]{cena brutto} & \makebox[2cm][r]{wartość brutto} \\
     \hline
     % \hline
-    {% for item in query %}
+    {% for item in items %}
       {{ forloop.counter|texify }} &
       {{ item.make__name_print|texify }} &
       {{ item.qty|texify }} &
@@ -34,11 +35,11 @@
       \makebox[2cm][r]{ {{ item.price|texify }} } &
       \makebox[2cm][r]{ {{ item.total|texify }} } \\
     {% endfor %}
-
+      \hline
     \end{longtable}
 
     Zakończono na pozycji nr {{ counter|texify }}. Łączna suma towarów brutto:
-    {{ total_sum.piece|add:total_sum.weight|texify }} zł
+    {{ total_sum|texify }} zł
     
   {% endif %}
 
