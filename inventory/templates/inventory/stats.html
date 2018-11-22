@@ -6,11 +6,8 @@
 
 {% block body %}
 
-{% if object_list %}
-
-{{ object_list.piece }}
 <p>suma brutto:
-  <h3>{{ object_list }}</h3>
+  <h3>{{ sum }}</h3>
 </p>
 <p>ilość pozycji:
   <h4>{{ count }}</h4>
@@ -27,7 +24,6 @@
 </tr>
 {% endfor %}
 </table>
-{% endif %}
 {% endif %}
 
 {% endblock %}

@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
+from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.edit import FormMixin
@@ -225,23 +226,22 @@ def shelf_reset(request):
 
 
 @method_decorator(staff_member_required, name='dispatch')
-class Stats(ListView):
+class Stats(TemplateView):
     """ sums and statistics """
 
-    model = Item
     template_name = 'inventory/stats.html'
-
-    def get_queryset(self):
-        return stats(self.inventory)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['count'] = Item.objects.filter(
-            inventory_id=self.inventory).count()
-        context['count_by_user'] = Item.objects.values(
-            'created_by__username').filter(
-                inventory_id=self.inventory).annotate(
-                count=Count('pk'))
+        
+        items = Item.objects.filter(inventory_id=self.inventory)
+        
+        context['sum'] = stats(self.inventory)
+        context['count'] = items.count()
+        context['count_by_user'] = items\
+                                   .values('created_by__username')\
+                                   .annotate(count=Count('pk'))
+        context['current_inventory'] = items.first().inventory
 
         return context
     
