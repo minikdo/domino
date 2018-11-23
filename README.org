@@ -1,0 +1,5 @@
+* System dependencies:
+
+- tex-common
+- texlive-latex-base
+- texlive-xetex
