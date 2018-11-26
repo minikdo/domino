@@ -63,6 +63,11 @@ class ItemSearchForm(forms.Form):
                                            .filter(id__in=set(make_ids))\
                                            .order_by('name')
         
+    id = forms.IntegerField(required=False, label="id",
+                            widget=forms.TextInput(attrs={
+                                'size': 6,
+                                'autocomplete': 'off'
+                            }))
     make = forms.ModelChoiceField(
         queryset=Make.objects.exclude(item__make=None),
         label="nazwa towaru",

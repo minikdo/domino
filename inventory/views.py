@@ -170,6 +170,8 @@ class ItemSearch(LoginRequiredMixin, InventorySessionMixin, FormMixin,
             query = query.filter(created_by=self.myuser)
         if self.make and self.make is not '':
             query = query.filter(make=self.make)
+        if self.id and self.id is not '':
+            query = query.filter(id=self.id)
         if self.price and self.price is not '':
             query = query.filter(price=self.price)
         if not self.show_all and not self.myuser and not self.make and\
@@ -199,6 +201,7 @@ class ItemSearch(LoginRequiredMixin, InventorySessionMixin, FormMixin,
                 'myuser': self.myuser}
         
     def dispatch(self, request, *args, **kwargs):
+        self.id = request.GET.get('id', None)
         self.make = request.GET.get('make', None)
         self.price = request.GET.get('price', None)
         self.myuser = request.GET.get('myuser', None)
