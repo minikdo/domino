@@ -22,7 +22,7 @@ import os
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('inventory.urls')),
-    path('transfers/', include('transfers.urls')),
+    path('transactions/', include('transactions.urls')),
     # path('accounts/', include('django.contrib.auth.urls'))
 ]
 
