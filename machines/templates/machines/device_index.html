@@ -1,0 +1,42 @@
+{% extends 'machines/base.html' %}
+{% block body %}
+
+<h1>Devices list</h1>
+
+<a href="{% url 'device_create' %}"><button style="margin-bottom: 10px;">dodaj sprzęt</button></a>
+
+{% if device %}
+
+<table>
+  <tr>
+    <th>id</th>
+    <th>date</th>
+    <th>type</th>
+    <th>name</th>
+    <th>price</th>
+    <th>company</th>
+    <th>invoice</th>
+    <th>machine</th>
+    <th></th>
+  {% for item in device %}
+  <tr>
+    <td><a>{{ item.pk }}</a></td>
+    <td>{{ item.date }}</td>
+    <td>{{ item.type }}</td>
+    <td>{{ item.name }}</td>
+    <td>{{ item.price }}</td>
+    <td>{{ item.company }}</td>
+    <td>{{ item.invoice }}</td>
+    <td>{{ item.machine.name }}</td>
+    <td>
+      <a href="{% url 'device_update' item.pk %}"><button>edit</button></a>
+      <a href="{% url 'device_delete' item.pk %}"><button>delete</button></a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+{% include "machines/paginator.html" %}
+
+{% endblock %}

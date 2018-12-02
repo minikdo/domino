@@ -1,0 +1,13 @@
+{% extends 'machines/base.html' %}
+{% block body %}
+
+<div class="row">
+  <div class="four columns">
+      <form action="" method="post">{% csrf_token %}
+        <p>Delete "{{ object }}"?</p>
+        <input type="submit" value="confirm" />
+      </form>
+  </div>
+</div>
+
+{% endblock %}

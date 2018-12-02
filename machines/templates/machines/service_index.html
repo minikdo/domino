@@ -1,0 +1,31 @@
+{% extends 'machines/base.html' %}
+{% block body %}
+
+<h1>Service activity list</h1>
+
+{% if services %}
+
+<table class="table table-striped">
+  {% for service in services %}
+  <tr>
+    <td>{{ service.pk }}</td>
+    <td><a href="{% url 'detail' service.machine.pk %}"></a>{{ service.machine }}</td>
+    <td>{{ service.date }}</td>
+    <td>{{ service.description }}
+      {% if service.device %}
+      [{{ service.device.name }}]
+      {% endif %}
+    </td>
+    <td>
+      <a href="{% url 'service_update' service.pk %}"><button>edit</button></a>
+      <a href="{% url 'service_delete' service.pk %}"><button>delete</button></a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% include "machines/paginator.html" %}
+
+{% endif %}
+
+{% endblock %}

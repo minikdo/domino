@@ -1,0 +1,52 @@
+{% extends 'machines/base.html' %}
+{% block body %}
+
+<h1>Machine list</h1>
+
+{% if machines  %}
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Datetime</th>
+    <th>Form</th>
+    <th>Bios</th>
+    <th>Prod</th>
+    <th>Vendor</th>
+    <th>OS</th>
+    <th>Kernel</th>
+    <th>CPU</th>
+    <th>Arch</th>
+    <th>Mem</th>
+    <th>HDD</th>
+    <th>Disk</th>
+    <th>Diskfree</th>
+    <th>IPs</th>
+    <th>Gateway</th>
+    <th>Gate Iface</th>
+  </tr>
+  {% for machine in machines %}
+  <tr>
+    <td>{{ machine.pk }}</td>
+    <td><a href="{% url 'detail' machine.pk %}">{{ machine.name }} <span>[*]</span></a></td>
+    <td class="nowrap">{{ machine.datetime }}</td>
+    <td>{{ machine.form }}</td>
+    <td>{{ machine.bios }}</td>
+    <td>{{ machine.prod }}</td>
+    <td>{{ machine.vendor }}</td>
+    <td>{{ machine.OS }}</td>
+    <td>{{ machine.kernel }}</td>
+    <td>{{ machine.CPU }}</td>
+    <td>{{ machine.arch }}</td>
+    <td>{{ machine.mem }}</td>
+    <td>{{ machine.HDD }}</td>
+    <td>{{ machine.disk }}</td>
+    <td>{{ machine.diskfree }}</td>
+    <td>{{ machine.IPs }}</td>
+    <td>{{ machine.gateway }}</td>
+    <td>{{ machine.gate_iface }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+{% endblock %}

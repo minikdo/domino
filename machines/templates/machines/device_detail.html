@@ -1,0 +1,36 @@
+{% extends 'machines/base.html' %}
+{% block body %}
+
+<h1>{{ device.typ|capfirst }} {{ device.nazwa }}</h1>
+
+<table>
+  <tr>
+    <th>date</th>
+    <td>{{ device.date }}</td>
+  </tr>
+  <tr>
+    <th>type</th>
+    <td>{{ device.type }}</td>
+  </tr>
+  <tr>
+    <th>name</th>
+    <td>{{ device.name }}</td>
+  </tr>
+  <tr>
+    <th>price</th>
+    <td>{{ device.price }}</td>
+  </tr>
+  <tr>
+    <th>company</th>
+    <td>{{ device.company }}</td>
+  </tr>
+  <tr>
+    <th>invoice</th>
+    <td>{{ device.invoice }}</td>
+  </tr>
+</table>
+
+<a href="{% url 'device_update' device.pk %}"><button>edit</button></a>
+<a href="{% url 'device_delete' device.pk %}"><button>delete</button></a>
+
+{% endblock %}

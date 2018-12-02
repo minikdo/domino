@@ -1,0 +1,102 @@
+{% extends 'machines/base.html' %}
+{% block body %}
+
+<h1>Machine: {{ machine.name }}</h1>
+
+<table>
+  <tr>
+    <th>Name</th><td>{{ machine.name }}</td>
+    <th>FQDN</th><td>{{ machine.FQDN }}</td>
+  </tr>
+  <tr>
+    <th>Datetime</th><td>{{ machine.datetime }}</td>
+    <th>Form</th><td>{{ machine.form }}</td>
+  </tr>
+  <tr>
+    <th>Bios</th><td>{{ machine.bios }}</td>
+    <th>Prod</th><td>{{ machine.prod }}</td>
+  </tr>
+  <tr>
+    <th>Vendor</th><td>{{ machine.vendor }}</td>
+    <th>OS</th><td>{{ machine.OS }}</td>
+  </tr>
+  <tr>
+    <th>Kernel</th><td>{{ machine.kernel }}</td>
+    <th>CPU</th><td>{{ machine.CPU }}</td>
+  </tr>
+  <tr>
+    <th>Cores</th><td>{{ machine.cores }}</td>
+    <th>Arch</th><td>{{ machine.arch }}</td>
+  </tr>
+  <tr>
+    <th>Mem</th><td>{{ machine.mem }}</td>
+    <th>HDD</th><td>{{ machine.HDD }}</td>
+  </tr>
+  <tr>
+    <th>Disk</th><td>{{ machine.disk }}</td>
+    <th>Diskfree</th><td>{{ machine.diskfree }}</td>
+  </tr>
+  <tr>
+    <th>IPs</th><td>{{ machine.IPs }}</td>
+    <th>Gateway</th><td>{{ machine.gateway }}</td>
+  </tr>
+  <tr>
+    <th>Gate Iface</th><td>{{ machine.gate_iface }}</td>
+  </tr>
+</table>
+
+
+
+{% if machine.device_set.all %}
+<h1>Sprzęt</h1>
+<table class="table table-striped">
+  <tr>
+    <th>id</th>
+    <th>date </th>
+    <th>type </th>
+    <th>name</th>
+    <th>price</th>
+    <th>company</th>
+  </tr>
+  {% for device in machine.device_set.all %}
+  <tr>
+    <td>{{ device.pk }}</td>
+    <td>{{ device.date }}</td>
+    <td>{{ device.type }}</td>
+    <td>{{ device.name }}</td>
+    <td>{{ device.price }}</td>
+    <td>{{ device.company }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<h1>Maintenance</h1>
+
+<a href="{% url 'service_create' %}?komp_id={{ machine.pk }}"><button style="margin-bottom: 10px;">add service action</button></a>
+
+<table class="table">
+  <tr>
+    <th>ID</th>
+    <th>Data</th>
+    <th>Czynność</th>
+    <th></th>
+  </tr>
+{% for service in machine.service_set.all %}
+  <tr>
+    <td>{{ service.pk }}</td>
+    <td>{{ service.date }}</td>
+    <td>{{ service.description }}
+      {% if service.device %}
+      [{{ service.device.name }} <a href="{% url 'device_detail' service.device.pk %}">detail</a>]
+      {% endif %}
+    </td>
+    <td>
+      <a href="{% url 'service_update' service.pk %}"><button>edit</button></a>
+      <a href="{% url 'service_delete' service.pk %}"><button>delete</button></a>
+    </td>
+  </tr>
+{% endfor %}
+</table>
+
+{% endblock %}

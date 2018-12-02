@@ -1,0 +1,15 @@
+{% extends 'machines/base.html' %}
+{% block body %}
+
+<div class="row">
+  <div class="four columns">
+    <h2>Update service activity</h2>
+    <form action="" method="post">
+      {{ form }}
+      {% csrf_token %}
+      <button>update</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
