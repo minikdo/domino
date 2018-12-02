@@ -54,6 +54,8 @@ ALLOWED_HOSTS = ['127.0.0.1']
 
 INSTALLED_APPS = [
     'inventory.apps.InventoryConfig',
+    'transactions.apps.TransactionsConfig',
+    'machines.apps.MachinesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
