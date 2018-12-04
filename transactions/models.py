@@ -5,7 +5,8 @@ from django.contrib.auth.models import User
 class TimeStampedModel(models.Model):
     """
     An abstract base class model that provides self-
-    updating ``created`` and ``modified`` fields.
+    updating ``created`` and ``modified``
+    and ``created_by`` fields.
     """
     
     created = models.DateTimeField(auto_now_add=True)
@@ -67,6 +68,13 @@ class TransactionFile(TimeStampedModel):
 
     transaction = models.ManyToManyField('Transaction', null=True)
 
+    class Meta:
+        verbose_name = "paczka przelewów"
+        verbose_name_plural = "paczki przelewów"
+
+    def __str__(self):
+        return self.transaction
+    
 
 class Counterparty(TimeStampedModel):
     """ counterparties """

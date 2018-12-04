@@ -8,7 +8,7 @@ from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.edit import FormMixin
-from django.db.models import Count, Sum, F
+from django.db.models import Count
 from django.conf import settings
 
 from djatex import render_latex
