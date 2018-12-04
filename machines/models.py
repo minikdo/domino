@@ -44,10 +44,10 @@ class Service(models.Model):
 
 
 class Device(models.Model):
-    komp = models.ForeignKey('Machine',
-                             blank=True,
-                             null=True,
-                             on_delete=models.CASCADE)
+    machine = models.ForeignKey('Machine',
+                                blank=True,
+                                null=True,
+                                on_delete=models.SET_NULL)
     date = models.DateField()
     type = models.ForeignKey('DeviceType', on_delete=models.CASCADE)
     name = models.CharField(max_length=150, null=True)

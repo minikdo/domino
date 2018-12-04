@@ -1,13 +1,13 @@
-# from django.shortcuts import render
-# from django.http import HttpResponse
-from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import DetailView
+from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from .models import Machine, Device, Service
 from django.urls import reverse_lazy
 import time
 
 
-class IndexView(generic.ListView):
+class IndexView(LoginRequiredMixin, ListView):
     """
     host list
     """
@@ -18,7 +18,7 @@ class IndexView(generic.ListView):
         return Machine.objects.order_by('pk')
     
 
-class DetailView(generic.DetailView):
+class DetailView(DetailView):
     """
     host details
     """
@@ -26,18 +26,18 @@ class DetailView(generic.DetailView):
     template_name = 'machines/detail.html'
 
 
-class ServiceIndexView(generic.ListView):
+class ServiceIndexView(LoginRequiredMixin, ListView):
     """
     service list
     """
-    template_name = 'machines/serwis_index.html'
-    context_object_name = 'serwisy'
+    template_name = 'machines/service_index.html'
+    context_object_name = 'services'
     model = Service
     ordering = '-date'
     paginate_by = 10
     
 
-class ServiceCreate(CreateView):
+class ServiceCreate(LoginRequiredMixin, CreateView):
     """
     service add
     """
@@ -49,7 +49,7 @@ class ServiceCreate(CreateView):
                 'date': time.strftime('%Y-%m-%d')}
 
 
-class ServiceUpdate(UpdateView):
+class ServiceUpdate(LoginRequiredMixin, UpdateView):
     """
     service update
     """
@@ -57,7 +57,7 @@ class ServiceUpdate(UpdateView):
     fields = ['machine', 'date', 'description', 'device']
     
     
-class ServiceDelete(DeleteView):
+class ServiceDelete(LoginRequiredMixin, DeleteView):
     """
     service delete
     """
@@ -68,26 +68,26 @@ class ServiceDelete(DeleteView):
         return reverse_lazy('detail', kwargs={'pk': machine.pk})
 
 
-class DeviceIndexView(generic.ListView):
+class DeviceIndexView(LoginRequiredMixin, ListView):
     """
     component list
     """
-    template_name = 'machines/sprzet_index.html'
-    context_object_name = 'sprzet'
+    template_name = 'machines/device_index.html'
+    context_object_name = 'device'
     model = Device
-    paginate_by = 10                                                        
+    paginate_by = 10
     ordering = '-date'
 
 
-class DeviceDetailView(generic.DetailView):
+class DeviceDetailView(LoginRequiredMixin, DetailView):
     """
     component detail
     """
     model = Device
-    template_name = 'machines/sprzet_detail.html'
+    template_name = 'machines/device_detail.html'
 
 
-class DeviceCreate(CreateView):
+class DeviceCreate(LoginRequiredMixin, CreateView):
     """
     component add
     """
@@ -98,7 +98,7 @@ class DeviceCreate(CreateView):
         return {'date': time.strftime('%Y-%m-%d')}
 
     
-class DeviceUpdate(UpdateView):
+class DeviceUpdate(LoginRequiredMixin, UpdateView):
     """
     component update
     """
@@ -106,7 +106,7 @@ class DeviceUpdate(UpdateView):
     fields = ['machine', 'date', 'type', 'name', 'price', 'company', 'invoice']
     
     
-class DeviceDelete(DeleteView):
+class DeviceDelete(LoginRequiredMixin, DeleteView):
     """
     component delete
     """
