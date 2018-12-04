@@ -1,0 +1,10 @@
+{% extends 'transactions/base.html' %}
+{% load static %}
+{% block title %}kontrahenci{% endblock %}
+
+{% block body %}
+
+<h4>Kontrahenci</h4>
+<a href="{% url 'counterparty-create' %}">dodaj</a>
+
+{% endblock %}

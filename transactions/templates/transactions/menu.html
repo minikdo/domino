@@ -2,7 +2,7 @@
 
 <div class="row" id="navbar">
   <div class="two columns">
-    <h3>remanent</h3>
+    <h3>przelewy</h3>
   </div>
   <div class="ten columns">
     <ul>
@@ -16,26 +16,9 @@
       <li><a href="{% url 'admin:index' %}">admin</a></li>
       {% endif %}
       {% if request.user.is_staff %}
-      <li><a href="{% url 'stats' %}">stats</a></li>
+      <li><a href="{% url 'counterparty-index' %}">kontrahenci</a></li>
       {% endif %}
-      <li><a href="{% url 'inventory_select' %}">zmień sklep</a></li>
-      <li><a href="{% url 'item_search' %}">szukaj</a></li>
-      <li><a href="{% url 'shelf_reset' %}">zeruj licznik</a></li>
-      <li><a href="{% url 'index' %}">pisz dalej</a></li>
+      <li><a href="{% url 'transaction-index' %}">przelewy</a></li>
     </ul>
-  </div>
-</div>
-
-<div class="row" id="current_shop">
-  <div class="eight columns">
-    {% if current_inventory %}
-    sklep: <strong>#{{ current_inventory }}</strong>
-    {% endif %}
-  </div>
-  <div class="four columns" id="shelf_counter">
-    {% if shelf_counter %}
-    <a href="{% url 'item_search' %}" title="wyświetl półkę" class="">{{ shelf_counter.piece|add:shelf_counter.weight }}</a>
-    {% endif %}
-    {{ aqq }}
   </div>
 </div>

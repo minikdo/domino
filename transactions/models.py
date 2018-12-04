@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class TimeStampedModel(models.Model):
@@ -86,7 +87,8 @@ class Counterparty(TimeStampedModel):
     name = models.CharField(max_length=35, null=True, verbose_name="nazwa")
     street = models.CharField(max_length=35, null=True, verbose_name="ulica")
     city = models.CharField(max_length=35, null=True, verbose_name="miasto")
-    tax_id = models.CharField(max_length=35, null=True, verbose_name="NIP")
+    tax_id = models.CharField(max_length=35, null=True,
+                              unique=True, verbose_name="NIP")
 
     class Meta:
         verbose_name = "kontrahent"
@@ -99,6 +101,9 @@ class Counterparty(TimeStampedModel):
             self.city,
             self.nip)
         return string
+
+    def get_absolute_url(self):
+        return reverse('counterparty-detail', kwargs={'pk': self.id})
 
 
 class Account(TimeStampedModel):

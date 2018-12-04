@@ -1,5 +1,5 @@
 # from django.shortcuts import render
-# from django.views.generic import TemplateView
+from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -21,7 +21,14 @@ class CounterpartyIndexView(LoginRequiredMixin, ListView):
     template_name = 'transactions/counterparty_index.html'
 
 
-class Counterparty(LoginRequiredMixin, CreateView):
+class CounterpartyDetailView(LoginRequiredMixin, DetailView):
+    """ counterparty details """
+
+    model = Counterparty
+    template_name = 'transactions/counterparty_detail.html'
+
+
+class CounterpartyCreate(LoginRequiredMixin, CreateView):
     """ create a counterparty """
 
     model = Counterparty

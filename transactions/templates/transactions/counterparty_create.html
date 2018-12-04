@@ -1,0 +1,15 @@
+{% extends 'transactions/base.html' %}
+{% load static %}
+{% block title %}przelewy{% endblock %}
+
+{% block body %}
+
+<form action="{% url 'counterparty-create' %}" method="post">
+  {% csrf_token %}
+  {{ form }}
+  <div>
+    <input name="" type="submit" value="dodaj"/>
+  </div>
+</form>
+
+{% endblock %}
