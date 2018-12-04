@@ -2,7 +2,21 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class TransactionStatus(models.Model):
+class TimeStampedModel(models.Model):
+    """
+    An abstract base class model that provides self-
+    updating ``created`` and ``modified`` fields.
+    """
+    
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        abstract = True
+
+
+class TransactionStatus(TimeStampedModel):
     """ transaction status """
 
     name = models.CharField(max_length=30, verbose_name="status")
@@ -15,7 +29,7 @@ class TransactionStatus(models.Model):
         return self.name
 
 
-class Transaction(models.Model):
+class Transaction(TimeStampedModel):
     """ transactions """
     """ format EXILIR-0 """
     
@@ -32,8 +46,6 @@ class Transaction(models.Model):
     transaction_classification = models.IntegerField()
     annotations = models.CharField(max_length=32)
     # additional fields:
-    created = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     status = models.ForeignKey('TransactionStatus',
                                null=True,
                                on_delete=models.SET_NULL)
@@ -50,13 +62,13 @@ class Transaction(models.Model):
         return string
 
 
-class TransactionFile(models.Model):
+class TransactionFile(TimeStampedModel):
     """ transaction package """
 
-    pass
+    transaction = models.ManyToManyField('Transaction', null=True)
 
 
-class Counterparty(models.Model):
+class Counterparty(TimeStampedModel):
     """ counterparties """
 
     account = models.ForeignKey('Account',
@@ -67,8 +79,6 @@ class Counterparty(models.Model):
     street = models.CharField(max_length=35, null=True, verbose_name="ulica")
     city = models.CharField(max_length=35, null=True, verbose_name="miasto")
     tax_id = models.CharField(max_length=35, null=True, verbose_name="NIP")
-    created = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         verbose_name = "kontrahent"
@@ -83,14 +93,12 @@ class Counterparty(models.Model):
         return string
 
 
-class Account(models.Model):
+class Account(TimeStampedModel):
     """ account numbers """
     """ one counterparty may have many bank accounts """
 
     account = models.CharField(max_length=34, verbose_name="numer konta")
     comment = models.CharField(max_length=50, verbose_name="komentarz")
-    created = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         verbose_name = "konto bankowe"
