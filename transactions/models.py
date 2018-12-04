@@ -67,7 +67,7 @@ class Transaction(TimeStampedModel):
 class TransactionFile(TimeStampedModel):
     """ transaction package """
 
-    transaction = models.ManyToManyField('Transaction', null=True)
+    transaction = models.ManyToManyField('Transaction')
 
     class Meta:
         verbose_name = "paczka przelewów"
