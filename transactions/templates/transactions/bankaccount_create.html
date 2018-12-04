@@ -3,4 +3,16 @@
 {% block title %}przelewy{% endblock %}
 
 {% block body %}
+
+<form action="{% url 'bankaccount-create' %}" method="post">
+
+  {% csrf_token %}
+  {{ form }}
+
+  <div>
+    <input name="" type="submit" value="dodaj"/>
+  </div>
+  
+</form>
+
 {% endblock %}

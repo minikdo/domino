@@ -4,6 +4,8 @@
 
 {% block body %}
 
-<h4>kontrahent:</h4>
+<h4>kontrahent: {{ counterparty }}</h4>
+
+<a href="{% url 'bankaccount-create' %}">dodaj konto bankowe</a>
 
 {% endblock %}

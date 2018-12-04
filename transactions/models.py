@@ -80,10 +80,6 @@ class TransactionFile(TimeStampedModel):
 class Counterparty(TimeStampedModel):
     """ counterparties """
 
-    account = models.ForeignKey('Account',
-                                on_delete=models.SET_NULL,
-                                null=True,
-                                verbose_name="konto")
     name = models.CharField(max_length=35, null=True, verbose_name="nazwa")
     street = models.CharField(max_length=35, null=True, verbose_name="ulica")
     city = models.CharField(max_length=35, null=True, verbose_name="miasto")
@@ -99,19 +95,23 @@ class Counterparty(TimeStampedModel):
             self.name,
             self.street,
             self.city,
-            self.nip)
+            self.tax_id)
         return string
 
     def get_absolute_url(self):
         return reverse('counterparty-detail', kwargs={'pk': self.id})
 
 
-class Account(TimeStampedModel):
+class CounterpartyAccount(TimeStampedModel):
     """ account numbers """
     """ one counterparty may have many bank accounts """
 
     account = models.CharField(max_length=34, verbose_name="numer konta")
     comment = models.CharField(max_length=50, verbose_name="komentarz")
+    counterparty = models.ForeignKey('Counterparty',
+                                     on_delete=models.SET_NULL,
+                                     null=True,
+                                     verbose_name="kontrahent")
 
     class Meta:
         verbose_name = "konto bankowe"
@@ -119,3 +119,7 @@ class Account(TimeStampedModel):
 
     def __str__(self):
         return self.account
+
+    def get_absolute_url(self):
+        return reverse('counterparty-detail',
+                       kwargs={'pk': self.counterparty_id})

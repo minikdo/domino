@@ -7,4 +7,21 @@
 <h4>Kontrahenci</h4>
 <a href="{% url 'counterparty-create' %}">dodaj</a>
 
+{% if counterparty_list %}
+
+<table>
+
+  {% for item in counterparty_list %}
+
+  <tr>
+    <td><a href="{% url 'counterparty-detail' item.pk %}">{{ item.pk }}</a></td>
+  <td>{{ item.name }}</td>
+  </tr>
+  
+  {% endfor %}
+  
+</table>
+
+{% endif %}
+
 {% endblock %}

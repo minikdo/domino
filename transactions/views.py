@@ -4,7 +4,9 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Transaction, Counterparty
+from .models import Transaction, Counterparty, CounterpartyAccount
+
+from .mixins import CreatedByMixin
 
 
 class IndexView(LoginRequiredMixin, ListView):
@@ -28,7 +30,7 @@ class CounterpartyDetailView(LoginRequiredMixin, DetailView):
     template_name = 'transactions/counterparty_detail.html'
 
 
-class CounterpartyCreate(LoginRequiredMixin, CreateView):
+class CounterpartyCreate(LoginRequiredMixin, CreatedByMixin, CreateView):
     """ create a counterparty """
 
     model = Counterparty
@@ -50,3 +52,13 @@ class CounterpartyDelete(LoginRequiredMixin, DeleteView):
     model = Counterparty
     template_name = 'transactions/counterparty_confirm_delete.html'
     success_url = '/'
+
+
+class CounterpartyAccountCreate(LoginRequiredMixin,
+                                CreatedByMixin,
+                                CreateView):
+    """ create a counterpartys' bank account"""
+
+    model = CounterpartyAccount
+    fields = ['counterparty', 'account', 'comment']
+    template_name = 'transactions/bankaccount_create.html'
