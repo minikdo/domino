@@ -5,7 +5,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Transaction, Counterparty, CounterpartyAccount
-
+from .forms import CounterpartyAccountCreateForm
 from .mixins import CreatedByMixin
 
 
@@ -40,7 +40,7 @@ class CounterpartyCreate(LoginRequiredMixin, CreatedByMixin, CreateView):
 
 class CounterpartyUpdate(LoginRequiredMixin, UpdateView):
     """ update a counterparty """
-
+    
     model = Counterparty
     fields = ['name', 'street', 'city', 'tax_id']
     template_name = 'transactions/counterparty_update.html'
@@ -60,5 +60,8 @@ class CounterpartyAccountCreate(LoginRequiredMixin,
     """ create a counterpartys' bank account"""
 
     model = CounterpartyAccount
-    fields = ['counterparty', 'account', 'comment']
     template_name = 'transactions/bankaccount_create.html'
+    form_class = CounterpartyAccountCreateForm
+
+    def get_initial(self):
+        return {'counterparty': 1}

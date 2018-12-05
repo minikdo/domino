@@ -106,7 +106,9 @@ class CounterpartyAccount(TimeStampedModel):
     """ account numbers """
     """ one counterparty may have many bank accounts """
 
-    account = models.CharField(max_length=34, verbose_name="numer konta")
+    account = models.CharField(max_length=34,
+                               unique=True,
+                               verbose_name="numer konta")
     comment = models.CharField(max_length=50, verbose_name="komentarz")
     counterparty = models.ForeignKey('Counterparty',
                                      on_delete=models.SET_NULL,

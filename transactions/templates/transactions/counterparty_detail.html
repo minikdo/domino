@@ -4,7 +4,39 @@
 
 {% block body %}
 
-<h4>kontrahent: {{ counterparty }}</h4>
+<h4>{{ counterparty.name }}</h4>
+
+<table>
+  <tr>
+    <th>nazwa</th>
+    <td>{{ counterparty.name }}</td>
+  </tr>
+  <tr>
+    <th>ulica</th>
+    <td>{{ counterparty.street }}</td>
+  </tr>
+  <tr>
+    <th>miasto</th>
+    <td>{{ counterparty.city }}</td>
+  </tr>
+  <tr>
+    <th>nip</th>
+    <td>{{ counterparty.tax_id }}</td>
+  </tr>
+</table>
+
+{# list bank account #}
+
+<p>konta bankowe:</p>
+<ul>
+  
+{% for account in counterparty.counterpartyaccount_set.all %}
+
+<li>{{ account.account }} {{ account.comment }}<li>
+
+{% endfor %}
+
+</ul>
 
 <a href="{% url 'bankaccount-create' %}">dodaj konto bankowe</a>
 
