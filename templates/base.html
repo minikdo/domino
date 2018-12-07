@@ -49,11 +49,13 @@
       <!-- app menu -->
 
       {% if user.is_authenticated %}
-      
+ 
       {% with request.resolver_match.app_name as app_name %}
 
+      {% if app_name %}
         {% include app_name|add:'/menu.html' %}
-
+      {% endif %}
+      
       {% endwith %}
       
       {% endif %} {# user.is_authenticated #}

@@ -81,10 +81,19 @@ class Counterparty(TimeStampedModel):
     """ counterparties """
 
     name = models.CharField(max_length=35, null=True, verbose_name="nazwa")
-    street = models.CharField(max_length=35, null=True, verbose_name="ulica")
-    city = models.CharField(max_length=35, null=True, verbose_name="miasto")
-    tax_id = models.CharField(max_length=35, null=True,
-                              unique=True, verbose_name="NIP")
+    street = models.CharField(max_length=35,
+                              null=True,
+                              blank=True,
+                              verbose_name="ulica")
+    city = models.CharField(max_length=35,
+                            blank=True,
+                            null=True,
+                            verbose_name="miasto")
+    tax_id = models.CharField(max_length=35,
+                              blank=True,
+                              null=True,
+                              unique=True,
+                              verbose_name="NIP")
 
     class Meta:
         verbose_name = "kontrahent"
@@ -99,7 +108,7 @@ class Counterparty(TimeStampedModel):
         return string
 
     def get_absolute_url(self):
-        return reverse('counterparty-detail', kwargs={'pk': self.id})
+        return reverse('transactions:counterparty-detail', kwargs={'pk': self.id})
 
 
 class CounterpartyAccount(TimeStampedModel):
@@ -109,7 +118,9 @@ class CounterpartyAccount(TimeStampedModel):
     account = models.CharField(max_length=34,
                                unique=True,
                                verbose_name="numer konta")
-    comment = models.CharField(max_length=50, verbose_name="komentarz")
+    comment = models.CharField(max_length=50,
+                               blank=True,
+                               verbose_name="komentarz")
     counterparty = models.ForeignKey('Counterparty',
                                      on_delete=models.SET_NULL,
                                      null=True,
@@ -123,5 +134,5 @@ class CounterpartyAccount(TimeStampedModel):
         return self.account
 
     def get_absolute_url(self):
-        return reverse('counterparty-detail',
+        return reverse('transactions:counterparty-detail',
                        kwargs={'pk': self.counterparty_id})
