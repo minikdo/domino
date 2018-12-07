@@ -8,7 +8,7 @@
 
 <!-- search form -->
 
-<form class="item_search" action="{% url 'item_search' %}" method="get">
+<form class="item_search" action="{% url 'inventory:item_search' %}" method="get">
   <ul>
     {{ form.as_ul }}
     <li>
@@ -36,7 +36,7 @@
 {% for item in object_list %}
 
 <tr>
-  <td><a class="item_id" href="{% url 'update' item.pk %}">{{ item.pk }}</a></td>
+  <td><a class="item_id" href="{% url 'inventory:update' item.pk %}">{{ item.pk }}</a></td>
   <td>{{ item.make.name }}</td>
   <td>{{ item.price }}</td>
   <td>{{ item.quantity }}</td>

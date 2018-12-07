@@ -14,6 +14,6 @@ class InventorySessionMixin(object):
         self.shelf = request.session.get('shelf_id')
         
         if self.inventory is None:
-            return redirect('inventory_select')
+            return redirect('inventory:inventory_select')
 
         return super().dispatch(request, *args, **kwargs)

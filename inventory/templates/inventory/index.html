@@ -19,7 +19,7 @@
 {% for item in object_list %}
 
 <tr>
-  <td><a class="item_id" href="{% url 'update' item.pk %}">{{ item.pk }}</a></td>
+  <td><a class="item_id" href="{% url 'inventory:update' item.pk %}">{{ item.pk }}</a></td>
   <td>{{ item.make.name }}</td>
   <td>{{ item.price }}</td>
   <td>{{ item.quantity }}</td>
@@ -33,7 +33,7 @@
 
 </table>
 
-<form action="{% url 'create' %}" method="post">
+<form action="{% url 'inventory:create' %}" method="post">
   {% csrf_token %}
 
   {{ form }}

@@ -21,10 +21,10 @@ import os
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('inventory.urls')),
+    path('inventory/', include('inventory.urls')),
     path('transactions/', include('transactions.urls')),
     path('machines/', include('machines.urls')),
-    # path('accounts/', include('django.contrib.auth.urls'))
+    path('accounts/', include('django.contrib.auth.urls'))
 ]
 
 if settings.DEBUG:

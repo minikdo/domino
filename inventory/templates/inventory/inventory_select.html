@@ -6,9 +6,9 @@
 
 <h5>wybierz remanent</h5>
 
-<p>jeśli nie ma, to utwórz nowy <a href="{% url 'inventory_create' %}">tutaj</a></p>
+<p>jeśli nie ma, to utwórz nowy <a href="{% url 'inventory:inventory_create' %}">tutaj</a></p>
 
-<form method='post' action="{% url 'inventory_select' %}">
+<form method='post' action="{% url 'inventory:inventory_select' %}">
 
   {% csrf_token %}
 

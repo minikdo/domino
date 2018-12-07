@@ -8,7 +8,7 @@
 
 <p>Jednak nie chcesz? Wróc do logowania <a href="{% url 'login' %}">tutaj</a></p>
 
-<form action="{% url 'register' %}" method="post">
+<form action="{% url 'inventory:register' %}" method="post">
   {% csrf_token %}
 
   {% if form.errors %}

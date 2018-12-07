@@ -19,7 +19,7 @@ class Shop(models.Model):
         return self.address
     
     def get_absolute_url(self):
-        return reverse_lazy('index')
+        return reverse_lazy('inventory:index')
 
 
 class Make(models.Model):
@@ -105,7 +105,7 @@ class Item(models.Model):
         return string
     
     def get_absolute_url(self):
-        return reverse_lazy('index')
+        return reverse_lazy('inventory:index')
 
     def clean(self):
         if self.unit.pk == Unit.QTY_ID and self.quantity is not None and\
@@ -139,7 +139,7 @@ class Inventory(models.Model):
         return string
 
     def get_absolute_url(self):
-        return reverse_lazy('inventory_select')
+        return reverse_lazy('inventory:inventory_select')
 
     def _creation_date(self):
         string = self.created.strftime('%Y-%m-%d')

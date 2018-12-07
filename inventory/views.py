@@ -134,7 +134,7 @@ def inventory_select(request):
     inventories = Inventory.objects.all()
 
     if not inventories:
-        return redirect('inventory_create')
+        return redirect('inventory:inventory_create')
     
     last_inventory = inventories.latest('pk')
     
@@ -142,7 +142,7 @@ def inventory_select(request):
         request.session['inventory_id'] = request.POST.get('inventory')
         request.session['group_id'] = request.POST.get('group')
 
-        return redirect('index')
+        return redirect('inventory:index')
 
     inventory = request.session.get('inventory_id', last_inventory.id)
     group = request.session.get('group_id', 1)
@@ -215,7 +215,7 @@ def shelf_reset(request):
     """ update shelf counter """
 
     if request.session.get('inventory_id') is None:
-            return redirect('inventory_select')
+            return redirect('inventory:inventory_select')
 
     try:
         last_item_id = Item.objects.filter(created_by=request.user,
@@ -226,7 +226,7 @@ def shelf_reset(request):
     else:
         request.session['shelf_id'] = last_item_id + 1
     
-    return redirect('index')
+    return redirect('inventory:index')
 
 
 @method_decorator(staff_member_required, name='dispatch')
@@ -253,7 +253,7 @@ class Stats(TemplateView):
         self.inventory = request.session.get('inventory_id')
 
         if not self.inventory:
-            return redirect('inventory_select')
+            return redirect('inventory:inventory_select')
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -272,7 +272,7 @@ def register(request):
             user = authenticate(username=username,
                                 password=password)
             login(request, user)
-            return redirect('index')
+            return redirect('inventory:index')
     else:
         form = SignUpForm()
         

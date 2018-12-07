@@ -1,4 +1,4 @@
-{% extends 'inventory/base.html' %}
+{% extends 'domino/base.html' %}
 
 {% load static %}
 
@@ -13,7 +13,7 @@
   <h4>{{ count }}</h4>
 </p>
 
-<p><a href="{% url 'latex' %}"><img alt="pdf" src="{% static 'icons/document.svg' %}"/> wydruk pdf</a></p>
+<p><a href="{% url 'inventory:latex' %}"><img alt="pdf" src="{% static 'icons/document.svg' %}"/> wydruk pdf</a></p>
 
 {% if count_by_user %}
 <table>
