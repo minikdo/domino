@@ -5,7 +5,7 @@ from . import views
 app_name = 'transactions'
 
 urlpatterns = [
-    path('', views.IndexView.as_view(), name='transaction-index'),
+    path('', views.IndexView.as_view(), name='index'),
     # path('add/', name='transaction-create'),
     # path('<int:pk>/update/', name='transaction-update'),
     # path('<int:pk>/delete/', name='transaction-delete'),
@@ -18,7 +18,8 @@ urlpatterns = [
     # path('counterparty/<int:pk>/update/', name='counterparty-update'),
     # path('counterparty/<int:pk>/delete/', name='counterparty-delete'),
     # path('bankaccount/', name='bankaccount-index'),
-    path('bankaccount/add/', views.CounterpartyAccountCreate.as_view(),
+    path('bankaccount/<int:counterparty>/add/',
+         views.CounterpartyAccountCreate.as_view(),
          name='bankaccount-create'),
     # path('bankaccount/<int:pk>/update/', name='bankaccount-update'),
     # path('bankaccount/<int:pk>/delete/', name='bankaccount-delete'),

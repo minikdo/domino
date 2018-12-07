@@ -3,6 +3,23 @@
 /* icons by:  */
 /* Open Iconic — www.useiconic.com/open */
 
+/* project navbar */
+
+#navbar-main ul li {
+    display: inline;
+}
+#navbar-main.left ul li {
+    float: left;
+    padding-right: 30px;
+
+}
+#navbar-main.right ul li {
+    float: right;
+}
+#navbar-main a {
+    text-decoration: none;
+}
+
 /* navbar */
 
 #navbar {

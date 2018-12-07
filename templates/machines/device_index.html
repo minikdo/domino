@@ -3,7 +3,7 @@
 
 <h1>Devices list</h1>
 
-<a href="{% url 'device_create' %}"><button style="margin-bottom: 10px;">dodaj sprzęt</button></a>
+<a href="{% url 'machines:device_create' %}"><button style="margin-bottom: 10px;">dodaj sprzęt</button></a>
 
 {% if device %}
 
@@ -29,8 +29,8 @@
     <td>{{ item.invoice }}</td>
     <td>{{ item.machine.name }}</td>
     <td>
-      <a href="{% url 'device_update' item.pk %}"><button>edit</button></a>
-      <a href="{% url 'device_delete' item.pk %}"><button>delete</button></a>
+      <a href="{% url 'machines:device_update' item.pk %}"><button>edit</button></a>
+      <a href="{% url 'machines:device_delete' item.pk %}"><button>delete</button></a>
     </td>
   </tr>
   {% endfor %}

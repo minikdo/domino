@@ -5,7 +5,7 @@
 {% block body %}
 
 <h4>Kontrahenci</h4>
-<a href="{% url 'counterparty-create' %}">dodaj</a>
+<a href="{% url 'transactions:counterparty-create' %}">dodaj</a>
 
 {% if counterparty_list %}
 
@@ -14,7 +14,7 @@
   {% for item in counterparty_list %}
 
   <tr>
-    <td><a href="{% url 'counterparty-detail' item.pk %}">{{ item.pk }}</a></td>
+    <td><a href="{% url 'transactions:counterparty-detail' item.pk %}">{{ item.pk }}</a></td>
   <td>{{ item.name }}</td>
   </tr>
   

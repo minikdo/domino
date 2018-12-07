@@ -64,4 +64,8 @@ class CounterpartyAccountCreate(LoginRequiredMixin,
     form_class = CounterpartyAccountCreateForm
 
     def get_initial(self):
-        return {'counterparty': 1}
+        return {'counterparty': self.counterparty}
+        
+    def dispatch(self, request, *args, **kwargs):
+        self.counterparty = kwargs.get('counterparty')
+        return super().dispatch(request, *args, **kwargs)

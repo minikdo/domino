@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<h1>Machine list</h1>
+<h3>Machine list</h3>
 
 {% if machines  %}
 <table>
@@ -28,7 +28,7 @@
   {% for machine in machines %}
   <tr>
     <td>{{ machine.pk }}</td>
-    <td><a href="{% url 'detail' machine.pk %}">{{ machine.name }} <span>[*]</span></a></td>
+    <td><a href="{% url 'machines:detail' machine.pk %}">{{ machine.name }} <span>[*]</span></a></td>
     <td class="nowrap">{{ machine.datetime }}</td>
     <td>{{ machine.form }}</td>
     <td>{{ machine.bios }}</td>

@@ -73,7 +73,7 @@
 
 <h1>Maintenance</h1>
 
-<a href="{% url 'service_create' %}?machine_id={{ machine.pk }}"><button style="margin-bottom: 10px;">add service action</button></a>
+<a href="{% url 'machines:service_create' %}?machine_id={{ machine.pk }}"><button style="margin-bottom: 10px;">add service action</button></a>
 
 <table class="table">
   <tr>
@@ -88,12 +88,12 @@
     <td>{{ service.date }}</td>
     <td>{{ service.description }}
       {% if service.device %}
-      [{{ service.device.name }} <a href="{% url 'device_detail' service.device.pk %}">detail</a>]
+      [{{ service.device.name }} <a href="{% url 'machines:device_detail' service.device.pk %}">detail</a>]
       {% endif %}
     </td>
     <td>
-      <a href="{% url 'service_update' service.pk %}"><button>edit</button></a>
-      <a href="{% url 'service_delete' service.pk %}"><button>delete</button></a>
+      <a href="{% url 'machines:service_update' service.pk %}"><button>edit</button></a>
+      <a href="{% url 'machines:service_delete' service.pk %}"><button>delete</button></a>
     </td>
   </tr>
 {% endfor %}

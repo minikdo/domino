@@ -38,6 +38,6 @@
 
 </ul>
 
-<a href="{% url 'bankaccount-create' 12 %}">dodaj konto bankowe</a>
+<a href="{% url 'transactions:bankaccount-create' counterparty.id %}">dodaj konto bankowe</a>
 
 {% endblock %}

@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<form action="{% url 'counterparty-create' %}" method="post">
+<form action="{% url 'transactions:counterparty-create' %}" method="post">
   {% csrf_token %}
   {{ form }}
   <div>
