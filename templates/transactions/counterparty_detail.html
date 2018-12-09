@@ -6,6 +6,8 @@
 
 <h4>{{ counterparty.name }}</h4>
 
+<a href="{% url 'transactions:counterparty-update' counterparty.pk %}">edytuj</a>
+
 <table>
   <tr>
     <th>nazwa</th>
@@ -32,7 +34,10 @@
   
 {% for account in counterparty.counterpartyaccount_set.all %}
 
-<li>{{ account.account }} {{ account.comment }}<li>
+<li>{{ account.account }} {{ account.comment }}
+  <a href="{% url 'transactions:bankaccount-update' account.pk %}">edytuj</a>
+  <a href="{% url 'transactions:bankaccount-delete' account.pk %}">usuń</a>
+</li>
 
 {% endfor %}
 

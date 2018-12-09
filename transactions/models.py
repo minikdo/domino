@@ -1,6 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.core.exceptions import ValidationError
+from django.core.validators import MinLengthValidator,\
+    MaxLengthValidator, int_list_validator
+from django.utils.translation import gettext_lazy as _
+
+from .validators import validate_nip, validate_iban
 
 
 class TimeStampedModel(models.Model):
@@ -12,7 +18,9 @@ class TimeStampedModel(models.Model):
     
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    created_by = models.ForeignKey(User,
+                                   on_delete=models.SET_NULL,
+                                   null=True)
 
     class Meta:
         abstract = True
@@ -80,7 +88,9 @@ class TransactionFile(TimeStampedModel):
 class Counterparty(TimeStampedModel):
     """ counterparties """
 
-    name = models.CharField(max_length=35, null=True, verbose_name="nazwa")
+    name = models.CharField(max_length=35,
+                            null=True,
+                            verbose_name="nazwa")
     street = models.CharField(max_length=35,
                               null=True,
                               blank=True,
@@ -93,7 +103,8 @@ class Counterparty(TimeStampedModel):
                               blank=True,
                               null=True,
                               unique=True,
-                              verbose_name="NIP")
+                              verbose_name="NIP",
+                              help_text="NIP: same cyfry bez kresek")
 
     class Meta:
         verbose_name = "kontrahent"
@@ -108,14 +119,24 @@ class Counterparty(TimeStampedModel):
         return string
 
     def get_absolute_url(self):
-        return reverse('transactions:counterparty-detail', kwargs={'pk': self.id})
+        return reverse('transactions:counterparty-detail',
+                       kwargs={'pk': self.id})
+
+    def clean(self):
+        if not validate_nip(self.tax_id):
+            raise ValidationError({'tax_id':
+                                   _('Nieprawidłowy NIP')})
 
 
 class CounterpartyAccount(TimeStampedModel):
     """ account numbers """
     """ one counterparty may have many bank accounts """
 
-    account = models.CharField(max_length=34,
+    account = models.CharField(validators=[
+        MinLengthValidator(26),
+        MaxLengthValidator(26),
+        int_list_validator(sep='')],  # FIXME: slow cpu
+                               max_length=26,
                                unique=True,
                                verbose_name="numer konta")
     comment = models.CharField(max_length=50,
@@ -136,3 +157,8 @@ class CounterpartyAccount(TimeStampedModel):
     def get_absolute_url(self):
         return reverse('transactions:counterparty-detail',
                        kwargs={'pk': self.counterparty_id})
+
+    def clean(self):
+        if not validate_iban(self.account):
+            raise ValidationError({'account':
+                                   _('Nieprawidłowy numer konta')})

@@ -1,4 +1,5 @@
 # from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -69,3 +70,24 @@ class CounterpartyAccountCreate(LoginRequiredMixin,
     def dispatch(self, request, *args, **kwargs):
         self.counterparty = kwargs.get('counterparty')
         return super().dispatch(request, *args, **kwargs)
+
+
+class CounterpartyAccountUpdate(LoginRequiredMixin,
+                                UpdateView):
+    """ update a counterpartys' bank account"""
+
+    model = CounterpartyAccount
+    template_name = 'transactions/bankaccount_update.html'
+    fields = ['account', 'comment']
+
+
+class CounterpartyAccountDelete(LoginRequiredMixin, DeleteView):
+    """ delete a counterparty's account """
+
+    model = CounterpartyAccount
+    template_name = 'transactions/common_confirm_delete.html'
+
+    def get_success_url(self):
+        counterparty = self.object.counterparty
+        return reverse_lazy('transactions:counterparty-detail',
+                            kwargs={'pk': counterparty.pk})

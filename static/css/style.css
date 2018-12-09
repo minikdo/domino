@@ -91,3 +91,6 @@ form.item_search ul li {
 .pagination {
     margin-bottom: 30px;
 }
+.helptext {
+    color: orange;
+}
