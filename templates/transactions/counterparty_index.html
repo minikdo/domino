@@ -10,12 +10,16 @@
 {% if counterparty_list %}
 
 <table>
-
+  <tr>
+    <th>id</th>
+    <th>nazwa</th>
+  </tr>
+  
   {% for item in counterparty_list %}
 
   <tr>
     <td><a href="{% url 'transactions:counterparty-detail' item.pk %}">{{ item.pk }}</a></td>
-  <td>{{ item.name }}</td>
+    <td><strong>{{ item.name }}</strong> {{ item.street }} {{ item.city }}</td>
   </tr>
   
   {% endfor %}
