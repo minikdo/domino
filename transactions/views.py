@@ -21,6 +21,7 @@ class CounterpartyIndexView(LoginRequiredMixin, ListView):
     """ counterparty list """
 
     model = Counterparty
+    ordering = ['name']
     template_name = 'transactions/counterparty_index.html'
 
 

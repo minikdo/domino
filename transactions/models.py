@@ -3,10 +3,10 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator,\
-    MaxLengthValidator, int_list_validator
+    MaxLengthValidator
 from django.utils.translation import gettext_lazy as _
 
-from .validators import validate_nip, validate_iban
+from .validators import validate_tax_id, validate_iban
 
 
 class TimeStampedModel(models.Model):
@@ -123,9 +123,12 @@ class Counterparty(TimeStampedModel):
                        kwargs={'pk': self.id})
 
     def clean(self):
-        if not validate_nip(self.tax_id):
+        if self.tax_id is None or not self.tax_id.isdigit():
             raise ValidationError({'tax_id':
-                                   _('Nieprawidłowy NIP')})
+                                   _('Powinny być tylko cyfry')})
+        if not validate_tax_id(self.tax_id):
+            raise ValidationError({'tax_id':
+                                   _('Nieprawidłowa suma kontrolna NIP')})
 
 
 class CounterpartyAccount(TimeStampedModel):
@@ -134,8 +137,7 @@ class CounterpartyAccount(TimeStampedModel):
 
     account = models.CharField(validators=[
         MinLengthValidator(26),
-        MaxLengthValidator(26),
-        int_list_validator(sep='')],  # FIXME: slow cpu
+        MaxLengthValidator(26)],
                                max_length=26,
                                unique=True,
                                verbose_name="numer konta")
@@ -159,6 +161,9 @@ class CounterpartyAccount(TimeStampedModel):
                        kwargs={'pk': self.counterparty_id})
 
     def clean(self):
+        if not self.account.isdigit():
+            raise ValidationError({'account':
+                                   _('W numerze powinny być tylko cyfry')})
         if not validate_iban(self.account):
             raise ValidationError({'account':
                                    _('Nieprawidłowy numer konta')})

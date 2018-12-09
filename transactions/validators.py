@@ -1,4 +1,4 @@
-def validate_nip(nip_str):
+def validate_tax_id(nip_str):
     """ check tax id """
     
     if '-' in nip_str:
@@ -13,7 +13,6 @@ def validate_nip(nip_str):
 
 def validate_iban(num):
     """ check bank account number """
-    # import pdb; pdb.set_trace()
     
     COUNTRY_CODE = '2521'  # for Poland
     EXPECTED_LENGTH = 26
