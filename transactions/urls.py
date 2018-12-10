@@ -18,6 +18,8 @@ urlpatterns = [
     path('counterparty/<int:pk>/update/',
          views.CounterpartyUpdate.as_view(),
          name='counterparty-update'),
+    path('counterparty-autocomplete', views.CounterpartyAutocomplete.as_view(),
+         name='counterparty-autocomplete'),
     # path('counterparty/<int:pk>/delete/', name='counterparty-delete'),
     # path('bankaccount/', name='bankaccount-index'),
     path('bankaccount/<int:counterparty>/add/',

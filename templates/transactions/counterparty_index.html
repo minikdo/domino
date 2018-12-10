@@ -5,21 +5,30 @@
 {% block body %}
 
 <h4>Kontrahenci</h4>
-<a href="{% url 'transactions:counterparty-create' %}">dodaj</a>
+
+<a class="button button-primary" href="{% url 'transactions:counterparty-create' %}">dodaj firmę</a>
 
 {% if counterparty_list %}
 
+<form action="" method="get">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <div><input name="" type="submit" value="szukaj"/></div>
+</form>
+
 <table>
-  <tr>
-    <th>id</th>
-    <th>nazwa</th>
-  </tr>
   
   {% for item in counterparty_list %}
 
   <tr>
-    <td><a href="{% url 'transactions:counterparty-detail' item.pk %}">{{ item.pk }}</a></td>
-    <td><strong>{{ item.name }}</strong> {{ item.street }} {{ item.city }}</td>
+    <td>
+      <strong>{{ item.name }}</strong>
+      {{ item.street|default_if_none:"" }}
+      {{ item.city|default_if_none:"" }}
+    </td>
+    <td>
+      <a href="{% url 'transactions:counterparty-detail' item.pk %}"><img alt='details' src='{% static 'icons/magnifying-glass.svg' %}'/></a>
+    </td>
   </tr>
   
   {% endfor %}
@@ -29,3 +38,4 @@
 {% endif %}
 
 {% endblock %}
+

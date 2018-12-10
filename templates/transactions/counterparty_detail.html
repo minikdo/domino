@@ -6,7 +6,9 @@
 
 <h4>{{ counterparty.name }}</h4>
 
-<a href="{% url 'transactions:counterparty-update' counterparty.pk %}">edytuj</a>
+<a <button class="button button-primary" href="{% url 'transactions:counterparty-update' counterparty.pk %}">edytuj firmę</a>
+                                   
+<a <button class="button button-primary" href="{% url 'transactions:bankaccount-create' counterparty.id %}">dodaj konto bankowe</a>
 
 <table>
   <tr>
@@ -34,15 +36,18 @@
   
 {% for account in counterparty.counterpartyaccount_set.all %}
 
+
+
 <li>{{ account.account }} {{ account.comment }}
   <a href="{% url 'transactions:bankaccount-update' account.pk %}">edytuj</a>
   <a href="{% url 'transactions:bankaccount-delete' account.pk %}">usuń</a>
 </li>
 
+{% empty %}
+<p>brak numerów kont bankowych</p>
+
 {% endfor %}
 
 </ul>
-
-<a href="{% url 'transactions:bankaccount-create' counterparty.id %}">dodaj konto bankowe</a>
 
 {% endblock %}

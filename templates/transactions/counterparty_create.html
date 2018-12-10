@@ -6,7 +6,7 @@
 
 <form action="{% url 'transactions:counterparty-create' %}" method="post">
   {% csrf_token %}
-  {{ form }}
+  {{ form.as_p }}
   <div>
     <input name="" type="submit" value="dodaj"/>
   </div>

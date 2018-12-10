@@ -104,7 +104,7 @@ class Counterparty(TimeStampedModel):
                               null=True,
                               unique=True,
                               verbose_name="NIP",
-                              help_text="NIP: same cyfry bez kresek")
+                              help_text="tylko cyfry")
 
     class Meta:
         verbose_name = "kontrahent"
@@ -123,10 +123,9 @@ class Counterparty(TimeStampedModel):
                        kwargs={'pk': self.id})
 
     def clean(self):
-        if self.tax_id is None or not self.tax_id.isdigit():
-            raise ValidationError({'tax_id':
-                                   _('Powinny być tylko cyfry')})
-        if not validate_tax_id(self.tax_id):
+        if self.tax_id is not None and\
+           self.tax_id.isdigit() and\
+           not validate_tax_id(self.tax_id):
             raise ValidationError({'tax_id':
                                    _('Nieprawidłowa suma kontrolna NIP')})
 

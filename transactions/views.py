@@ -2,11 +2,14 @@
 from django.urls import reverse_lazy
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView,\
+    FormMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from dal.autocomplete import Select2QuerySetView, Select2ListView
+
 from .models import Transaction, Counterparty, CounterpartyAccount
-from .forms import CounterpartyAccountCreateForm
+from .forms import CounterpartyAccountCreateForm, CounterpartySearch
 from .mixins import CreatedByMixin
 
 
@@ -17,12 +20,13 @@ class IndexView(LoginRequiredMixin, ListView):
     template_name = 'transactions/index.html'
 
 
-class CounterpartyIndexView(LoginRequiredMixin, ListView):
+class CounterpartyIndexView(LoginRequiredMixin, FormMixin, ListView):
     """ counterparty list """
 
     model = Counterparty
     ordering = ['name']
     template_name = 'transactions/counterparty_index.html'
+    form_class = CounterpartySearch
 
 
 class CounterpartyDetailView(LoginRequiredMixin, DetailView):
@@ -55,6 +59,18 @@ class CounterpartyDelete(LoginRequiredMixin, DeleteView):
     template_name = 'transactions/counterparty_confirm_delete.html'
     success_url = '/'
 
+
+class CounterpartyAutocomplete(LoginRequiredMixin, Select2ListView):
+    
+    def get_list(self):
+
+        qs = Counterparty.objects.all()
+        
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+            
+        return qs.values_list('name', flat=True).order_by('name')
+    
 
 class CounterpartyAccountCreate(LoginRequiredMixin,
                                 CreatedByMixin,
