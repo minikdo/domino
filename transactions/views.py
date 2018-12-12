@@ -1,4 +1,3 @@
-# from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
@@ -6,10 +5,11 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView,\
     FormMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from dal.autocomplete import Select2QuerySetView, Select2ListView
+from dal.autocomplete import Select2ListView
 
 from .models import Transaction, Counterparty, CounterpartyAccount
-from .forms import CounterpartyAccountCreateForm, CounterpartySearch
+from .forms import CounterpartyAccountCreateForm, CounterpartySearch,\
+    TransactionFrom
 from .mixins import CreatedByMixin
 
 
@@ -18,8 +18,16 @@ class IndexView(LoginRequiredMixin, ListView):
 
     model = Transaction
     template_name = 'transactions/index.html'
+    
 
+class TransactionCreate(LoginRequiredMixin, CreateView):
+    """ create transaction """
 
+    model = Transaction
+    template_name = 'transactions/transaction_create.html'
+    form_class = TransactionFrom
+    
+    
 class CounterpartyIndexView(LoginRequiredMixin, FormMixin, ListView):
     """ counterparty list """
 
@@ -27,6 +35,25 @@ class CounterpartyIndexView(LoginRequiredMixin, FormMixin, ListView):
     ordering = ['name']
     template_name = 'transactions/counterparty_index.html'
     form_class = CounterpartySearch
+
+    def get_queryset(self):
+        queryset = Counterparty.objects.all()
+
+        self.name = self.request.GET.get('name', None)
+        self.tax_id = self.request.GET.get('tax_id', None)
+        
+        if self.name and self.name is not '':
+            queryset = queryset.filter(
+                name__icontains=self.name)
+        if self.tax_id and self.name is not '':
+            queryset = queryset.filter(
+                tax_id__icontains=self.tax_id)
+
+        return queryset.order_by('name')
+
+    def get_initial(self):
+        return {'name': self.name,
+                'tax_id': self.tax_id}
 
 
 class CounterpartyDetailView(LoginRequiredMixin, DetailView):
