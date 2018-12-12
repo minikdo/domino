@@ -48,7 +48,7 @@
 
 
 {% if machine.device_set.all %}
-<h1>Sprzęt</h1>
+<h1>Devices</h1>
 <table class="table table-striped">
   <tr>
     <th>id</th>
@@ -73,7 +73,7 @@
 
 <h1>Maintenance</h1>
 
-<a href="{% url 'machines:service_create' %}?machine_id={{ machine.pk }}"><button style="margin-bottom: 10px;">add service action</button></a>
+<a class="button" style="margin-bottom: 10px;" href="{% url 'machines:service_create' %}?machine_id={{ machine.pk }}">add service action</a>
 
 <table class="table">
   <tr>
@@ -92,8 +92,8 @@
       {% endif %}
     </td>
     <td>
-      <a href="{% url 'machines:service_update' service.pk %}"><button>edit</button></a>
-      <a href="{% url 'machines:service_delete' service.pk %}"><button>delete</button></a>
+      <a class="button" href="{% url 'machines:service_update' service.pk %}">edit</a>
+      <a class="button" href="{% url 'machines:service_delete' service.pk %}">delete</a>
     </td>
   </tr>
 {% endfor %}

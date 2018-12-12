@@ -3,4 +3,14 @@
 {% block title %}przelewy{% endblock %}
 
 {% block body %}
+
+<form action="" method="post">
+
+  {% csrf_token %}
+
+  {{ form.as_p }}
+  
+  <input name="" type="submit" value="zapisz"/>
+</form>
+
 {% endblock %}

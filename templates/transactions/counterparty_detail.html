@@ -38,9 +38,10 @@
 
 
 
-<li>{{ account.account }} {{ account.comment }}
-  <a href="{% url 'transactions:bankaccount-update' account.pk %}">edytuj</a>
-  <a href="{% url 'transactions:bankaccount-delete' account.pk %}">usuń</a>
+<li><strong>{{ account.account }}</strong> {{ account.comment }}
+  <a class="button" href="{% url 'transactions:bankaccount-update' account.pk %}">edytuj</a>
+  <a class="button" href="{% url 'transactions:bankaccount-delete' account.pk %}">usuń</a>
+  <a class="button button-primary" href="{% url 'transactions:transaction-create' account.pk %}">przelew</a>
 </li>
 
 {% empty %}
