@@ -6,7 +6,9 @@ app_name = 'transactions'
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
-    # path('add/', name='transaction-create'),
+    path('add/<int:bankaccount>/',
+         views.TransactionCreate.as_view(),
+         name='transaction-create'),
     # path('<int:pk>/update/', name='transaction-update'),
     # path('<int:pk>/delete/', name='transaction-delete'),
     path('counterparty/', views.CounterpartyIndexView.as_view(),
