@@ -26,6 +26,7 @@
           <ul>
             <li><a href="{% url 'inventory:index' %}">remanent</a></li>
             <li><a href="{% url 'transactions:index' %}">przelewy</a></li>
+            <li><a href="{% url 'invoices:index' %}">faktury</a></li>
             <li><a href="{% url 'machines:index' %}">sprzęt</a></li>
 
             {% if request.user.is_superuser %}
@@ -46,20 +47,6 @@
         </div>
       </div>
 
-      <!-- app menu -->
-
-      {% if user.is_authenticated %}
- 
-      {% with request.resolver_match.app_name as app_name %}
-
-      {% if app_name %}
-        {% include app_name|add:'/menu.html' %}
-      {% endif %}
-      
-      {% endwith %}
-      
-      {% endif %} {# user.is_authenticated #}
-        
       <!-- body -->
 
       {% block body %}{% endblock %}
