@@ -1,0 +1,17 @@
+{% extends 'invoices/base_invoices.html' %}
+{% load static %}
+{% block title %}faktury{% endblock %}
+
+{% block body %}
+
+<h3>Potwierdzenie usunięcia pozycji</h3>
+
+<form action="" method="post">
+  {% csrf_token %}
+  
+  <p>Czy usunąć "<strong>{{ object }}</strong>"?</p>
+
+  <input type="submit" value="Potwiedź" />
+</form>
+
+{% endblock %}

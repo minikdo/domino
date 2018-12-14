@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block navbar %}
+
+<div class="row" id="navbar">
+  <div class="twelve columns">
+    <h3>faktury</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="twelve columns left" id="navbar-main">
+    <ul>
+      <li><a href="{% url 'invoices:customer-index' %}">klienci</a></li>
+      <li><a href="{% url 'invoices:index' %}">faktury</a></li>
+    </ul>
+  </div>
+</div>
+
+{% endblock navbar %}

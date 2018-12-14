@@ -1,0 +1,23 @@
+{% extends 'invoices/base_invoices.html' %}
+{% load static %}
+{% block title %}faktury{% endblock %}
+
+{% block body %}
+
+{% if object_list %}
+
+<table>
+
+  {% for item in object_list %}
+
+  <tr>
+    <td>{{ item }}</td>
+  </tr>
+  
+  {% endfor %}
+
+</table>
+
+{% endif %}
+
+{% endblock %}

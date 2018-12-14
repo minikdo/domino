@@ -1,0 +1,18 @@
+{% extends 'invoices/base_invoices.html' %}
+{% load static %}
+{% block title %}faktury{% endblock %}
+
+{% block body %}
+
+<form action="" method="post">
+
+  {% csrf_token %}
+  {{ form }}
+
+  <div>
+    <input name="" type="submit" value="dodaj"/>
+  </div>
+  
+</form>
+
+{% endblock %}
