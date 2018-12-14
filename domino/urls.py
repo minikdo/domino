@@ -9,6 +9,7 @@ urlpatterns = [
     path('inventory/', include('inventory.urls')),
     path('transactions/', include('transactions.urls')),
     path('machines/', include('machines.urls')),
+    path('invoices/', include('invoices.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name="base.html")),

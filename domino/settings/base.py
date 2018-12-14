@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'inventory.apps.InventoryConfig',
     'transactions.apps.TransactionsConfig',
     'machines.apps.MachinesConfig',
+    'invoices.apps.InvoicesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
