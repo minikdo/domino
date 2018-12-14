@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import OrderingAccount, TransactionStatus
+
+admin.site.register(OrderingAccount)
+admin.site.register(TransactionStatus)
