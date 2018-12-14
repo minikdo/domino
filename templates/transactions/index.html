@@ -3,4 +3,24 @@
 {% block title %}przelewy{% endblock %}
 
 {% block body %}
+
+{% if object_list %}
+
+<table>
+
+  {% for item in object_list %}
+
+  <tr>
+    <td>{{ item.execution_date }}</td>
+    <td>{{ item.amount }}</td>
+    <td>{{ item.counterparty_account }}</td>
+    <td>{{ item.created_by.username }}</td>
+  </tr>
+  
+  {% endfor %}
+
+</table>
+
+{% endif %} {# transaction_list #}
+
 {% endblock %}
