@@ -3,4 +3,35 @@
 {% block title %}faktury{% endblock %}
 
 {% block body %}
+
+<a class="button" href="{% url 'invoices:customer-create' %}">dodaj klienta</a>
+
+{% if object_list %}
+
+<table>
+
+  <tr>
+    <th>firma</th>
+    <th>adres</th>
+    <th>telefon</th>
+    <th>email</th>
+    <th></th>
+  </tr>
+  
+{% for item in object_list %}
+
+<tr>
+  <td>{{ item.company }} {{ item.name }}</td>
+  <td>{{ item.street }} {{ item.city }}</td>
+  <td>{{ item.phone }}</td>
+  <td>{{ item.email }}</td>
+  <td><a href="{% url 'invoices:customer-detail' item.pk %}"><img alt="" src="{% static 'icons/magnifying-glass.svg' %}"/></a></td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endif %}
+
 {% endblock %}

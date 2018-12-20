@@ -4,6 +4,37 @@
 
 {% block body %}
 
-detail
+{% if object %}
 
+<a class="button button-primary" href="{% url 'invoices:customer-update' object.pk %}">zmień dane</a>
+<a class="button button-primary" href="{% url 'invoices:create' object.pk %}">dodaj fakturę</a>
+
+<table>
+  <tr>
+    <th>firma</th>
+    <td>{{ object.company }}</td>
+    <th>imię i nazwisko</th>
+    <td>{{ object.name }}</td>
+  </tr>
+  <tr>
+    <th>ulica</th>
+    <td>{{ object.street }}</td>
+    <th>miasto</th>
+    <td>{{ object.city }}</td>
+  </tr>
+  <tr>
+    <th>NIP</th>
+    <td>{{ object.tax_id }}</td>
+    <th>email</th>
+    <td>{{ object.email }}</td>
+  </tr>
+  <tr>
+    <th></th>
+    <td></td>
+    <th>telefon</th>
+    <td>{{ object.phone }}</td>
+  </tr>
+</table>
+
+{% endif %}
 {% endblock %}
