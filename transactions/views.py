@@ -9,7 +9,7 @@ from dal.autocomplete import Select2ListView
 
 from .models import Transaction, Counterparty, CounterpartyAccount
 from .forms import CounterpartyAccountCreateForm, CounterpartySearch,\
-    TransactionFrom
+    TransactionForm
 from .mixins import CreatedByMixin
 
 
@@ -20,13 +20,22 @@ class IndexView(LoginRequiredMixin, ListView):
     template_name = 'transactions/index.html'
     
 
-class TransactionCreate(LoginRequiredMixin, CreateView):
+class TransactionCreate(LoginRequiredMixin, CreatedByMixin, CreateView):
     """ create transaction """
 
     model = Transaction
     template_name = 'transactions/transaction_create.html'
-    form_class = TransactionFrom
-    
+    form_class = TransactionForm
+
+    def get_initial(self, **kwargs):
+        bankaccount = self.kwargs['bankaccount']
+        queryset = CounterpartyAccount.objects\
+                                      .filter(pk=bankaccount)\
+                                      .first()
+        return {'counterparty_account': queryset.account,
+                'transaction_type': 110,
+                'transaction_classification': 51}
+
     
 class CounterpartyIndexView(LoginRequiredMixin, FormMixin, ListView):
     """ counterparty list """
