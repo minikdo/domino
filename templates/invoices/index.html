@@ -8,10 +8,20 @@
 
 <table>
 
+  <tr>
+    <th>number faktury</th>
+    <th>data wystawienia</th>
+    <th>klient</th>
+    <th></th>
+  </tr>
+  
   {% for item in object_list %}
 
   <tr>
-    <td>{{ item }}</td>
+    <td>{{ item.number }}</td>
+    <td>{{ item.issued }}</td>
+    <td>{{ item.customer.company|default_if_none:"" }} {{ item.customer.name|default_if_none:"" }}</td>
+    <td><a href="{% url 'invoices:detail' item.pk %}">szczegóły</a></td>
   </tr>
   
   {% endfor %}

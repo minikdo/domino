@@ -1,0 +1,72 @@
+{% extends 'invoices/base_invoices.html' %}
+{% load static %}
+{% block title %}faktura{% endblock %}
+
+{% block body %}
+
+{% if object %}
+
+<a class="button" href="{% url 'invoices:update' object.pk %}">edytuj fakturę</a>
+
+<table>
+  <tr>
+    <th>Numer faktury</th>
+    <td>{{ object.number }}</td>
+    <th>Data wystawienia</th>
+    <td>{{ object.issued }}</td>
+  </tr>
+  <tr>
+    <th>Klient</th>
+    <td>{{ object.customer.name }}</td>
+    <th>Data sprzedaży</th>
+    <td>{{ object.transaction }}</td>
+  </tr>
+  <tr>
+    <th>Id</th>
+    <td>{{ object.pk }}</td>
+    <th>Termin płatności</th>
+    <td>{{ object.due }}</td>
+  </tr>
+</table>
+
+{% if items %}
+
+<table>
+
+  <tr>
+    <th>lp.</th>
+    <th>nazwa towary</th>
+    <th>ilość</th>
+    <th>stawka VAT</th>
+    <th>cena brutto</th>
+    <th></th>
+  </tr>
+  
+  {% for item in items %}
+  <tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ item.make.name }}</td>
+    <td>{{ item.qty }}</td>
+    <td>{{ item.vat }}</td>
+    <td>{{ item.price }}</td>
+    <td><a class="button" href="{% url 'invoices:invoice-item-delete' item.pk %}">usuń</a></td>
+  </tr>
+  {% endfor %}
+
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <th>razem:</th>
+    <td>{{ total.sum }}</td>
+  </tr>
+</table>
+
+{% endif %} {# items #}
+
+<a class="button" href="{% url 'invoices:latex' object.pk %}">drukuj fakturę</a>
+<a class="button button-primary" href="{% url 'invoices:invoice-item-create' object.pk %}">dodaj pozycję</a>
+
+{% endif %} {# object #}
+
+{% endblock %}

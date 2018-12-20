@@ -6,33 +6,33 @@
 
 {% if object %}
 
-<a class="button button-primary" href="{% url 'invoices:customer-update' object.pk %}">zmień dane</a>
-<a class="button button-primary" href="{% url 'invoices:create' object.pk %}">dodaj fakturę</a>
+<a class="button" href="{% url 'invoices:customer-update' object.pk %}">zmień dane</a>
+<a class="button button-primary" href="{% url 'invoices:create' object.pk %}">wystaw fakturę</a>
 
 <table>
   <tr>
     <th>firma</th>
-    <td>{{ object.company }}</td>
+    <td>{{ object.company|default_if_none:"-" }}</td>
     <th>imię i nazwisko</th>
-    <td>{{ object.name }}</td>
+    <td>{{ object.name|default_if_none:"-" }}</td>
   </tr>
   <tr>
     <th>ulica</th>
-    <td>{{ object.street }}</td>
+    <td>{{ object.street|default_if_none:"-" }}</td>
     <th>miasto</th>
-    <td>{{ object.city }}</td>
+    <td>{{ object.city|default_if_none:"-" }}</td>
   </tr>
   <tr>
     <th>NIP</th>
-    <td>{{ object.tax_id }}</td>
+    <td>{{ object.tax_id|default_if_none:"-" }}</td>
     <th>email</th>
-    <td>{{ object.email }}</td>
+    <td>{{ object.email|default_if_none:"-" }}</td>
   </tr>
   <tr>
     <th></th>
     <td></td>
     <th>telefon</th>
-    <td>{{ object.phone }}</td>
+    <td>{{ object.phone|default_if_none:"-" }}</td>
   </tr>
 </table>
 

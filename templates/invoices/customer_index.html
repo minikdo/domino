@@ -21,11 +21,12 @@
 {% for item in object_list %}
 
 <tr>
-  <td>{{ item.company }} {{ item.name }}</td>
-  <td>{{ item.street }} {{ item.city }}</td>
-  <td>{{ item.phone }}</td>
-  <td>{{ item.email }}</td>
-  <td><a href="{% url 'invoices:customer-detail' item.pk %}"><img alt="" src="{% static 'icons/magnifying-glass.svg' %}"/></a></td>
+  <td>{{ item.company|default_if_none:"" }} {{ item.name|default_if_none:"" }}</td>
+  <td>
+    {% if item.street %} ul. {{ item.street }}, {% endif %} {{ item.city|default_if_none:"" }}</td>
+  <td>{{ item.phone|default_if_none:"-" }}</td>
+  <td>{{ item.email|default_if_none:"-" }}</td>
+  <td><a href="{% url 'invoices:customer-detail' item.pk %}">szczegóły</a></td>
 </tr>
 
 {% endfor %}
