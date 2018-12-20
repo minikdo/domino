@@ -40,6 +40,7 @@
     <th>stawka VAT</th>
     <th>cena brutto</th>
     <th></th>
+    <th></th>
   </tr>
   
   {% for item in items %}
@@ -49,7 +50,8 @@
     <td>{{ item.qty }}</td>
     <td>{{ item.vat }}</td>
     <td>{{ item.price }}</td>
-    <td><a class="button" href="{% url 'invoices:invoice-item-delete' item.pk %}">usuń</a></td>
+    <td><a href="{% url 'invoices:invoice-item-update' item.pk %}">zmień</a></td>
+    <td><a href="{% url 'invoices:invoice-item-delete' item.pk %}">usuń</a></td>
   </tr>
   {% endfor %}
 

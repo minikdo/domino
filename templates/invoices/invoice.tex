@@ -44,11 +44,11 @@ Sposób zapłaty: & \textsf{ przelew} \\
 \vspace{3mm}
 \begin{tabular}{p{71.4mm}p{58.4mm}}
 \textbf{Sprzedawca} & \textbf{Nabywca} \\
-\rule{0pt}{3ex}F.H. Domino, Henryk Szmek & {{ invoice.customer.company|texify }} \\
-ul. 1 Maja 60, 43--460 Wisła &  {{ invoice.customer.name|texify }} \\
-NIP 548--005--59--88 & {{ invoice.customer.street|texify }} \\
-Nr rach.: \mbox{40 1050 1096 1000 0090 7197 0892} & {{ invoice.customer.city|texify }} \\
-ING o/Ustroń & {{ invoice.customer.tax_id|texify }} \\
+\rule{0pt}{3ex}F.H. Domino, Henryk Szmek & {{ invoice.customer.company|default_if_none:''|texify }} \\
+ul. 1 Maja 60, 43--460 Wisła &  {{ invoice.customer.name|default_if_none:''|texify }} \\
+NIP 548--005--59--88 & {{ invoice.customer.street|default_if_none:''|texify }} \\
+Nr rach.: \mbox{40 1050 1096 1000 0090 7197 0892} & {{ invoice.customer.city|default_if_none:''|texify }} \\
+ING o/Ustroń & {{ invoice.customer.tax_id|default_if_none:''|texify }} \\
 
 \end{tabular}
 
@@ -60,7 +60,7 @@ ING o/Ustroń & {{ invoice.customer.tax_id|texify }} \\
     \rule{0pt}{2ex}Nazwa towaru & Ilość & Kwota netto & Kwota VAT & Wartość brutto \\
     \hline
     {% for item in items %}
-    {{ item.make.name_print|texify }} &
+    {{ item.make.name_print|capfirst|texify }} &
     \makebox{\textsf{ {{ item.qty|texify }} szt.}} &
     \makebox{\textsf{ {{ item.net_price|texify }} zł}} &
     \makebox{\textsf{ {{ item.vat|texify }} \%}} &
