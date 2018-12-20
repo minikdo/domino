@@ -3,14 +3,44 @@ from django import forms
 
 # from dal.autocomplete import ListSelect2
 
-from .models import Counterparty, CounterpartyAccount, Transaction
+from datetime import date
+
+from .models import Counterparty, CounterpartyAccount, Transaction,\
+    OrderingAccount
 
 
-class TransactionFrom(forms.ModelForm):
+class TransactionForm(forms.ModelForm):
+    
+    ordering_account = forms.ModelChoiceField(OrderingAccount.objects.all(),
+                                              to_field_name='account',
+                                              label="Wybierz konto")
+    
+    execution_date = forms.DateField(initial=date.today(),
+                                     label="Data wykonania",
+                                     widget=forms.DateInput(format='%Y-%m-%d'),
+                                     input_formats=['%Y-%m-%d'])
 
+    order_title = forms.CharField(
+        label="Tytuł przelewu",
+        widget=forms.Textarea(
+            attrs={'cols': 35,
+                   'rows': 3,
+                   'maxlength': 150}))
+    
     class Meta:
         model = Transaction
-        fields = ['execution_date', 'amount', 'order_title']
+        
+        fields = ['execution_date',
+                  'amount',
+                  'order_title',
+                  'counterparty_account',
+                  'ordering_account',
+                  'transaction_type',
+                  'transaction_classification']
+
+        widgets = {'counterparty_account': forms.HiddenInput(),
+                   'transaction_type': forms.HiddenInput(),
+                   'transaction_classification': forms.HiddenInput()}
 
 
 class CounterpartyAccountCreateForm(forms.ModelForm):
