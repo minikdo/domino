@@ -24,11 +24,8 @@ def latex(request, **kwargs):
     invoice_data = Invoice.objects.get(pk=invoice)
     items = InvoiceItem.objects.filter(invoice=invoice)
            
-    # inventory = Inventory.objects.get(pk=inventory_id)
-
     file_name = "faktura_{id}_z_{date}.pdf".format(
-        id=1,
-        date=2)
+        id=invoice, date=invoice_data.issued)
     
     context = {'invoice': invoice_data,
                'items': items,
@@ -45,6 +42,10 @@ class IndexView(LoginRequiredMixin, ListView):
 
     model = Invoice
     template_name = 'invoices/index.html'
+
+    def get_queryset(self):
+        queryset = Invoice.objects.filter(created_by=self.request.user)
+        return queryset
 
 
 class InvoiceDetailView(LoginRequiredMixin, DetailView):
@@ -119,6 +120,7 @@ class CustomerIndexView(LoginRequiredMixin, ListView):
 
     model = Customer
     template_name = 'invoices/customer_index.html'
+    ordering = ['company', 'name']
 
 
 class CustomerDetailView(LoginRequiredMixin, DetailView):

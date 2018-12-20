@@ -11,6 +11,18 @@ from inventory.models import Make
 class Invoice(TimeStampedModel):
     """ invoices """
 
+    PAYMENTS = (
+        ('1', 'gotówka'),
+        ('2', 'karta'),
+        ('3', 'przelew')
+    )
+
+    PLACES = (
+        ('1', 'Ustroń'),
+        ('2', 'Wisła'),
+        ('3', 'Cieszyn')
+    )
+    
     number = models.CharField(max_length=35, verbose_name="numer faktury")
     customer = models.ForeignKey('Customer',
                                  verbose_name="klient",
@@ -18,6 +30,10 @@ class Invoice(TimeStampedModel):
     issued = models.DateField(verbose_name="data wystawienia")
     transaction = models.DateField(verbose_name="data sprzedaży")
     due = models.DateField(verbose_name="termin płatności")
+    payment = models.CharField(max_length=1, default='1', choices=PAYMENTS,
+                               verbose_name="sposób płatności")
+    issue_place = models.CharField(max_length=1, default='1', choices=PLACES,
+                                   verbose_name="miejsce wydania faktury")
     
     def __str__(self):
         string = "{}, {}, {}".format(

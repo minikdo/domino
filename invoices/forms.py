@@ -8,10 +8,6 @@ from inventory.models import Make
 
 class InvoiceForm(forms.ModelForm):
 
-    def __init__(self, *args, session_data=None, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['customer'].disabled = True
-
     transaction = forms.DateField(initial=date.today(),
                                   label="Data sprzedaży",
                                   widget=forms.DateInput(format='%Y-%m-%d'),
@@ -27,16 +23,22 @@ class InvoiceForm(forms.ModelForm):
                           widget=forms.DateInput(format='%Y-%m-%d'),
                           input_formats=['%Y-%m-%d'])
 
+    field_order = ['customer', 'number', 'issued', 'transaction', 'due',
+                   'issue_place', 'payment']
+
     class Meta:
         model = Invoice
-        fields = ['number', 'issued', 'customer', 'transaction',
-                  'due']
+        fields = ['number', 'issued', 'customer', 'transaction', 'issue_place',
+                  'due', 'payment']
 
-
+        widgets = {'customer': forms.HiddenInput()}
+        
+        
 class InvoiceItemForm(forms.ModelForm):
 
-    make = forms.ModelChoiceField(Make.objects.all())
+    make = forms.ModelChoiceField(Make.objects.all(), label="Nazwa towaru")
     
     class Meta:
         model = InvoiceItem
         fields = '__all__'
+        widgets = {'invoice': forms.HiddenInput()}
