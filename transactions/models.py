@@ -9,6 +9,17 @@ from django.utils.translation import gettext_lazy as _
 from .validators import validate_tax_id, validate_iban
 
 
+class IbanValidator(models.Model):
+
+    def clean(self):
+        if not self.account.isdigit():
+            raise ValidationError({'account':
+                                   _('W numerze powinny być tylko cyfry')})
+        if not validate_iban(self.account):
+            raise ValidationError({'account':
+                                   _('Nieprawidłowy numer konta')})
+
+
 class TimeStampedModel(models.Model):
     """
     An abstract base class model that provides self-
@@ -42,28 +53,44 @@ class TransactionStatus(TimeStampedModel):
 class Transaction(TimeStampedModel):
     """ transactions """
     """ format EXILIR-0 """
+
+    TRANS_TYPES = (
+        ('110', 'polecenie przelewu (w tym US i ZUS)'),
+        ('210', 'polecenie zapłaty'),
+        ('510', 'polecenie przelewu SORBNET'))
+
+    TRANS_CLASS = (
+        ('51', 'for trans type 110, 120'),
+        ('53', 'Split Payment'),
+        ('01', 'for trans type 210'),
+        ('71', 'for trans type 110 (przelew US)'))
     
-    transaction_type = models.IntegerField()
-    execution_date = models.IntegerField()
-    amount = models.IntegerField()
-    ordering_bank = models.IntegerField()
-    ordering_account = models.CharField(max_length=34)
-    counterparty_account = models.CharField(max_length=34)
+    transaction_type = models.CharField(max_length=3, choices=TRANS_TYPES)
+    execution_date = models.DateField(verbose_name="data wykonania")
+    amount = models.DecimalField(verbose_name="kwota",
+                                 max_digits=7,
+                                 decimal_places=2)
+    ordering_account = models.CharField(max_length=26)
+    counterparty_account = models.CharField(max_length=26)
     ordering_name_address = models.CharField(max_length=150)
     counterparty_name_address = models.CharField(max_length=150)
-    counterparty_bank = models.IntegerField()
-    order_title = models.CharField(max_length=150)
-    transaction_classification = models.IntegerField()
+    order_title = models.CharField(max_length=150, verbose_name="tytuł")
+    transaction_classification = models.CharField(max_length=2,
+                                                  choices=TRANS_CLASS)
     annotations = models.CharField(max_length=32)
     # additional fields:
     status = models.ForeignKey('TransactionStatus',
                                null=True,
-                               on_delete=models.SET_NULL)
+                               on_delete=models.SET_NULL,
+                               default=1)
 
     class Meta:
         verbose_name = "transakcja"
         verbose_name_plural = "transakcje"
 
+    def get_absolute_url(self):
+        return reverse('transactions:index')
+    
     def __str__(self):
         string = "{}, {}, {}".format(
             self.execution_date,
@@ -158,6 +185,35 @@ class CounterpartyAccount(TimeStampedModel):
     def get_absolute_url(self):
         return reverse('transactions:counterparty-detail',
                        kwargs={'pk': self.counterparty_id})
+
+    def clean(self):
+        if not self.account.isdigit():
+            raise ValidationError({'account':
+                                   _('W numerze powinny być tylko cyfry')})
+        if not validate_iban(self.account):
+            raise ValidationError({'account':
+                                   _('Nieprawidłowy numer konta')})
+
+
+class OrderingAccount(models.Model):
+    """ ordering accounts """
+
+    name = models.CharField(max_length=30, blank=True, null=True)
+    
+    account = models.CharField(validators=[
+        MinLengthValidator(26),
+        MaxLengthValidator(26)],
+                               max_length=26,
+                               unique=True,
+                               verbose_name="numer konta")
+
+    class Meta:
+        verbose_name = "konto własne"
+        verbose_name_plural = "konta własne"
+
+    def __str__(self):
+        string = "{}, {}".format(self.name, self.account)
+        return string
 
     def clean(self):
         if not self.account.isdigit():
