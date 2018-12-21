@@ -104,6 +104,10 @@ class Customer(TimeStampedModel):
                              blank=True,
                              null=True,
                              verbose_name="telefon")
+    postal_code = models.CharField(max_length=6,
+                                   blank=True,
+                                   null=True,
+                                   verbose_name="kod pocztowy")
 
     class Meta:
         verbose_name = "klient"

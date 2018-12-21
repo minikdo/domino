@@ -160,7 +160,8 @@ class CustomerCreateView(LoginRequiredMixin, CreatedByMixin, CreateView):
 
     model = Customer
     template_name = 'invoices/customer_create.html'
-    fields = ['company', 'name', 'street', 'city', 'tax_id', 'email', 'phone']
+    fields = ['company', 'name', 'street', 'city',
+              'postal_code', 'tax_id', 'email', 'phone']
     
 
 class CustomerUpdateView(LoginRequiredMixin, UpdateView):
@@ -168,7 +169,8 @@ class CustomerUpdateView(LoginRequiredMixin, UpdateView):
 
     model = Customer
     template_name = 'invoices/customer_update.html'
-    fields = ['company', 'name', 'street', 'city', 'tax_id', 'email', 'phone']
+    fields = ['company', 'name', 'street', 'city',
+              'postal_code', 'tax_id', 'email', 'phone']
 
 
 class CustomerDeleteView(LoginRequiredMixin, DeleteView):
