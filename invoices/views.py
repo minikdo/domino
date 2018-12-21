@@ -10,6 +10,7 @@ from django.db.models import Q
 from django.conf import settings
 
 from djatex import render_latex
+from num2words import num2words
 
 from .models import Invoice, InvoiceItem, Customer
 from .forms import InvoiceForm, InvoiceItemForm, CustomerSearchForm
@@ -28,10 +29,13 @@ def latex(request, **kwargs):
            
     file_name = "faktura_{id}_z_{date}.pdf".format(
         id=invoice, date=invoice_data.issued)
+
+    total = SumItems(invoice)
     
     context = {'invoice': invoice_data,
                'items': items,
-               'total': SumItems(invoice)}
+               'total': total,
+               'total_words': num2words(total['sum'], lang='pl')}
     
     return render_latex(request, file_name, 'invoices/invoice.tex',
                         error_template_name='invoices/error.html',

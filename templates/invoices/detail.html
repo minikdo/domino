@@ -17,15 +17,21 @@
   </tr>
   <tr>
     <th>Klient</th>
-    <td>{{ object.customer.name }}</td>
+    <td>{{ object.customer.company|default_if_none:object.customer.name }}</td>
     <th>Data sprzedaży</th>
     <td>{{ object.transaction }}</td>
   </tr>
   <tr>
-    <th>Id</th>
-    <td>{{ object.pk }}</td>
+    <th>Sposób płatności</th>
+    <td>{{ object.get_payment_display }}</td>
     <th>Termin płatności</th>
     <td>{{ object.due }}</td>
+  </tr>
+  <tr>
+    <th>Miejsce wydania</th>
+    <td>{{ object.get_issue_place_display }}</td>
+    <th></th>
+    <td></td>
   </tr>
 </table>
 
@@ -60,7 +66,7 @@
     <td></td>
     <td></td>
     <th>razem:</th>
-    <td>{{ total.sum }}</td>
+    <td>{{ total.sum|floatformat:2 }}</td>
   </tr>
 </table>
 
