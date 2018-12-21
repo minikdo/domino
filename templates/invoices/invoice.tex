@@ -15,8 +15,9 @@
 \addtolength{\footskip}{-15pt}
 \pagestyle{empty}
 
-\begin{document}
 
+\newsavebox{\Invoice}
+\savebox{\Invoice}{%
 \begin{minipage}{\textwidth}
 
 \begin{minipage}[t]{73mm}
@@ -92,6 +93,15 @@ do wystawienia faktury VAT \par}
 \end{minipage}
 
 \end{minipage}
+}% \Invoice
+
+\begin{document}
+
+\usebox{\Invoice}
+
+\vspace{2cm}
+
+\usebox{\Invoice}
 
 \end{document}
 {% endautoescape %}

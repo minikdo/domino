@@ -66,7 +66,7 @@
 
 {% endif %} {# items #}
 
-<a class="button" href="{% url 'invoices:latex' object.pk %}">drukuj fakturę</a>
+<a class="button white bg-orange" href="{% url 'invoices:latex' object.pk %}">drukuj fakturę</a>
 <a class="button button-primary" href="{% url 'invoices:invoice-item-create' object.pk %}">dodaj pozycję</a>
 
 {% endif %} {# object #}

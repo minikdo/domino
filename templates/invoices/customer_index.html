@@ -4,7 +4,19 @@
 
 {% block body %}
 
-<a class="button" href="{% url 'invoices:customer-create' %}">dodaj klienta</a>
+<a class="button button-primary" href="{% url 'invoices:customer-create' %}">dodaj klienta</a>
+
+<form action="" method="get">
+  <div class="inline">
+    <ul>
+      {% csrf_token %}
+      {{ form.as_ul }}
+      <li>
+        <input name="" type="submit" value="szukaj"/>
+      </li>
+    </ul>
+  </div>
+</form>
 
 {% if object_list %}
 
@@ -33,6 +45,6 @@
 
 </table>
 
-{% endif %}
+{% endif %} {# object_list #}
 
 {% endblock %}

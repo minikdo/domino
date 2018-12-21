@@ -6,15 +6,11 @@
 
 {% if object %}
 
+<h4>{{ object.company|default_if_none:object.name }}</h4>
+
 <a class="button" href="{% url 'invoices:customer-update' object.pk %}">zmień dane</a>
 
 <table>
-  <tr>
-    <th>firma</th>
-    <td>{{ object.company|default_if_none:"-" }}</td>
-    <th>imię i nazwisko</th>
-    <td>{{ object.name|default_if_none:"-" }}</td>
-  </tr>
   <tr>
     <th>miasto</th>
     <td>{{ object.city|default_if_none:"-" }}</td>
@@ -37,5 +33,29 @@
 
 <a class="button button-primary" href="{% url 'invoices:create' object.pk %}">wystaw fakturę</a>
 
-{% endif %}
+{% endif %} {# object #}
+
+<div>&nbsp;</div>
+
+{% if invoices %}
+
+<h5>Wystawione faktury</h5>
+
+<table>
+
+{% for invoice in invoices %}
+
+<tr>
+  <td>{{ invoice.number|default_if_none:"-" }}</td>
+  <td>{{ invoice.issued|default_if_none:"-" }}</td>
+  <td><a href="{% url 'invoices:detail' invoice.pk %}">szczegóły</a></td>
+</tr>
+
+
+{% endfor %}
+
+</table>
+
+{% endif %} {# invoices #}
+
 {% endblock %}
