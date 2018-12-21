@@ -42,3 +42,9 @@ class InvoiceItemForm(forms.ModelForm):
         model = InvoiceItem
         fields = '__all__'
         widgets = {'invoice': forms.HiddenInput()}
+
+
+class CustomerSearchForm(forms.Form):
+
+    name = forms.CharField(label="nazwa")
+        
