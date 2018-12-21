@@ -41,7 +41,10 @@ class InvoiceItemForm(forms.ModelForm):
     class Meta:
         model = InvoiceItem
         fields = '__all__'
-        widgets = {'invoice': forms.HiddenInput()}
+        widgets = {'invoice': forms.HiddenInput(),
+                   'vat': forms.TextInput(attrs={'size': 3}),
+                   'price': forms.TextInput(attrs={'size': 5}),
+                   'qty': forms.TextInput(attrs={'size': 3})}
 
 
 class CustomerSearchForm(forms.Form):

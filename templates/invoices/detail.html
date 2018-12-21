@@ -6,18 +6,30 @@
 
 {% if object %}
 
-<a class="button" href="{% url 'invoices:update' object.pk %}">edytuj fakturę</a>
+<h4>Faktura {{ object.number }}</h4>
+
+<div>
+  <a class="button" href="{% url 'invoices:update' object.pk %}">edytuj fakturę</a>
+
+  {% if items %}
+  <a class="button white bg-orange" href="{% url 'invoices:latex' object.pk %}">drukuj fakturę</a>
+  {% endif %}
+  
+</div>
+
 
 <table>
   <tr>
-    <th>Numer faktury</th>
-    <td>{{ object.number }}</td>
+    <th>Klient</th>
+    <td>{{ object.customer.company|default_if_none:object.customer.name }}
+      <a href="{% url 'invoices:customer-detail' object.customer.pk %}">[pokaż]</a>
+    </td>
     <th>Data wystawienia</th>
     <td>{{ object.issued }}</td>
   </tr>
   <tr>
-    <th>Klient</th>
-    <td>{{ object.customer.company|default_if_none:object.customer.name }}</td>
+    <th>Miejsce wydania</th>
+    <td>{{ object.get_issue_place_display }}</td>
     <th>Data sprzedaży</th>
     <td>{{ object.transaction }}</td>
   </tr>
@@ -26,12 +38,6 @@
     <td>{{ object.get_payment_display }}</td>
     <th>Termin płatności</th>
     <td>{{ object.due }}</td>
-  </tr>
-  <tr>
-    <th>Miejsce wydania</th>
-    <td>{{ object.get_issue_place_display }}</td>
-    <th></th>
-    <td></td>
   </tr>
 </table>
 
@@ -72,8 +78,15 @@
 
 {% endif %} {# items #}
 
-<a class="button white bg-orange" href="{% url 'invoices:latex' object.pk %}">drukuj fakturę</a>
-<a class="button button-primary" href="{% url 'invoices:invoice-item-create' object.pk %}">dodaj pozycję</a>
+<form action="{% url 'invoices:invoice-item-create' object.pk %}" method="post">
+  <div class="inline">
+    <ul>
+      {% csrf_token %}
+      {{ form.as_ul }}
+      <li><label>&nbsp;</label><input name="" type="submit" value="dodaj"/></li>
+    </ul>
+  </div>
+</form>
 
 {% endif %} {# object #}
 

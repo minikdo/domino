@@ -4,47 +4,55 @@
 
 {% block body %}
 
-<a class="button button-primary" href="{% url 'invoices:customer-create' %}">dodaj klienta</a>
+<div class="row">
+  <div class="twelve columns">
+    <a class="button button-primary" href="{% url 'invoices:customer-create' %}">dodaj klienta</a>
 
-<form action="" method="get">
-  <div class="inline">
-    <ul>
-      {% csrf_token %}
-      {{ form.as_ul }}
-      <li>
-        <input name="" type="submit" value="szukaj"/>
-      </li>
-    </ul>
+    <form action="" method="get">
+      <div class="inline">
+        <ul>
+          {% csrf_token %}
+          {{ form.as_ul }}
+          <li>
+            <label for="">&nbsp;</label>
+            <input name="" type="submit" value="szukaj"/>
+          </li>
+        </ul>
+      </div>
+    </form>
   </div>
-</form>
+</div>
 
 {% if object_list %}
 
-<table>
+<div class="row">
+  <div class="twelve columns">
+    <table>
 
-  <tr>
-    <th>firma</th>
-    <th>adres</th>
-    <th>telefon</th>
-    <th>email</th>
-    <th></th>
-  </tr>
+      <tr>
+        <th>firma</th>
+        <th>adres</th>
+        <th>telefon</th>
+        <th>email</th>
+        <th></th>
+      </tr>
   
-{% for item in object_list %}
+      {% for item in object_list %}
 
-<tr>
-  <td>{{ item.company|default_if_none:"" }} {{ item.name|default_if_none:"" }}</td>
-  <td>
-    {% if item.street %} ul. {{ item.street }}, {% endif %} {{ item.city|default_if_none:"" }}</td>
-  <td>{{ item.phone|default_if_none:"-" }}</td>
-  <td>{{ item.email|default_if_none:"-" }}</td>
-  <td><a href="{% url 'invoices:customer-detail' item.pk %}">szczegóły</a></td>
-</tr>
+      <tr>
+        <td>{{ item.company|default_if_none:"" }} {{ item.name|default_if_none:"" }}</td>
+        <td>
+          {% if item.street %} ul. {{ item.street }}, {% endif %} {{ item.city|default_if_none:"" }}</td>
+        <td>{{ item.phone|default_if_none:"-" }}</td>
+        <td>{{ item.email|default_if_none:"-" }}</td>
+        <td><a href="{% url 'invoices:customer-detail' item.pk %}">szczegóły</a></td>
+      </tr>
 
-{% endfor %}
+      {% endfor %}
 
-</table>
-
+    </table>
+  </div>
+</div>
 {% endif %} {# object_list #}
 
 {% endblock %}

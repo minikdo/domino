@@ -18,31 +18,6 @@ from .utils import SumItems
 from transactions.mixins import CreatedByMixin
 
 
-@login_required
-def latex(request, **kwargs):
-    """Generate an invoice in PDF"""
-    
-    invoice = kwargs['invoice']
-
-    invoice_data = Invoice.objects.get(pk=invoice)
-    items = InvoiceItem.objects.filter(invoice=invoice)
-           
-    file_name = "faktura_{id}_z_{date}.pdf".format(
-        id=invoice, date=invoice_data.issued)
-
-    total = SumItems(invoice)
-    
-    context = {'invoice': invoice_data,
-               'items': items,
-               'total': total,
-               'total_words': num2words(total['sum'], lang='pl')}
-    
-    return render_latex(request, file_name, 'invoices/invoice.tex',
-                        error_template_name='invoices/error.html',
-                        home_dir=settings.TEX_HOME,
-                        context=context)
-
-
 class IndexView(LoginRequiredMixin, ListView):
     """List of invoices"""
 
@@ -54,11 +29,12 @@ class IndexView(LoginRequiredMixin, ListView):
         return queryset
 
 
-class InvoiceDetailView(LoginRequiredMixin, DetailView):
+class InvoiceDetailView(LoginRequiredMixin, FormMixin, DetailView):
     """Invoice detail"""
 
     model = Invoice
     template_name = 'invoices/detail.html'
+    form_class = InvoiceItemForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -70,7 +46,10 @@ class InvoiceDetailView(LoginRequiredMixin, DetailView):
         context['total'] = SumItems(invoice)
         
         return context
-    
+
+    def get_initial(self):
+        return {'invoice': self.kwargs['pk']}
+
 
 class InvoiceCreateView(LoginRequiredMixin, CreatedByMixin, CreateView):
     """Create an invoice"""
@@ -153,7 +132,8 @@ class CustomerDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
 
         context['invoices'] = Invoice.objects.filter(
-            customer=self.kwargs['pk']
+            customer=self.kwargs['pk'],
+            created_by=self.request.user
         )
         
         return context
@@ -182,3 +162,28 @@ class CustomerDeleteView(LoginRequiredMixin, DeleteView):
 
     model = Customer
     template_name = 'invoices/_confirm_delete.html'
+
+
+@login_required
+def latex(request, **kwargs):
+    """Generate an invoice in PDF"""
+    
+    invoice = kwargs['invoice']
+
+    invoice_data = Invoice.objects.get(pk=invoice)
+    items = InvoiceItem.objects.filter(invoice=invoice)
+           
+    file_name = "faktura_{id}_z_{date}.pdf".format(
+        id=invoice, date=invoice_data.issued)
+
+    total = SumItems(invoice)
+    
+    context = {'invoice': invoice_data,
+               'items': items,
+               'total': total,
+               'total_words': num2words(total['sum'], lang='pl')}
+    
+    return render_latex(request, file_name, 'invoices/invoice.tex',
+                        error_template_name='invoices/error.html',
+                        home_dir=settings.TEX_HOME,
+                        context=context)

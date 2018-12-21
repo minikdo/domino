@@ -53,7 +53,7 @@ class InvoiceItem(models.Model):
                              on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=7, decimal_places=2,
                                 verbose_name="cena brutto")
-    vat = models.FloatField(default=23, help_text="%")
+    vat = models.FloatField(default=23)
     qty = models.FloatField(default=1, verbose_name="ilość")
 
     @property

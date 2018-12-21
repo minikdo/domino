@@ -9,6 +9,7 @@
 <h4>{{ object.company|default_if_none:object.name }}</h4>
 
 <a class="button" href="{% url 'invoices:customer-update' object.pk %}">zmień dane</a>
+<a class="button button-primary" href="{% url 'invoices:create' object.pk %}">wystaw nową fakturę</a>
 
 <table>
   <tr>
@@ -30,8 +31,6 @@
     <td></td>
   </tr>
 </table>
-
-<a class="button button-primary" href="{% url 'invoices:create' object.pk %}">wystaw fakturę</a>
 
 {% endif %} {# object #}
 

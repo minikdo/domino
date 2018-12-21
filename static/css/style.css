@@ -102,6 +102,8 @@ form.item_search ul li {
 }
 .inline ul li {
     display: inline;
+    float: left;
+    padding-right: 4px;
 }
 .bg-orange {
     background-color: orange;
