@@ -100,3 +100,12 @@ form.item_search ul li {
 .orange {
     color: orange;
 }
+.inline ul li {
+    display: inline;
+}
+.bg-orange {
+    background-color: orange;
+}
+.white {
+    color: white;
+}
