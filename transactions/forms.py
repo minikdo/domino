@@ -5,27 +5,30 @@ from django import forms
 
 from datetime import date
 
-from .models import Counterparty, CounterpartyAccount, Transaction,\
-    OrderingAccount
+from .models import Counterparty, CounterpartyAccount, Transaction
 
 
 class TransactionForm(forms.ModelForm):
-    
-    ordering_account = forms.ModelChoiceField(OrderingAccount.objects.all(),
-                                              to_field_name='account',
-                                              label="Wybierz konto")
-    
+
+    def __init__(self, *args, session_data=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['counterparty_account'].disabled = True
+        self.fields['counterparty_account'].label = "Rachunek odbiorcy"
+        self.fields['ordering_account'].label = "Rachunek obciążany"
+
     execution_date = forms.DateField(initial=date.today(),
                                      label="Data wykonania",
                                      widget=forms.DateInput(format='%Y-%m-%d'),
                                      input_formats=['%Y-%m-%d'])
 
-    order_title = forms.CharField(
-        label="Tytuł przelewu",
-        widget=forms.Textarea(
-            attrs={'cols': 35,
-                   'rows': 3,
-                   'maxlength': 150}))
+    order_title = forms.CharField(label="Tytuł przelewu",
+                                  widget=forms.Textarea(
+                                      attrs={'cols': 35,
+                                             'rows': 4,
+                                             'maxlength': 140}))
+
+    field_order = ['ordering_account', 'counterparty_account', 'amount',
+                   'order_title', 'execution_date']
     
     class Meta:
         model = Transaction
@@ -38,8 +41,7 @@ class TransactionForm(forms.ModelForm):
                   'transaction_type',
                   'transaction_classification']
 
-        widgets = {'counterparty_account': forms.HiddenInput(),
-                   'transaction_type': forms.HiddenInput(),
+        widgets = {'transaction_type': forms.HiddenInput(),
                    'transaction_classification': forms.HiddenInput()}
 
 

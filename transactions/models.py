@@ -70,11 +70,17 @@ class Transaction(TimeStampedModel):
     amount = models.DecimalField(verbose_name="kwota",
                                  max_digits=7,
                                  decimal_places=2)
-    ordering_account = models.CharField(max_length=26)
-    counterparty_account = models.CharField(max_length=26)
-    ordering_name_address = models.CharField(max_length=150)
+    ordering_account = models.ForeignKey('OrderingAccount',
+                                         null=True,
+                                         on_delete=models.SET_NULL)
+    ordering_account_text = models.CharField(max_length=26, default='')
+    counterparty_account = models.ForeignKey('CounterpartyAccount',
+                                             null=True,
+                                             on_delete=models.SET_NULL)
+    counterparty_account_text = models.CharField(max_length=26, default='')
+    ordering_name_address = models.CharField(max_length=150, default='')
     counterparty_name_address = models.CharField(max_length=150)
-    order_title = models.CharField(max_length=150, verbose_name="tytuł")
+    order_title = models.CharField(max_length=140, verbose_name="tytuł")
     transaction_classification = models.CharField(max_length=2,
                                                   choices=TRANS_CLASS)
     annotations = models.CharField(max_length=32)
@@ -88,13 +94,21 @@ class Transaction(TimeStampedModel):
         verbose_name = "transakcja"
         verbose_name_plural = "transakcje"
 
+    def save(self, *args, **kwargs):
+        self.ordering_account_text = self.ordering_account.account
+        self.counterparty_account_text = self.counterparty_account.account
+        self.ordering_name_address = self.ordering_account.name
+        self.counterparty_name_address = self.counterparty_account\
+                                             .counterparty
+        super().save(*args, **kwargs)
+
     def get_absolute_url(self):
         return reverse('transactions:index')
     
     def __str__(self):
         string = "{}, {}, {}".format(
             self.execution_date,
-            self.counterparty_account,
+            self.counterparty_account_text,
             self.amount)
         return string
 
@@ -138,11 +152,11 @@ class Counterparty(TimeStampedModel):
         verbose_name_plural = "kontrahenci"
 
     def __str__(self):
-        string = "{}, {}, {}, {}".format(
-            self.name,
-            self.street,
-            self.city,
-            self.tax_id)
+        string = "{}|{}|{}|{}".format(
+            self.name[:34],
+            self.street[:34] if self.street else '',
+            self.city[:34] if self.city else '',
+            self.tax_id[:34] if self.tax_id else '')
         return string
 
     def get_absolute_url(self):
@@ -198,8 +212,8 @@ class CounterpartyAccount(TimeStampedModel):
 class OrderingAccount(models.Model):
     """ ordering accounts """
 
-    name = models.CharField(max_length=30, blank=True, null=True)
-    
+    name = models.CharField(max_length=150, blank=True, null=True)
+    comment = models.CharField(max_length=30, blank=True, null=True)
     account = models.CharField(validators=[
         MinLengthValidator(26),
         MaxLengthValidator(26)],
@@ -212,7 +226,7 @@ class OrderingAccount(models.Model):
         verbose_name_plural = "konta własne"
 
     def __str__(self):
-        string = "{}, {}".format(self.name, self.account)
+        string = "{}, {}, {}".format(self.comment, self.name, self.account)
         return string
 
     def clean(self):

@@ -28,14 +28,10 @@ class TransactionCreate(LoginRequiredMixin, CreatedByMixin, CreateView):
     form_class = TransactionForm
 
     def get_initial(self, **kwargs):
-        bankaccount = self.kwargs['bankaccount']
-        queryset = CounterpartyAccount.objects\
-                                      .filter(pk=bankaccount)\
-                                      .first()
-        return {'counterparty_account': queryset.account,
+        return {'counterparty_account': self.kwargs['bankaccount'],
                 'transaction_type': 110,
                 'transaction_classification': 51}
-
+    
     
 class CounterpartyIndexView(LoginRequiredMixin, FormMixin, ListView):
     """ counterparty list """
