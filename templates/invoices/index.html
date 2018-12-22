@@ -21,7 +21,7 @@
     <td>{{ item.number }}</td>
     <td>{{ item.issued }}</td>
     <td>{{ item.customer.company|default_if_none:"" }} {{ item.customer.name|default_if_none:"" }}</td>
-    <td><a href="{% url 'invoices:detail' item.pk %}">szczegóły</a></td>
+    <td><a href="{% url 'invoices:detail' item.pk %}">wybierz</a></td>
   </tr>
   
   {% endfor %}

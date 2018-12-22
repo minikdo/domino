@@ -6,15 +6,10 @@
 
 {% if object %}
 
-<h4>Faktura {{ object.number }}</h4>
+<h4><span>Faktura</span> {{ object.number }} dla {{ object.customer.company|default_if_none:object.customer.name }}</h4>
 
 <div>
   <a class="button" href="{% url 'invoices:update' object.pk %}">edytuj fakturę</a>
-
-  {% if items %}
-  <a class="button white bg-orange" href="{% url 'invoices:latex' object.pk %}">drukuj fakturę</a>
-  {% endif %}
-  
 </div>
 
 
@@ -22,7 +17,7 @@
   <tr>
     <th>Klient</th>
     <td>{{ object.customer.company|default_if_none:object.customer.name }}
-      <a href="{% url 'invoices:customer-detail' object.customer.pk %}">[pokaż]</a>
+      <a href="{% url 'invoices:customer-detail' object.customer.pk %}">[dane]</a>
     </td>
     <th>Data wystawienia</th>
     <td>{{ object.issued }}</td>
@@ -43,11 +38,11 @@
 
 {% if items %}
 
-<table>
+<table id="invoice-items">
 
   <tr>
     <th>lp.</th>
-    <th>nazwa towary</th>
+    <th>nazwa towaru</th>
     <th>ilość</th>
     <th>stawka VAT</th>
     <th>cena brutto</th>
@@ -83,10 +78,21 @@
     <ul>
       {% csrf_token %}
       {{ form.as_ul }}
-      <li><label>&nbsp;</label><input name="" type="submit" value="dodaj"/></li>
+      <li><label>&nbsp;</label><input class="button-primary" name="" type="submit" value="dodaj"/></li>
     </ul>
   </div>
 </form>
+
+{% if items %}
+<a class="button white bg-orange" href="{% url 'invoices:latex' object.pk %}">drukuj fakturę</a>
+{% endif %}
+  
+
+<div class="row">
+  <div class="twelve columns">
+    <a class="red" href="{% url 'invoices:delete' object.pk %}">usuń fakturę</a>
+  </div>
+</div>
 
 {% endif %} {# object #}
 

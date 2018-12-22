@@ -108,6 +108,12 @@ form.item_search ul li {
 .bg-orange {
     background-color: orange;
 }
+.bg-red {
+    background-color: red;
+}
 .white {
     color: white;
+}
+#invoice-items tr td:nth-child(5){
+    text-align: right;
 }

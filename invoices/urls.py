@@ -11,7 +11,7 @@ urlpatterns = [
     path('<int:customer>/add/', views.InvoiceCreateView.as_view(),
          name='create'),
     path('<int:pk>/update/', views.InvoiceUpdateView.as_view(), name='update'),
-    # path('<int:pk>/delete/', views.DeleteView.as_view(), name='delete'),
+    path('<int:pk>/delete/', views.InvoiceDeleteView.as_view(), name='delete'),
     # Invoice Item
     path('item/<int:invoice>/add/', views.InvoiceItemCreateView.as_view(),
          name='invoice-item-create'),

@@ -45,7 +45,7 @@
           {% if item.street %} ul. {{ item.street }}, {% endif %} {{ item.city|default_if_none:"" }}</td>
         <td>{{ item.phone|default_if_none:"-" }}</td>
         <td>{{ item.email|default_if_none:"-" }}</td>
-        <td><a href="{% url 'invoices:customer-detail' item.pk %}">szczegóły</a></td>
+        <td><a href="{% url 'invoices:customer-detail' item.pk %}">wybierz</a></td>
       </tr>
 
       {% endfor %}

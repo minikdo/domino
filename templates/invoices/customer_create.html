@@ -4,15 +4,41 @@
 
 {% block body %}
 
-<form action="" method="post">
+<h4>Nowy klient</h4>
 
-  {% csrf_token %}
-  {{ form.as_p }}
+<div class="row">
+  <div class="four columns">
+    <form action="" method="post">
 
-  <div>
-    <input name="" type="submit" value="dodaj"/>
+      {% csrf_token %}
+
+      {# Include the hidden fields #}
+      {% for hidden in form.hidden_fields %}
+      {{ hidden }}
+      {% endfor %}
+      {# Include the visible fields #}
+      {% for field in form.visible_fields %}
+      
+      {% if forloop.counter == 5 %}
+
   </div>
-  
-</form>
+  <div class="six columns">
+      
+      {% endif %}
+
+      <div class="fieldWrapper">
+        {{ field.errors }}
+        {{ field.label_tag }} {{ field }}
+      </div>
+      {% endfor %}
+
+      <div>&nbsp;</div>
+      <div>
+        <input class="button-primary" name="" type="submit" value="zapisz"/>
+      </div>
+      
+    </form>
+    </div>
+</div>
 
 {% endblock %}

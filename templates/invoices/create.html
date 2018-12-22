@@ -4,15 +4,41 @@
 
 {% block body %}
 
-<form action="" method="post">
+<h5>Faktura dla: {{ customer.company|default_if_none:customer.name }}</h5>
 
-  {% csrf_token %}
-  {{ form.as_p }}
-  
-  <div>
-    <input name="" type="submit" value="zapisz"/>
+<div class="row">
+  <div class="four columns">
+    <form action="" method="post">
+
+      {% csrf_token %}
+
+      {# Include the hidden fields #}
+      {% for hidden in form.hidden_fields %}
+      {{ hidden }}
+      {% endfor %}
+      {# Include the visible fields #}
+      {% for field in form.visible_fields %}
+      
+      {% if forloop.counter == 4 %}
+
   </div>
-  
-</form>
+  <div class="six columns">
+      
+      {% endif %}
+
+      <div class="fieldWrapper">
+        {{ field.errors }}
+        {{ field.label_tag }} {{ field }}
+      </div>
+      {% endfor %}
+
+      <div>&nbsp;</div>
+      <div>
+        <input class="button-primary" name="" type="submit" value="dalej"/>
+      </div>
+      
+    </form>
+    </div>
+</div>
 
 {% endblock %}

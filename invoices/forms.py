@@ -2,7 +2,7 @@ from django import forms
 
 from datetime import date
 
-from .models import Invoice, InvoiceItem
+from .models import Invoice, InvoiceItem, Customer
 from inventory.models import Make
 
 
@@ -23,20 +23,24 @@ class InvoiceForm(forms.ModelForm):
                           widget=forms.DateInput(format='%Y-%m-%d'),
                           input_formats=['%Y-%m-%d'])
 
-    field_order = ['customer', 'number', 'issued', 'transaction', 'due',
-                   'issue_place', 'payment']
+    field_order = ['customer', 'number', 'issue_place', 'payment',
+                   'issued', 'transaction', 'due']
 
     class Meta:
         model = Invoice
         fields = ['number', 'issued', 'customer', 'transaction', 'issue_place',
                   'due', 'payment']
 
-        widgets = {'customer': forms.HiddenInput()}
+        widgets = {'customer': forms.HiddenInput(),
+                   'number': forms.TextInput(attrs={
+                       'autofocus': True})}
         
         
 class InvoiceItemForm(forms.ModelForm):
 
     make = forms.ModelChoiceField(Make.objects.all(), label="Nazwa towaru")
+
+    field_order = ['make', 'price', 'qty', 'vat']
     
     class Meta:
         model = InvoiceItem
@@ -49,5 +53,28 @@ class InvoiceItemForm(forms.ModelForm):
 
 class CustomerSearchForm(forms.Form):
 
-    name = forms.CharField(label="nazwa")
+    name = forms.CharField(label="nazwa",
+                           widget=forms.TextInput(attrs={'autofocus': True}))
         
+
+class CustomerForm(forms.ModelForm):
+
+    def __init__(self, *args, session_data=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['company'].widget = forms.TextInput(
+            attrs={"autofocus": True})
+
+    field_order = ['company',
+                   'name',
+                   'street',
+                   'postal_code',
+                   'city',
+                   'tax_id',
+                   'email',
+                   'phone']
+    
+    class Meta:
+        model = Customer
+        fields = '__all__'
+        exclude = ['created_by']
+

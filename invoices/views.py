@@ -13,7 +13,8 @@ from djatex import render_latex
 from num2words import num2words
 
 from .models import Invoice, InvoiceItem, Customer
-from .forms import InvoiceForm, InvoiceItemForm, CustomerSearchForm
+from .forms import InvoiceForm, InvoiceItemForm, CustomerSearchForm,\
+    CustomerForm
 from .utils import SumItems
 from transactions.mixins import CreatedByMixin
 
@@ -60,6 +61,11 @@ class InvoiceCreateView(LoginRequiredMixin, CreatedByMixin, CreateView):
 
     def get_initial(self):
         return {'customer': self.kwargs['customer']}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['customer'] = Customer.objects.get(pk=self.kwargs['customer'])
+        return context
     
 
 class InvoiceUpdateView(LoginRequiredMixin, CreatedByMixin, UpdateView):
@@ -69,6 +75,18 @@ class InvoiceUpdateView(LoginRequiredMixin, CreatedByMixin, UpdateView):
     template_name = 'invoices/create.html'
     form_class = InvoiceForm
     
+
+class InvoiceDeleteView(LoginRequiredMixin, DeleteView):
+    """Delete an invoice"""
+
+    model = Invoice
+    template_name = 'invoices/_confirm_delete.html'
+    
+    def get_success_url(self):
+        customer = self.object.customer
+        return reverse_lazy('invoices:customer-detail',
+                            kwargs={'pk': customer.pk})
+
 
 class InvoiceItemCreateView(LoginRequiredMixin, CreateView):
     """Create an invoice item"""
@@ -144,8 +162,7 @@ class CustomerCreateView(LoginRequiredMixin, CreatedByMixin, CreateView):
 
     model = Customer
     template_name = 'invoices/customer_create.html'
-    fields = ['company', 'name', 'street', 'city',
-              'postal_code', 'tax_id', 'email', 'phone']
+    form_class = CustomerForm
     
 
 class CustomerUpdateView(LoginRequiredMixin, UpdateView):
@@ -162,6 +179,9 @@ class CustomerDeleteView(LoginRequiredMixin, DeleteView):
 
     model = Customer
     template_name = 'invoices/_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy('invoices:customer-index')
 
 
 @login_required
