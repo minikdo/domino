@@ -1,54 +1,53 @@
 {% extends 'transactions/base_transactions.html' %}
 {% load static %}
+{% load iban_space %}
 {% block title %}przelewy{% endblock %}
 
 {% block body %}
 
 <h4>{{ counterparty.name }}</h4>
 
-<a <button class="button button-primary" href="{% url 'transactions:counterparty-update' counterparty.pk %}">edytuj firmę</a>
+<a <button class="button" href="{% url 'transactions:counterparty-update' counterparty.pk %}">edytuj firmę</a>
                                    
-<a <button class="button button-primary" href="{% url 'transactions:bankaccount-create' counterparty.id %}">dodaj konto bankowe</a>
+<a <button class="button" href="{% url 'transactions:bankaccount-create' counterparty.id %}">dodaj konto bankowe</a>
 
 <table>
   <tr>
     <th>nazwa</th>
-    <td>{{ counterparty.name }}</td>
+    <td>{{ counterparty.name|default_if_none:"-" }}</td>
   </tr>
   <tr>
     <th>ulica</th>
-    <td>{{ counterparty.street }}</td>
+    <td>{{ counterparty.street|default_if_none:"-" }}</td>
   </tr>
   <tr>
     <th>miasto</th>
-    <td>{{ counterparty.city }}</td>
+    <td>{{ counterparty.city|default_if_none:"-" }}</td>
   </tr>
   <tr>
-    <th>nip</th>
-    <td>{{ counterparty.tax_id }}</td>
+    <th>NIP</th>
+    <td>{{ counterparty.tax_id|default_if_none:"-" }}</td>
   </tr>
 </table>
 
 {# list bank account #}
 
-<p>konta bankowe:</p>
-<ul>
-  
-{% for account in counterparty.counterpartyaccount_set.all %}
+<h5>konta bankowe</h5>
 
+<table>
+  {% for account in counterparty.counterpartyaccount_set.all %}
 
+  <tr>
+    <td><strong>{{ account.account|iban_space }}</strong></td>
+    <td>{{ account.comment }}</td>
+    <td><a class="button" href="{% url 'transactions:bankaccount-update' account.pk %}">edytuj</a></td>
+    <td><a class="button" href="{% url 'transactions:bankaccount-delete' account.pk %}">usuń</a></td>
+    <td><a class="button button-primary" href="{% url 'transactions:transaction-create' account.pk %}">przelew</a></td>
+  </tr>
+  {% empty %}
+  <p>brak numerów kont bankowych</p>
 
-<li><strong>{{ account.account }}</strong> {{ account.comment }}
-  <a class="button" href="{% url 'transactions:bankaccount-update' account.pk %}">edytuj</a>
-  <a class="button" href="{% url 'transactions:bankaccount-delete' account.pk %}">usuń</a>
-  <a class="button button-primary" href="{% url 'transactions:transaction-create' account.pk %}">przelew</a>
-</li>
-
-{% empty %}
-<p>brak numerów kont bankowych</p>
-
-{% endfor %}
-
-</ul>
+  {% endfor %}
+</table>
 
 {% endblock %}

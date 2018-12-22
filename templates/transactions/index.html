@@ -1,26 +1,36 @@
 {% extends 'transactions/base_transactions.html' %}
 {% load static %}
+{% load iban_space %}
 {% block title %}przelewy{% endblock %}
 
 {% block body %}
 
 {% if object_list %}
 
-<table>
+<form action="" method="post">
+  <table>
 
-  {% for item in object_list %}
+    {% for item in object_list %}
 
-  <tr>
-    <td>{{ item.execution_date }}</td>
-    <td>{{ item.amount }}</td>
-    <td>{{ item.counterparty_account }}</td>
-    <td>{{ item.created_by.username }}</td>
-  </tr>
-  
-  {% endfor %}
+    <tr>
+      <td>{{ item.execution_date }}</td>
+      <td>
+        <strong>{{ item.counterparty_name_address }}</strong></br>
+        {{ item.counterparty_account|iban_space }}
+      </td>
+      <td>
+        <strong>{{ item.amount }} zł</strong></br>
+        {{ item.order_title }}
+      </td>
+      <td>{{ item.created_by.username }}</td>
+      <td><input name="" type="checkbox" value="{{ item.pk }}"/></td>
+    </tr>
+    
+    {% endfor %}
 
-</table>
-
+  </table>
+  <input class="button-primary" name="" type="submit" value="utwórz paczkę"/>
+</form>
 {% endif %} {# transaction_list #}
 
 {% endblock %}

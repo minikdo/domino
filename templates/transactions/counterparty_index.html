@@ -27,7 +27,7 @@
       {{ item.city|default_if_none:"" }}
     </td>
     <td>
-      <a href="{% url 'transactions:counterparty-detail' item.pk %}"><img alt='details' src='{% static 'icons/magnifying-glass.svg' %}'/></a>
+      <a href="{% url 'transactions:counterparty-detail' item.pk %}">szczegóły</a>
     </td>
   </tr>
   

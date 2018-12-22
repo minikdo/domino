@@ -1,7 +1,19 @@
 /* custom settings */
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
 
 /* icons by:  */
 /* Open Iconic — www.useiconic.com/open */
+
+h1,h2,h3,h4,h5 {
+    font-family: 'Roboto', sans-serif;
+    color: #ea7317;
+}
+h1,h2,h3 {
+    font-weight: 400;
+}
+h4,h5 {
+    font-weight: 300;
+}
 
 /* project navbar */
 
@@ -106,7 +118,7 @@ form.item_search ul li {
     padding-right: 4px;
 }
 .bg-orange {
-    background-color: orange;
+    background-color: #fec601;
 }
 .bg-red {
     background-color: red;
