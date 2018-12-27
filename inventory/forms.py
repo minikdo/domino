@@ -1,34 +1,47 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from collections import OrderedDict
+
 from .models import Make, MakeGroup, Inventory, Unit, Item
 
 
-class ItemForm(forms.Form):
+class ItemForm(forms.ModelForm):
     """ Inventory item form """
-
+        
     def __init__(self, *args, session_data=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['make'].queryset = self.fields['make'].queryset.filter(
             group=session_data['group_id']).order_by('name')
 
-        # field ordering
-        keys = ['make', 'price', 'quantity', 'unit']
-        self.fields = OrderedDict(sorted(self.fields.items(),
-                                         key=lambda x: keys.index(x[0])))
-
+        # check if the inventory is in net prices
+        net_prices = Inventory.objects.get(pk=session_data['inventory_id'])\
+                                      .net_prices
+        if not net_prices:
+            # remove net_price field for gross only inventories
+            self.fields.pop('net_price')
+            self.fields['price'].widget = forms.TextInput(attrs={
+                'autofocus': True})
+            
     make = forms.ModelChoiceField(Make.objects.all(),
                                   label="")
 
+    net_price = forms.CharField(label="",
+                                widget=forms.TextInput(
+                                    attrs={'autofocus': True,
+                                           'size': 10}))
     price = forms.CharField(label="",
                             widget=forms.TextInput(
-                                attrs={'autofocus': True,
-                                       'size': 10}))
+                                attrs={'size': 10}))
     quantity = forms.CharField(label="",
                                widget=forms.TextInput(
                                    attrs={'size': 10}))
     unit = forms.ModelChoiceField(Unit.objects.all(), label="")
+
+    field_order = ['make', 'net_price', 'price', 'quantity', 'unit']
+
+    class Meta:
+        model = Item
+        fields = ['make', 'net_price', 'price', 'quantity', 'unit']
     
 
 class InventorySelectForm(forms.Form):
@@ -52,6 +65,7 @@ class SignUpForm(UserCreationForm):
 class ItemSearchForm(forms.Form):
     """ Item search """
 
+    # FIXME
     def __init__(self, *args, session_data=None, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -62,6 +76,12 @@ class ItemSearchForm(forms.Form):
                                            .queryset\
                                            .filter(id__in=set(make_ids))\
                                            .order_by('name')
+
+        # check if the inventory is in net prices
+        net_prices = Inventory.objects.get(pk=session_data['inventory_id'])\
+                                      .net_prices
+        if not net_prices:
+            self.fields['net_price'].disabled = True
         
     id = forms.IntegerField(required=False, label="id",
                             widget=forms.TextInput(attrs={
@@ -74,6 +94,9 @@ class ItemSearchForm(forms.Form):
         required=False,
         widget=forms.Select(
             attrs={'autofocus': True}))
+    net_price = forms.FloatField(label="cena netto", required=False,
+                                 widget=forms.TextInput(
+                                     attrs={'size': 6}))
     price = forms.FloatField(label="cena brutto", required=False,
                              widget=forms.TextInput(attrs={
                                  'size': 6

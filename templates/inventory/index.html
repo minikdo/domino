@@ -10,6 +10,7 @@
   <tr>
     <th>id</th>
     <th>nazwa</th>
+    <th>{% if object_list.0.net_price != 0 %}c. netto{% endif %}</th>
     <th>cena</th>
     <th>ilość</th>
     <th>j.m.</th>
@@ -21,10 +22,19 @@
 <tr>
   <td><a class="item_id" href="{% url 'inventory:update' item.pk %}">{{ item.pk }}</a></td>
   <td>{{ item.make.name }}</td>
+  <td>{% if item.net_price != 0 %}{{ item.net_price }} {% endif %}</td>
   <td>{{ item.price }}</td>
   <td>{{ item.quantity }}</td>
   <td>{{ item.unit.name }}</td>
-  <td></td>
+  <td>
+    <span style="color:grey;">
+      {% if item.price_relation > 3 %}
+      <strong><span style="color:red;">{{ item.price_relation }}</span></strong>
+      {% else %}
+      {{ item.price_relation }}
+      {% endif %}
+    </span>
+  </td>
 </tr>
 
 {% endfor %}

@@ -94,13 +94,26 @@ class Item(models.Model):
     unit = models.ForeignKey('Unit', on_delete=models.CASCADE,
                              verbose_name="j.m.")
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    net_price = models.FloatField(verbose_name="cena netto", default=0,
+                                  validators=(MinValueValidator(0.1),
+                                              MaxValueValidator(MAX_PRICE)))
 
     class Meta:
         verbose_name = "remanent"
         verbose_name_plural = "remanenty"
+
+    @property
+    def price_relation(self):
+        if self.net_price != 0:
+            if self.unit.pk == Unit.GRAM_ID:
+                return round((self.price/(self.net_price*self.quantity)), 1)
+            else:
+                return round((self.price/self.net_price), 1)
+        else:
+            return ''
         
     def __str__(self):
-        string = "#{}, {}, cena: {} zł".format(
+        string = "#{}, {}, cena brutto: {} zł".format(
             str(self.pk), self.make.name, str(self.price))
         return string
     
@@ -117,6 +130,10 @@ class Item(models.Model):
             raise ValidationError({'unit':
                                    _('W tej grupie towarowej nie można '
                                      'stosować gramów')})
+        if self.net_price != 0:
+            if self.net_price > self.price:
+                raise ValidationError({'net_price':
+                                       _('Cena netto jest wyższa niż brutto')})
 
 
 class Inventory(models.Model):
@@ -126,7 +143,9 @@ class Inventory(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     shop = models.ForeignKey('Shop', on_delete=models.CASCADE,
                              verbose_name="sklep")
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True, verbose_name="aktywny")
+    net_prices = models.BooleanField(default=False,
+                                     verbose_name="w cenach netto")
 
     class Meta:
         verbose_name = "lista remanentów"

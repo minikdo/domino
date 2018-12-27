@@ -17,6 +17,6 @@
   <div><input type="submit" value="zmień"/></div>
 </form>
 
-<p>Jeśli chcesz usunąć pozycję, naciśnij <a href="{% url 'delete' item.pk %}">tutaj</a></p>
+<p>Jeśli chcesz usunąć pozycję, naciśnij <a href="{% url 'inventory:delete' item.pk %}">tutaj</a></p>
 
 {% endblock %}

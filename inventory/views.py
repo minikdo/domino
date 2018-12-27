@@ -84,12 +84,12 @@ class IndexView(LoginRequiredMixin, InventorySessionMixin, FormMixin,
                 "quantity": 1}
 
 
-class ItemCreate(LoginRequiredMixin, CreateView):
+class ItemCreate(LoginRequiredMixin, InventorySessionMixin, CreateView):
     """ add an item to the inventory """
 
     model = Item
     template_name = 'inventory/index.html'
-    fields = ['make', 'price', 'quantity', 'unit']
+    form_class = ItemForm
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -97,12 +97,11 @@ class ItemCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ItemUpdate(LoginRequiredMixin, UpdateView):
+class ItemUpdate(LoginRequiredMixin, InventorySessionMixin, UpdateView):
     """ update an item """
 
     model = Item
-    fields = ['make', 'price', 'quantity', 'unit']
-    template_name_suffix = '_update_form'
+    form_class = ItemForm
     
 
 class ItemDelete(LoginRequiredMixin, DeleteView):
@@ -117,7 +116,7 @@ class InventoryCreate(LoginRequiredMixin, CreateView):
     """ create an inventory session """
 
     model = Inventory
-    fields = ['shop']
+    fields = ['shop', 'net_prices']
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -172,6 +171,8 @@ class ItemSearch(LoginRequiredMixin, InventorySessionMixin, FormMixin,
             query = query.filter(make=self.make)
         if self.id and self.id is not '':
             query = query.filter(id=self.id)
+        if self.net_price and self.net_price is not '':
+            query = query.filter(net_price=self.net_price)
         if self.price and self.price is not '':
             query = query.filter(price=self.price)
         if not self.show_all and not self.myuser and not self.make and\
@@ -197,12 +198,14 @@ class ItemSearch(LoginRequiredMixin, InventorySessionMixin, FormMixin,
 
     def get_initial(self):
         return {'make': self.make,
+                'net_price': self.net_price,
                 'price': self.price,
                 'myuser': self.myuser}
         
     def dispatch(self, request, *args, **kwargs):
         self.id = request.GET.get('id', None)
         self.make = request.GET.get('make', None)
+        self.net_price = request.GET.get('net_price', None)
         self.price = request.GET.get('price', None)
         self.myuser = request.GET.get('myuser', None)
         self.show_all = request.GET.get('show_all', None)
