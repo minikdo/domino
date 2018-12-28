@@ -14,7 +14,7 @@
   % \maketitle
 
   {\center {\large Remanent z dnia {{ date|date:"Y-m-d"|texify }} }
-  {\center {\large {{ inventory|texify }} }
+  {\center {\large {{ inventory.shop.address|texify }} }
 
   \sffamily
 
@@ -24,7 +24,7 @@
 
     \begin{longtable}[l]{|p{1cm}|p{6cm}|c @{ } p{0.5cm}|c|c|}
     \hline
-    lp. & nazwa towaru & \makebox[1cm][r]{ilość} & jm & \makebox[2cm][r]{cena brutto} & \makebox[2cm][r]{wartość brutto} \\
+    lp. & nazwa towaru & \makebox[1cm][r]{ilość} & jm & \makebox[2cm][r]{cena {{ inventory.price_mode|texify }} } & \makebox[2cm][r]{wartość {{ inventory.price_mode|texify }} } \\
     \hline
     % \hline
     {% for item in items %}
@@ -32,13 +32,17 @@
       {{ item.make__name_print|texify }} &
       \makebox[1cm][r]{ {{ item.qty|texify }} } &
       {{ item.unit__name|texify }} &
+      {% if inventory.net_prices %}
+      \makebox[2cm][r]{ {{ item.net_price|texify }} } &
+      {% else %}
       \makebox[2cm][r]{ {{ item.price|texify }} } &
+      {% endif %}
       \makebox[2cm][r]{ {{ item.total|texify }} } \\
     {% endfor %}
       \hline
     \end{longtable}
 
-    Zakończono na pozycji nr {{ counter|texify }}. Łączna suma towarów brutto:
+    Zakończono na pozycji nr {{ counter|texify }}. Łączna suma towarów {{ inventory.price_mode|texify }}:
     {{ total_sum|texify }} zł
     
   {% endif %}
