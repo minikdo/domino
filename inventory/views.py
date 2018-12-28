@@ -36,7 +36,7 @@ def latex(request):
     context = {'items': items,
                'counter': items.count(),
                'total_sum': stats(inventory_id),
-               'inventory': inventory.shop.address,
+               'inventory': inventory,
                'date': inventory.created}
     
     return render_latex(request, file_name, 'inventory/item.tex',
