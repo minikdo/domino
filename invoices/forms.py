@@ -38,7 +38,8 @@ class InvoiceForm(forms.ModelForm):
         
 class InvoiceItemForm(forms.ModelForm):
 
-    make = forms.ModelChoiceField(Make.objects.all(), label="Nazwa towaru")
+    make = forms.ModelChoiceField(Make.objects.all().order_by('name'),
+                                  label="Nazwa towaru")
 
     field_order = ['make', 'price', 'qty', 'vat']
     

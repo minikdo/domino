@@ -4,7 +4,9 @@
 
 {% block body %}
 
+{% if customer %}
 <h5>Faktura dla: {{ customer.company|default_if_none:customer.name }}</h5>
+{% endif %}
 
 <div class="row">
   <div class="four columns">

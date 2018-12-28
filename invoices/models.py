@@ -60,8 +60,26 @@ class InvoiceItem(models.Model):
     def net_price(self):
         """ calculate net price """
         
-        return round(float(self.price)/(1+(self.vat/100)), 2)
+        return float(self.price)/(1+(self.vat/100))
 
+    @property
+    def net_total(self):
+        """ multiply net price and qty """
+
+        return self.net_price * self.qty
+
+    @property
+    def tax(self):
+        """ calculate tax """
+
+        return (float(self.price)-self.net_price) * self.qty
+
+    @property
+    def total_price(self):
+        """ multiply price and qty """
+
+        return float(self.price) * self.qty
+        
     def __str__(self):
         string = "{}, {}, {}, {}".format(
             self.make, self.qty, self.price, self.vat)

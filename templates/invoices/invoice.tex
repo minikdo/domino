@@ -4,6 +4,7 @@
 
 \setlength\parskip{\medskipamount}
 \setlength\parindent{0pt}
+\setlength{\LTpre}{3pt}
 
 %%\usepackage{geometry}
 %%\geometry{verbose,landscape,a4paper,tmargin=5mm,bmargin=5mm,lmargin=10mm,rmargin=5mm,headheight=5mm,headsep=5mm,footskip=5mm}
@@ -56,28 +57,42 @@ ING o/Ustroń & {{ invoice.customer.tax_id|default_if_none:''|texify }} \\
 \vspace{3mm}
 
 {% if items %}
-  \begin{longtable}[l]{|p{6cm}|r|r|r|r|r|}
+  \begin{longtable}[l]{|p{4cm}|r|r|r|r|r|r|r|}
     \hline
-    \rule{0pt}{2ex}Nazwa towaru & Ilość & Kwota netto & Stawka VAT & Wartość brutto \\
+    \rule{0pt}{2ex}Nazwa towaru & Ilość & Cena netto & Wartość netto & VAT & Kwota VAT & Wartość brutto \\
     \hline
     {% for item in items %}
     {{ item.make.name_print|capfirst|texify }} &
     \makebox{\textsf{ {{ item.qty|floatformat|texify }} szt.}} &
     \makebox{\textsf{ {{ item.net_price|floatformat:2|texify }} zł}} &
+    \makebox{\textsf{ {{ item.net_total|floatformat:2|texify }} zł}} &
     \makebox{\textsf{ {{ item.vat|floatformat|texify }} \%}} &
-    \makebox{\textsf{ {{ item.price|texify }} zł}} \\
+    \makebox{\textsf{ {{ item.tax|floatformat:2|texify }} zł}} &
+    \makebox{\textsf{ {{ item.total_price|floatformat:2|texify }} zł}} \\
     \hline
     {% endfor %}
 \end{longtable}
 
-\vspace{1mm}
-\begin{tabular}{rl}
+\begin{minipage}[t]{0.5\textwidth}
+\begin{longtable}{rl}
+  Razem netto: &  \textsf{ {{ total.net_sum|floatformat:2|texify }} zł}\\
   Razem do zapłaty: & \textsf{\textbf{ {{ total.sum|floatformat:2|texify }} }zł}\\
-  Słownie: & \textsf{ {{ total_words|texify }} złotych}\\
-\end{tabular}
+\end{longtable}
+\end{minipage}
+\begin{minipage}[t]{0.5\textwidth}
+\begin{longtable}{rl}
+  {% for vat in vats %}
+  Razem VAT {{ vat.vat|floatformat|texify }}\%: & \textsf{ {{ vat.sum_vat|floatformat:2|texify }} zł}\\
+  {% endfor %}
+\end{longtable}
 {% endif %}
+\end{minipage}
 
-\vspace{16mm}
+\begin{longtable}{rl}
+  Słownie: & \textsf{ {{ total_words|texify }} złotych}\\
+\end{longtable}
+
+\vspace{10mm}
 
 \begin{minipage}[t]{0.50\columnwidth}
 {\centering \makebox[55mm][l]{\dotfill{}}\\

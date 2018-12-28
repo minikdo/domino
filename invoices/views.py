@@ -196,10 +196,11 @@ def latex(request, **kwargs):
     file_name = "faktura_{id}_z_{date}.pdf".format(
         id=invoice, date=invoice_data.issued)
 
-    total = SumItems(invoice)
-    
+    total, vats = SumItems(invoice)
+
     context = {'invoice': invoice_data,
                'items': items,
+               'vats': vats,
                'total': total,
                'total_words': num2words(total['sum'], lang='pl')}
     
