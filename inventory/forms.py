@@ -29,7 +29,7 @@ class ItemForm(forms.ModelForm):
                                 widget=forms.TextInput(
                                     attrs={'autofocus': True,
                                            'class': 'form-number',
-                                           'size': 3}))
+                                           'size': 6}))
     price = forms.CharField(label="",
                             widget=forms.TextInput(
                                 attrs={'size': 6,
