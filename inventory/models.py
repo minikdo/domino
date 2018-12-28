@@ -152,11 +152,20 @@ class Inventory(models.Model):
     class Meta:
         verbose_name = "lista remanentów"
         verbose_name_plural = "lista remanentów"
-        
+
+    @property
+    def price_mode(self):
+        """ net or gross prices """
+        if self.net_prices:
+            return "netto"
+        else:
+            return "brutto"
+
     def __str__(self):
-        string = "{}, {}, {}, utworzył: {}".format(
+        string = "{}, {}, {}, utworzył: {}, ceny: {}".format(
             str(self.pk), self.created.strftime('%Y-%m-%d'),
-            self.shop.address, self.created_by.username)
+            self.shop.address, self.created_by.username,
+            self.price_mode)
         return string
 
     def get_absolute_url(self):
