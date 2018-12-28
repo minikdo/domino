@@ -28,13 +28,16 @@ class ItemForm(forms.ModelForm):
     net_price = forms.CharField(label="",
                                 widget=forms.TextInput(
                                     attrs={'autofocus': True,
-                                           'size': 10}))
+                                           'class': 'form-number',
+                                           'size': 3}))
     price = forms.CharField(label="",
                             widget=forms.TextInput(
-                                attrs={'size': 10}))
+                                attrs={'size': 6,
+                                       'class': 'form-number'}))
     quantity = forms.CharField(label="",
                                widget=forms.TextInput(
-                                   attrs={'size': 10}))
+                                   attrs={'size': 6,
+                                          'class': 'form-number'}))
     unit = forms.ModelChoiceField(Unit.objects.all(), label="")
 
     field_order = ['make', 'net_price', 'price', 'quantity', 'unit']

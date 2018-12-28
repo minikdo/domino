@@ -30,6 +30,8 @@
     <span style="color:grey;">
       {% if item.price_relation > 3 %}
       <strong><span style="color:red;">{{ item.price_relation }}</span></strong>
+      {% elif item.price_relation < 1.5 %}
+      <span style="color:blue;">{{ item.price_relation }}</span>
       {% else %}
       {{ item.price_relation }}
       {% endif %}

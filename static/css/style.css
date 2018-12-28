@@ -129,3 +129,6 @@ form.item_search ul li {
 #invoice-items tr td:nth-child(5){
     text-align: right;
 }
+.form-number {
+    width: 135px;
+}

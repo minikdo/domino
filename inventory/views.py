@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -101,6 +102,7 @@ class ItemUpdate(LoginRequiredMixin, InventorySessionMixin, UpdateView):
     """ update an item """
 
     model = Item
+    template_name = 'inventory/item_update_form.html'
     form_class = ItemForm
     
 
@@ -109,8 +111,10 @@ class ItemDelete(LoginRequiredMixin, DeleteView):
 
     model = Item
     template_name = 'inventory/inventory_confirm_delete.html'
-    success_url = '/'
-    
+
+    def get_success_url(self):
+        return reverse_lazy('inventory:index')
+
 
 class InventoryCreate(LoginRequiredMixin, CreateView):
     """ create an inventory session """
@@ -216,18 +220,18 @@ class ItemSearch(LoginRequiredMixin, InventorySessionMixin, FormMixin,
 @login_required()
 def shelf_reset(request):
     """ update shelf counter """
-
+    
     if request.session.get('inventory_id') is None:
             return redirect('inventory:inventory_select')
 
-    try:
-        last_item_id = Item.objects.filter(created_by=request.user,
-                                           inventory_id=request.session.get(
-                                               'inventory_id')).last().pk
-    except Item.DoesNotExist:
-        request.session['shelf_id'] = 0
+    last_item_id = Item.objects.filter(created_by=request.user,
+                                       inventory_id=request.session.get(
+                                        'inventory_id'))
+
+    if last_item_id.exists():
+        request.session['shelf_id'] = last_item_id.last().pk + 1
     else:
-        request.session['shelf_id'] = last_item_id + 1
+        request.session['shelf_id'] = 0
     
     return redirect('inventory:index')
 
@@ -240,15 +244,13 @@ class Stats(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        items = Item.objects.filter(inventory_id=self.inventory)
-        
+
         context['sum'] = stats(self.inventory)
-        context['count'] = items.count()
-        context['count_by_user'] = items\
-                                   .values('created_by__username')\
-                                   .annotate(count=Count('pk'))
-        context['current_inventory'] = items.first().inventory
+        context['count'] = self.items.count()
+        context['count_by_user'] = self.items\
+                                       .values('created_by__username')\
+                                       .annotate(count=Count('pk'))
+        context['current_inventory'] = self.items.first().inventory
 
         return context
     
@@ -258,6 +260,12 @@ class Stats(TemplateView):
         if not self.inventory:
             return redirect('inventory:inventory_select')
 
+        self.items = Item.objects.filter(inventory_id=self.inventory)
+
+        # check if there are any items
+        if not self.items:
+            return redirect('inventory:index')
+        
         return super().dispatch(request, *args, **kwargs)
 
 

@@ -130,7 +130,9 @@ class Item(models.Model):
             raise ValidationError({'unit':
                                    _('W tej grupie towarowej nie można '
                                      'stosować gramów')})
-        if self.net_price != 0:
+        if self.net_price != 0 and\
+           isinstance(self.net_price, (int, float)) and\
+           isinstance(self.price, (int, float)):
             if self.net_price > self.price:
                 raise ValidationError({'net_price':
                                        _('Cena netto jest wyższa niż brutto')})
