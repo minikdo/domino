@@ -17,6 +17,10 @@
   {{ form.password.label_tag }}
   {{ form.password }}
 
+  {% if next %}
+  <input type="hidden" name="next" value="{{ next }}" />
+  {% endif %}
+
   {{ form.errors }}
   
   <div><input type="submit" value="zaloguj"/></div>
