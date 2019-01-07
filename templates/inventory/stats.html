@@ -6,8 +6,8 @@
 
 {% block body %}
 
-<p>suma brutto:
-  <h3>{{ sum }}</h3>
+<p>suma:
+  <h3>{{ sum|floatformat:2 }}</h3>
 </p>
 <p>ilość pozycji:
   <h4>{{ count }}</h4>
