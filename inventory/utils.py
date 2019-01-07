@@ -1,6 +1,6 @@
 from django.db.models import Sum, Q, Count, Value, F
 from django.db.models.functions import Coalesce
-from .models import Item, Unit
+from .models import Item, Unit, Inventory
 
 
 def shelf_counter(inventory, created_by, shelf_id):
@@ -21,11 +21,20 @@ def shelf_counter(inventory, created_by, shelf_id):
 
 def stats(inventory):
 
-    qty = Item.objects.filter(inventory_id=inventory, unit_id=Unit.QTY_ID)\
-                      .aggregate(sum=Sum(F('price') * F('quantity')))
+    # FIXME: repeated
+    net_prices = Inventory.objects.get(pk=inventory).net_prices
 
-    gramms = Item.objects.filter(inventory_id=inventory, unit_id=Unit.GRAM_ID)\
-                         .aggregate(sum=Sum('price'))
+    gramms = Item.objects.filter(inventory_id=inventory, unit_id=Unit.GRAM_ID)
+
+    if net_prices:
+        price = 'net_price'
+        gramms = gramms.aggregate(sum=Sum(F(price) * F('quantity')))
+    else:
+        price = 'price'
+        gramms = gramms.aggregate(sum=Sum(F(price)))
+
+    qty = Item.objects.filter(inventory_id=inventory, unit_id=Unit.QTY_ID)\
+                      .aggregate(sum=Sum(F(price) * F('quantity')))
 
     if isinstance(qty['sum'], (int, float)):
         qty = qty['sum']
@@ -44,18 +53,32 @@ def get_total_items(inventory):
     """ multiply qty * price if qty in pieces,
     rewrite price if qty in gramms """
 
-    items = Item.objects.filter(inventory=inventory)\
-                        .values('make__name_print', 'price', 'unit__name')\
-                        .annotate(
-                            qty=Coalesce(
-                                Sum('quantity', filter=Q(unit=1)),
-                                'quantity'),
-                            total=(
-                                Coalesce(
-                                    Sum('quantity',
-                                        filter=Q(unit=1)),
-                                    1) * F('price')))\
-                        .prefetch_related('make', 'unit')\
-                        .order_by('make__name_print', 'price')
+    net_prices = Inventory.objects.get(pk=inventory).net_prices
 
+    if net_prices:
+        price = 'net_price'
+    else:
+        price = 'price'
+        
+    items = Item.objects.filter(inventory=inventory)\
+                        .values('make__name_print', price, 'unit__name')
+
+    if net_prices:
+        items = items.annotate(
+            qty=Sum('quantity'),
+            total=(Sum('quantity') * F(price)))
+    else:
+        items = items.annotate(
+            qty=Coalesce(
+                Sum('quantity', filter=Q(unit=Unit.QTY_ID)),
+                'quantity'),
+            total=(
+                Coalesce(
+                    Sum('quantity',
+                        filter=Q(unit=Unit.QTY_ID)),
+                    1) * F(price)))
+
+    items = items.prefetch_related('make', 'unit')\
+                 .order_by('make__name_print', price)
+    
     return items

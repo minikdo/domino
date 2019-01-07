@@ -33,17 +33,17 @@
       \makebox[1cm][r]{ {{ item.qty|texify }} } &
       {{ item.unit__name|texify }} &
       {% if inventory.net_prices %}
-      \makebox[2cm][r]{ {{ item.net_price|texify }} } &
+      \makebox[2cm][r]{ {{ item.net_price|floatformat:2|texify }} } &
       {% else %}
-      \makebox[2cm][r]{ {{ item.price|texify }} } &
+      \makebox[2cm][r]{ {{ item.price|floatformat:2|texify }} } &
       {% endif %}
-      \makebox[2cm][r]{ {{ item.total|texify }} } \\
+      \makebox[2cm][r]{ {{ item.total|floatformat:2|texify }} } \\
     {% endfor %}
       \hline
     \end{longtable}
 
     Zakończono na pozycji nr {{ counter|texify }}. Łączna suma towarów {{ inventory.price_mode|texify }}:
-    {{ total_sum|texify }} zł
+    {{ total_sum|floatformat:2|texify }} zł
     
   {% endif %}
 
