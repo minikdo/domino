@@ -4,8 +4,12 @@ from . import views
 app_name = 'machines'
 
 urlpatterns = [
-    path('', views.IndexView.as_view(), name='index'),
-    path('<int:pk>/', views.DetailView.as_view(), name='detail'),
+    path('', views.MachineIndex.as_view(), name='index'),
+    path('<int:pk>/', views.MachineDetail.as_view(), name='detail'),
+    path('add/', views.MachineCreate.as_view(), name='create'),
+    path('<int:pk>/update/', views.MachineUpdate.as_view(), name='update'),
+    path('<int:pk>/del/', views.MachineDelete.as_view(),
+         name='delete'),
     path('service/', views.ServiceIndexView.as_view(), name='service_index'),
     path('service/add/', views.ServiceCreate.as_view(), name='service_create'),
     path('service/<int:pk>/del/', views.ServiceDelete.as_view(),

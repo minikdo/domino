@@ -15,6 +15,10 @@ h4,h5 {
     font-weight: 300;
 }
 
+a {
+    text-decoration: none;
+}
+
 /* project navbar */
 
 #navbar-main ul li {
@@ -53,6 +57,27 @@ h4,h5 {
 }
 #current_shop {
     margin-bottom: 10px;
+}
+#navbar2 ul li {
+    float: left;
+    display: inline;
+    padding-right: 30px;
+}
+#navbar2 a {
+    text-decoration: none;
+}
+.navbar3 {
+    margin-top: 47px;
+    margin-bottom: 30px;
+    background-color: #f3f3f3;
+    border-radius: 3px;
+}
+.navbar3 div {
+    display: inline;
+}
+.navbar3-header {
+    font-size: 2.5rem;
+    padding-left: 10px;
 }
 
 /* item table */
@@ -131,4 +156,16 @@ form.item_search ul li {
 }
 .form-number {
     width: 135px;
+}
+.nowrap {
+    white-space: nowrap;
+}
+#device-search {
+    background-color: #a6eaff;
+    border-radius: 3px;
+}
+#device-search ul li {
+    display: inline;
+    float: left;
+    padding-left: 30px;
 }

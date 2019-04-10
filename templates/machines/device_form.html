@@ -2,12 +2,15 @@
 {% block body %}
 
 <div class="row">
-  <div class="four columns">
-    <h1>Dodaj sprzęt</h1>
+  <div class="twelve columns">
+    <div class="navbar3">
+      <div class="navbar3-header">Device</div>
+    </div>
+    
     <form action="" method="post">
       {{ form }}
       {% csrf_token %}
-      <button>add</button>
+      <div><button>submit</button></div>
     </form>
   </div>
 </div>

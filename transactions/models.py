@@ -19,6 +19,9 @@ class IbanValidator(models.Model):
             raise ValidationError({'account':
                                    _('Nieprawidłowy numer konta')})
 
+    class Meta:
+        abstract = True
+        
 
 class TimeStampedModel(models.Model):
     """

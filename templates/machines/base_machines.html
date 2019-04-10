@@ -1,1 +1,15 @@
 {% extends 'base.html' %}
+
+{% block title %}machines{% endblock %}
+
+{% block navbar %}
+<div class="row">
+  <div id="navbar2" class="twelve columns">
+    <ul>
+      <li><a href="{% url 'machines:index' %}">machines</a></li>
+      <li><a href="{% url 'machines:device_index' %}">devices</a></li>
+      <li><a href="{% url 'machines:service_index' %}">service</a></li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

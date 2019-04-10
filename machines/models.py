@@ -4,27 +4,33 @@ from django.urls import reverse
 
 class Machine(models.Model):
     name = models.CharField(max_length=50)
-    FQDN = models.CharField(max_length=50, null=True)
-    datetime = models.DateField()
-    form = models.CharField(max_length=50, null=True)
-    bios = models.CharField(max_length=50, null=True)
-    prod = models.CharField(max_length=50, null=True)
-    vendor = models.CharField(max_length=50, null=True)
-    OS = models.CharField(max_length=50, null=True)
-    kernel = models.CharField(max_length=50, null=True)
-    CPU = models.CharField(max_length=50, null=True)
-    cores = models.CharField(max_length=50, null=True)
-    arch = models.CharField(max_length=50, null=True)
-    mem = models.CharField(max_length=50, null=True)
-    HDD = models.CharField(max_length=50, null=True)
-    disk = models.CharField(max_length=50, null=True)
-    diskfree = models.CharField(max_length=50, null=True)
-    IPs = models.CharField(max_length=50, null=True)
-    gateway = models.CharField(max_length=50, null=True)
-    gate_iface = models.CharField(max_length=50, null=True)
-
+    FQDN = models.CharField(max_length=50, null=True, blank=True)
+    datetime = models.DateField(null=True, blank=True)
+    form = models.CharField(max_length=50, null=True, blank=True)
+    bios = models.CharField(max_length=50, null=True, blank=True)
+    prod = models.CharField(max_length=50, null=True, blank=True)
+    vendor = models.CharField(max_length=50, null=True, blank=True)
+    OS = models.CharField(max_length=50, null=True, blank=True)
+    kernel = models.CharField(max_length=50, null=True, blank=True)
+    CPU = models.CharField(max_length=50, null=True, blank=True)
+    cores = models.CharField(max_length=50, null=True, blank=True)
+    arch = models.CharField(max_length=50, null=True, blank=True)
+    mem = models.CharField(max_length=50, null=True, blank=True)
+    HDD = models.CharField(max_length=50, null=True, blank=True)
+    disk = models.CharField(max_length=50, null=True, blank=True)
+    diskfree = models.CharField(max_length=50, null=True, blank=True)
+    IPs = models.CharField(max_length=50, null=True, blank=True)
+    gateway = models.CharField(max_length=50, null=True, blank=True)
+    gate_iface = models.CharField(max_length=50, null=True, blank=True)
+    location = models.ForeignKey('Location', null=True, blank=True,
+                                 on_delete=models.SET_NULL)
+    # device = models.ManyToManyField('Device')
+    
     def __str__(self):
-        return self.FQDN
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('machines:index')
 
 
 class Service(models.Model):
@@ -37,7 +43,7 @@ class Service(models.Model):
                                on_delete=models.CASCADE)
 
     def get_absolute_url(self):
-        return reverse('detail', kwargs={'pk': self.machine_id})
+        return reverse('machines:detail', kwargs={'pk': self.machine_id})
 
     def __str__(self):
         return self.description
@@ -48,7 +54,7 @@ class Device(models.Model):
                                 blank=True,
                                 null=True,
                                 on_delete=models.SET_NULL)
-    date = models.DateField()
+    date = models.DateField(null=True, blank=True)
     type = models.ForeignKey('DeviceType', on_delete=models.CASCADE)
     name = models.CharField(max_length=150, null=True)
     price = models.DecimalField(max_digits=5,
@@ -57,9 +63,11 @@ class Device(models.Model):
                                 null=True)
     company = models.CharField(max_length=150, blank=True, null=True)
     invoice = models.CharField(max_length=150, blank=True, null=True)
+    location = models.ForeignKey('Location', null=True, blank=True,
+                                 on_delete=models.SET_NULL)
 
     def get_absolute_url(self):
-        return reverse('device_index')
+        return reverse('machines:device_index')
 
     def __str__(self):
         string = "{} {}".format(str(self.date), self.name)
@@ -71,3 +79,15 @@ class DeviceType(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['name']
+    
+
+class Location(models.Model):
+    """ machine location list """
+
+    address = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.address

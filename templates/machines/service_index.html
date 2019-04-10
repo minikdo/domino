@@ -1,7 +1,12 @@
 {% extends 'machines/base_machines.html' %}
 {% block body %}
 
-<h1>Service activity list</h1>
+<div class="navbar3">
+  <div class="navbar3-header">Service activity list</div>
+  <div class="u-pull-right">
+  
+  </div>
+</div>
 
 {% if services %}
 
@@ -17,8 +22,8 @@
       {% endif %}
     </td>
     <td>
-      <a href="{% url 'machines:service_update' service.pk %}"><button>edit</button></a>
-      <a href="{% url 'machines:service_delete' service.pk %}"><button>delete</button></a>
+      <a class="button button-primary" href="{% url 'machines:service_update' service.pk %}">edit</a>
+      <a class="button" href="{% url 'machines:service_delete' service.pk %}">delete</a>
     </td>
   </tr>
   {% endfor %}
