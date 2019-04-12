@@ -14,7 +14,7 @@
   <tr>
     <th>ID</th>
     <th>Name</th>
-    <th>Form</th>
+    <th>Form / BIOS</th>
     <th>Prod / Vendor</th>
     <th>Kernel / System</th>
     <th>Location / Date</th>
@@ -23,14 +23,15 @@
   <tr>
     <td><a href="{% url 'machines:detail' machine.pk %}">{{ machine.pk }}</a></td>
     <td class="nowrap">{{ machine.name }}<br/>
-    {{ machine.FQDN }}</td>
-    <td>{{ machine.form }}</td>
+      <span class="grey">{{ machine.FQDN }}</span></td>
+    <td>{{ machine.form }}<br/>
+      <span class="grey">{{ machine.bios }}</span></td>
     <td>{{ machine.prod }}<br/>
-      {{ machine.vendor }}</td>
+      <span class="grey">{{ machine.vendor }}</span></td>
     <td>{{ machine.kernel }} <br/>
-    {{ machine.OS }}</td>
+      <span class="grey">{{ machine.OS }}</span></td>
     <td class="nowrap">{{ machine.location.address }}<br/>
-      {{ machine.datetime }}</td>
+      <span class="grey">{{ machine.datetime|timesince }}</span></td>
   </tr>
   {% endfor %}
 </table>

@@ -14,14 +14,14 @@
   {% for service in services %}
   <tr>
     <td>{{ service.pk }}</td>
-    <td><a href="{% url 'machines:detail' service.machine.pk %}"></a>{{ service.machine }}</td>
-    <td>{{ service.date }}</td>
+    <td><a href="{% url 'machines:detail' service.machine.pk %}">{{ service.machine }}</a></td>
+    <td class="nowrap">{{ service.date }}</td>
     <td>{{ service.description }}
       {% if service.device %}
       [{{ service.device.name }}]
       {% endif %}
     </td>
-    <td>
+    <td class="nowrap">
       <a class="button button-primary" href="{% url 'machines:service_update' service.pk %}">edit</a>
       <a class="button" href="{% url 'machines:service_delete' service.pk %}">delete</a>
     </td>

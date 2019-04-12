@@ -60,14 +60,12 @@ class ServiceIndexView(LoginRequiredMixin, ListView):
     """
     template_name = 'machines/service_index.html'
     context_object_name = 'services'
-    model = Service
-    ordering = '-date'
     paginate_by = 25
 
     def get_queryset(self):
         query = Service.objects.prefetch_related('machine', 'device')\
                 .all()
-        return query
+        return query.order_by('-date')
     
 
 class ServiceCreate(LoginRequiredMixin, CreateView):

@@ -169,3 +169,6 @@ form.item_search ul li {
     float: left;
     padding-left: 30px;
 }
+.grey {
+    color: grey;
+}
