@@ -1,0 +1,17 @@
+{% extends 'machines/base_machines.html' %}
+{% block body %}
+
+<div class="row">
+  <div class="four columns">
+    <div class="navbar3">
+      <div class="navbar3-header">setup upload</div>
+    </div>
+    <form action="" method="post" enctype="multipart/form-data">
+      {{ form }}
+      {% csrf_token %}
+      <input name="" type="submit" value=""/>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

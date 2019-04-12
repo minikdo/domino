@@ -2,11 +2,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView, \
-    FormMixin
+    FormMixin, FormView
 from django.urls import reverse_lazy
 
 from .models import Machine, Device, Service
-from .forms import DeviceSearchForm
+from .forms import DeviceSearchForm, MachineSetupForm
 
 import time
 
@@ -174,3 +174,33 @@ class DeviceDelete(LoginRequiredMixin, DeleteView):
     """
     model = Device
     success_url = reverse_lazy('machines:device_index')
+
+
+class MachineSetupUpload(FormView):
+    """ upload ansile setup json """
+
+    form_class = MachineSetupForm
+    success_url = reverse_lazy('machines:index')
+    template_name = 'machines/setup_upload.html'
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        files = request.FILES.getlist('file_field')
+
+        # import pdb; pdb.set_trace()
+        
+        if form.is_valid():
+            for f in files:
+                import json
+                j = json.load(f)
+                if 'failed' in j:
+                    continue
+                fqdn = j['ansible_facts']['ansible_fqdn']
+                obj = Machine.objects.get(FQDN=fqdn)
+                obj.name = 'aqq'
+                obj.save()
+
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)

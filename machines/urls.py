@@ -10,6 +10,8 @@ urlpatterns = [
     path('<int:pk>/update/', views.MachineUpdate.as_view(), name='update'),
     path('<int:pk>/del/', views.MachineDelete.as_view(),
          name='delete'),
+    path('upload/', views.MachineSetupUpload.as_view(),
+         name='setup-upload'),
     path('service/', views.ServiceIndexView.as_view(), name='service_index'),
     path('service/add/', views.ServiceCreate.as_view(), name='service_create'),
     path('service/<int:pk>/del/', views.ServiceDelete.as_view(),
