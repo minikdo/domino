@@ -15,8 +15,8 @@
     <th>Name</th>
     <th>Form</th>
     <th>Prod / Vendor</th>
-    <th>Location</th>
-    <th>Datetime</th>
+    <th>Kernel / System</th>
+    <th>Location / Date</th>
   </tr>
   {% for machine in machines %}
   <tr>
@@ -26,8 +26,10 @@
     <td>{{ machine.form }}</td>
     <td>{{ machine.prod }}<br/>
       {{ machine.vendor }}</td>
-    <td>{{ machine.location.address }}</td>
-    <td class="nowrap">{{ machine.datetime }}</td>
+    <td>{{ machine.kernel }} <br/>
+    {{ machine.OS }}</td>
+    <td class="nowrap">{{ machine.location.address }}<br/>
+      {{ machine.datetime }}</td>
   </tr>
   {% endfor %}
 </table>
