@@ -212,7 +212,7 @@ class MachineSetupUpload(FormView):
                 obj.cores = j['ansible_facts']['ansible_processor_cores']
                 obj.arch = j['ansible_facts']['ansible_architecture']
                 obj.mem = j['ansible_facts']['ansible_memtotal_mb']
-                obj.disk = j ['ansible_facts']['ansible_devices']['sda']['model']  # noqa
+                # obj.disk = j ['ansible_facts']['ansible_devices']['sda']['model']  # noqa
                 obj.IPs = ', '.join(j['ansible_facts']['ansible_all_ipv4_addresses'])  # noqa
                 obj.gateway = j['ansible_facts']['ansible_default_ipv4']['gateway'],  # noqa
                 obj.gate_iface =j['ansible_facts']['ansible_default_ipv4']['interface']  # noqa
