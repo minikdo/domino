@@ -13,7 +13,7 @@
 <table>
   <tr>
     <th>ID</th>
-    <th>Name</th>
+    <th>Name / FQDN</th>
     <th>Form / BIOS</th>
     <th>Prod / Vendor</th>
     <th>Kernel / System</th>
@@ -30,7 +30,7 @@
       <span class="grey">{{ machine.vendor }}</span></td>
     <td>{{ machine.kernel }} <br/>
       <span class="grey">{{ machine.OS }}</span></td>
-    <td class="nowrap">{{ machine.location.address }}<br/>
+    <td class="nowrap">{{ machine.location.name }}<br/>
       <span class="grey">{{ machine.datetime|timesince }}</span></td>
   </tr>
   {% endfor %}

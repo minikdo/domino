@@ -36,9 +36,9 @@
         {% for item in device %}
       <tr>
         <td><a href="{% url 'machines:device_detail' item.pk %}">{{ item.pk }}</a></td>
-        <td>{{ item.type }}</td>
+        <td class="nowrap">{{ item.type }}</td>
         <td>{{ item.name }}</td>
-        <td>{{ item.location }}</td>
+        <td>{{ item.location.name }}</td>
         <td class="nowrap">{{ item.date }}</td>
       </tr>
       {% endfor %}

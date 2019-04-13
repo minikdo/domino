@@ -3,13 +3,18 @@
 {% block title %}machines{% endblock %}
 
 {% block navbar %}
-<div class="row">
-  <div id="navbar2" class="twelve columns">
+
+<div class="row" id="navbar">
+  <div class="two columns">
+    <h3>Machines</h3>
+  </div>
+  <div class="ten columns">
     <ul>
-      <li><a href="{% url 'machines:index' %}">machines</a></li>
-      <li><a href="{% url 'machines:device_index' %}">devices</a></li>
       <li><a href="{% url 'machines:service_index' %}">service</a></li>
+      <li><a href="{% url 'machines:device_index' %}">devices</a></li>
+      <li><a href="{% url 'machines:index' %}">machines</a></li>
     </ul>
   </div>
 </div>
+
 {% endblock %}

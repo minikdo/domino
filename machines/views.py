@@ -28,6 +28,7 @@ class MachineDetail(DetailView):
     """
     model = Machine
     template_name = 'machines/detail.html'
+    queryset = Machine.objects.prefetch_related('device').all()
 
 
 class MachineCreate(CreateView):

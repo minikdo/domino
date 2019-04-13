@@ -53,7 +53,8 @@ class Device(models.Model):
     machine = models.ForeignKey('Machine',
                                 blank=True,
                                 null=True,
-                                on_delete=models.SET_NULL)
+                                on_delete=models.SET_NULL,
+                                related_name='device')
     date = models.DateField(null=True, blank=True)
     type = models.ForeignKey('DeviceType', on_delete=models.CASCADE)
     name = models.CharField(max_length=150, null=True)
