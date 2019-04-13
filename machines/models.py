@@ -35,6 +35,8 @@ class Machine(models.Model):
 
     @property
     def outdated_setup(self):
+        if not self.date:
+            return False
         dt = datetime_date.today() - self.date
         if dt.days > 90:
             return True
