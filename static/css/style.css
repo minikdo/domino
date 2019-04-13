@@ -172,3 +172,8 @@ form.item_search ul li {
 .grey {
     color: grey;
 }
+.warning_sign {
+    color: orange;
+    font-weight: bold;
+    font-size: 20px;
+}

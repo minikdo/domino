@@ -17,7 +17,7 @@
     <th>Form / BIOS</th>
     <th>Prod / Vendor</th>
     <th>Kernel / System</th>
-    <th>Location / Date</th>
+    <th>Location / Update</th>
   </tr>
   {% for machine in machines %}
   <tr>
@@ -31,7 +31,8 @@
     <td>{{ machine.kernel }} <br/>
       <span class="grey">{{ machine.OS }}</span></td>
     <td class="nowrap">{{ machine.location.name }}<br/>
-      <span class="grey">{{ machine.datetime|timesince }}</span></td>
+      <span class="grey">{{ machine.date|timesince }}</span>
+      {% if machine.outdated_setup %}<span class="warning_sign">&#9889;</span>{% endif %}</td>
   </tr>
   {% endfor %}
 </table>

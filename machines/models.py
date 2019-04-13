@@ -1,11 +1,13 @@
 from django.db import models
 from django.urls import reverse
 
+from datetime import date as datetime_date
+
 
 class Machine(models.Model):
     name = models.CharField(max_length=50)
     FQDN = models.CharField(max_length=50, null=True, blank=True)
-    datetime = models.DateField(null=True, blank=True)
+    date = models.DateField(null=True, blank=True)
     form = models.CharField(max_length=50, null=True, blank=True)
     bios = models.CharField(max_length=50, null=True, blank=True)
     prod = models.CharField(max_length=50, null=True, blank=True)
@@ -24,7 +26,6 @@ class Machine(models.Model):
     gate_iface = models.CharField(max_length=50, null=True, blank=True)
     location = models.ForeignKey('Location', null=True, blank=True,
                                  on_delete=models.SET_NULL)
-    # device = models.ManyToManyField('Device')
     
     def __str__(self):
         return self.name
@@ -32,6 +33,14 @@ class Machine(models.Model):
     def get_absolute_url(self):
         return reverse('machines:index')
 
+    @property
+    def outdated_setup(self):
+        dt = datetime_date.today() - self.date
+        if dt.days > 90:
+            return True
+        else:
+            return False
+        
 
 class Service(models.Model):
     machine = models.ForeignKey('Machine', on_delete=models.CASCADE)
@@ -92,5 +101,4 @@ class Location(models.Model):
     address = models.CharField(max_length=150, null=True)
 
     def __str__(self):
-        str = '{}, {}'.format(self.name, self.address)
-        return str
+        return self.address

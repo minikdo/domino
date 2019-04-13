@@ -200,7 +200,7 @@ class MachineSetupUpload(FormView):
                 
                 obj = Machine.objects.get(FQDN=fqdn)
                 
-                obj.datetime = j['ansible_facts']['ansible_date_time']['date']
+                obj.date = j['ansible_facts']['ansible_date_time']['date']
                 obj.form = j['ansible_facts']['ansible_form_factor']
                 obj.bios = j['ansible_facts']['ansible_bios_date']
                 obj.prod = j['ansible_facts']['ansible_product_name']
