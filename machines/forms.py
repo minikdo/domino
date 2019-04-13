@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import DeviceType, Location
+from .models import DeviceType, Location, Service
 
 
 class DeviceSearchForm(forms.Form):
@@ -18,3 +18,13 @@ class MachineSetupForm(forms.Form):
     file_field = forms.FileField(
         widget=forms.ClearableFileInput(
             attrs={'multiple': True}))
+
+
+class ServiceForm(forms.ModelForm):
+    
+    class Meta:
+        model = Service
+        fields = '__all__'
+        widgets = {'description': forms.Textarea(attrs={'cols': 60,
+                                                        'rows': 4}),
+                   'machine': forms.Select(attrs={'autofocus': True})}

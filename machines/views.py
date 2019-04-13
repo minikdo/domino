@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView, \
 from django.urls import reverse_lazy
 
 from .models import Machine, Device, Service
-from .forms import DeviceSearchForm, MachineSetupForm
+from .forms import DeviceSearchForm, MachineSetupForm, ServiceForm
 
 import time
 
@@ -85,7 +85,8 @@ class ServiceUpdate(LoginRequiredMixin, UpdateView):
     service update
     """
     model = Service
-    fields = ['machine', 'date', 'description', 'device']
+    # fields = ['machine', 'date', 'description', 'device']
+    form_class = ServiceForm
     
     
 class ServiceDelete(LoginRequiredMixin, DeleteView):
@@ -108,7 +109,6 @@ class DeviceIndexView(LoginRequiredMixin, FormMixin, ListView):
     context_object_name = 'device'
     model = Device
     paginate_by = 25
-    ordering = '-date'
 
     def get_queryset(self):
         query = Device.objects.prefetch_related('type', 'location').all()
@@ -118,7 +118,7 @@ class DeviceIndexView(LoginRequiredMixin, FormMixin, ListView):
         if self.location:
             query = query.filter(location=self.location)
 
-        return query
+        return query.order_by('-date')
 
     def get_initial(self):
         initials = {}
