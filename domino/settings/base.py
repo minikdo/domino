@@ -144,6 +144,8 @@ LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 # Admin settings
 ADMIN_EMAIL = get_secret('ADMIN_EMAIL')
+ADMIN_NAME = get_secret('ADMIN_NAME')
+ADMINS = [(ADMIN_NAME, ADMIN_EMAIL)]
 
 # Sessions
 SESSION_COOKIE_AGE = 86400
