@@ -18,8 +18,14 @@ class IndexView(LoginRequiredMixin, ListView):
 
     model = Transaction
     template_name = 'transactions/index.html'
-    
 
+    def get_queryset(self):
+        qs = Transaction.objects.all().prefetch_related('counterparty_account',
+                                                        'created_by')
+
+        return qs
+
+    
 class TransactionCreate(LoginRequiredMixin, CreatedByMixin, CreateView):
     """ create transaction """
 
@@ -47,10 +53,10 @@ class CounterpartyIndexView(LoginRequiredMixin, FormMixin, ListView):
         self.name = self.request.GET.get('name', None)
         self.tax_id = self.request.GET.get('tax_id', None)
         
-        if self.name and self.name is not '':
+        if self.name and self.name != '':
             queryset = queryset.filter(
                 name__icontains=self.name)
-        if self.tax_id and self.name is not '':
+        if self.tax_id and self.name != '':
             queryset = queryset.filter(
                 tax_id__icontains=self.tax_id)
 
