@@ -197,9 +197,12 @@ class MachineSetupUpload(FormView):
                 if 'failed' in j:
                     continue
                 fqdn = j['ansible_facts']['ansible_fqdn']
-                
-                obj = Machine.objects.get(FQDN=fqdn)
-                
+
+                try:
+                    obj = Machine.objects.get(FQDN=fqdn)
+                except Machine.DoesNotExist:
+                    return self.form_invalid(form)
+                    
                 obj.date = j['ansible_facts']['ansible_date_time']['date']
                 obj.form = j['ansible_facts']['ansible_form_factor']
                 obj.bios = j['ansible_facts']['ansible_bios_date']
