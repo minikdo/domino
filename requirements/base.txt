@@ -1,4 +1,4 @@
-Django>=2.1.5, <2.2
+Django>=2.2.3, <2.3
 djatex>=0.1.15, <0.2
 django-autocomplete-light>=3.3.2, <3.4
 num2words>=0.5.8, <0.6
