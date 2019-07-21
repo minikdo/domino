@@ -30,8 +30,8 @@ class TimeStampedModel(models.Model):
     and ``created_by`` fields.
     """
     
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    modified = models.DateTimeField(auto_now=True, blank=True)
     created_by = models.ForeignKey(User,
                                    on_delete=models.SET_NULL,
                                    null=True)
