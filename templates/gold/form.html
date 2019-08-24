@@ -1,0 +1,14 @@
+{% extends 'gold/base_gold.html' %}
+{% block body %}
+
+<div class="row">
+  <div class="twelve columns">
+    <form action="{% url 'gold:latex' %}" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button>utwórz</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

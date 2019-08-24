@@ -1,0 +1,133 @@
+\documentclass[polish,a4wide,10pt]{article}{% load tex_tools %}{% autoescape off %}
+\usepackage{a4wide}
+
+\usepackage{Alegreya}
+
+\usepackage{titlesec}
+\usepackage{enumitem}
+
+\titleformat{\section}[runin]{\normalsize}{\S\thesection.}{0pt}{}{}
+\titlespacing{\section}{0pt}{.5ex plus .1ex minus .1ex}{0.5ex plus .1ex}
+
+\newcommand{\noun}[1]{\textsc{#1}}
+
+\setlength\parskip{\bigskipamount}
+\setlength\parindent{0pt}
+\addtolength{\topmargin}{-20pt}
+
+%% temporary to reset section counter
+
+\usepackage{xpatch}
+
+\makeatletter
+\@addtoreset{section}{part}
+\xpatchcmd{\@part}{\normalfont}{\normalfont\centering}{}{}
+\xpatchcmd{\@part}{\Large}{\LARGE}{}{}
+\renewcommand\partname{Topic}
+\makeatother
+
+\pagestyle{empty}
+
+% \newsavebox{\Contract}
+% \savebox{\Contract}{%
+
+\begin{document}
+  
+\begin{center}
+  {\LARGE Umowa sprzedaży}
+  
+  numer {{ number|texify }}
+\end{center} \par
+
+Zawarta w dniu {{ date|texify }} w Wiśle pomiędzy F.H. Domino, Henryk Szmek,
+ul. 1 Maja 60, 43-460 Wisła, NIP 548-005-59-88 zwany dalej \noun{Kupującym}, a:
+\textbf{% templatetag openbrace %}{{ seller|texify }}{% templatetag closebrace %}
+  zwany dalej \noun{Sprzedającym}, o następującej treści:
+
+\section{}
+
+\noun{Sprzedający} zbywa a \noun{Kupujący} nabywa złom o masie
+\textbf{% templatetag openbrace %}{{ weight|texify }} g{% templatetag closebrace %},
+  próba 585.
+
+\section{} \label{sec:price}
+
+Kupujący zobowiązuje się do zapłaty ceny w wysokości
+\textbf{% templatetag openbrace %}{{ price|texify }} zł{% templatetag closebrace %}
+  (słownie: {{ price_words|texify }} zł)
+
+\section{}
+
+Sprzedający kwituje odbiór kwoty opisanej w \S \ref{sec:price}.
+
+\section{}
+
+Umowa została sporządzona w dwóch jednobrzmiących egzemplarzach, po jednym dla każdej ze stron.
+
+\vspace{10mm}
+
+\begin{minipage}[t]{0.50\columnwidth}
+{\centering \makebox[55mm][l]{\dotfill{}}\\
+\noun{Sprzedający} \par}
+
+\end{minipage}
+\hfill{}
+\begin{minipage}[t]{0.50\columnwidth}
+{\centering \makebox[55mm][l]{\dotfill{}} \\
+\noun{Kupujący} \par}
+
+\end{minipage}
+
+%% I had to copy it because jinja braces make it hard to compile if using savebox
+
+\part{}  % reset section counter
+
+\vspace{2cm}
+
+\begin{center}
+  {\LARGE Umowa sprzedaży}
+  
+  numer {{ number|texify }}
+\end{center} \par
+
+Zawarta w dniu {{ date|texify }} w Wiśle pomiędzy F.H. Domino, Henryk Szmek,
+ul. 1 Maja 60, 43-460 Wisła, NIP 548-005-59-88 zwany dalej \noun{Kupującym}, a:
+\textbf{% templatetag openbrace %}{{ seller|texify }}{% templatetag closebrace %}
+  zwany dalej \noun{Sprzedającym}, o następującej treści:
+
+\section{}
+
+\noun{Sprzedający} zbywa a \noun{Kupujący} nabywa złom o masie
+\textbf{% templatetag openbrace %}{{ weight|texify }} g{% templatetag closebrace %},
+  próba 585.
+
+\section{} \label{sec:price}
+
+Kupujący zobowiązuje się do zapłaty ceny w wysokości
+\textbf{% templatetag openbrace %}{{ price|texify }} zł{% templatetag closebrace %}
+  (słownie: {{ price_words|texify }} zł)
+
+\section{}
+
+Sprzedający kwituje odbiór kwoty opisanej w \S \ref{sec:price}.
+
+\section{}
+
+Umowa została sporządzona w dwóch jednobrzmiących egzemplarzach, po jednym dla każdej ze stron.
+
+\vspace{10mm}
+
+\begin{minipage}[t]{0.50\columnwidth}
+{\centering \makebox[55mm][l]{\dotfill{}}\\
+\noun{Sprzedający} \par}
+
+\end{minipage}
+\hfill{}
+\begin{minipage}[t]{0.50\columnwidth}
+{\centering \makebox[55mm][l]{\dotfill{}} \\
+\noun{Kupujący} \par}
+
+\end{minipage}
+
+\end{document}
+{% endautoescape %}
