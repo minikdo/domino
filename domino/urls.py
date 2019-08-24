@@ -1,5 +1,5 @@
-from django.views.generic import TemplateView
 from django.contrib import admin
+from django.contrib.auth.views import LoginView
 from django.urls import path, include
 from django.conf import settings
 import os
@@ -12,7 +12,7 @@ urlpatterns = [
     path('invoices/', include('invoices.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name="base.html")),
+    path('', LoginView.as_view())
 ]
 
 if settings.DEBUG:

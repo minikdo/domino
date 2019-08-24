@@ -27,6 +27,7 @@
             <li><a href="{% url 'inventory:index' %}">remanent</a></li>
             <li><a href="{% url 'transactions:index' %}">przelewy</a></li>
             <li><a href="{% url 'invoices:customer-index' %}">faktury</a></li>
+            <li><a href="{% url 'gold:form' %}">złoto</a></li>
             <li><a href="{% url 'machines:index' %}">sprzęt</a></li>
 
             {% if request.user.is_superuser %}
