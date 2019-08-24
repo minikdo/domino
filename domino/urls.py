@@ -10,6 +10,7 @@ urlpatterns = [
     path('transactions/', include('transactions.urls')),
     path('machines/', include('machines.urls')),
     path('invoices/', include('invoices.urls')),
+    path('gold/', include('gold.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
     path('', LoginView.as_view())

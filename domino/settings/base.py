@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'transactions.apps.TransactionsConfig',
     'machines.apps.MachinesConfig',
     'invoices.apps.InvoicesConfig',
+    'gold.apps.GoldConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
