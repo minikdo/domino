@@ -49,6 +49,17 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
+DATABASES = {
+    'default': {
+        'ENGINE': get_secret('DB_ENGINE'),
+        'NAME': get_secret('DB_NAME'),
+        'USER': get_secret('DB_USER'),
+        'HOST': get_secret('DB_HOST'),
+        'PORT': get_secret('DB_PORT'),
+    }
+}
+
+
 
 # Application definition
 

@@ -17,10 +17,10 @@ class MachineIndex(LoginRequiredMixin, ListView):
     """
     template_name = 'machines/index.html'
     context_object_name = 'machines'
-    
+
     def get_queryset(self):
         return Machine.objects.prefetch_related('location').order_by('pk')
-    
+
 
 class MachineDetail(DetailView):
     """
@@ -53,7 +53,7 @@ class MachineDelete(DeleteView):
     """
     model = Machine
     success_url = reverse_lazy('machines:index')
-    
+
 
 class ServiceIndexView(LoginRequiredMixin, ListView):
     """
@@ -67,7 +67,7 @@ class ServiceIndexView(LoginRequiredMixin, ListView):
         query = Service.objects.prefetch_related('machine', 'device')\
                 .all()
         return query.order_by('-date')
-    
+
 
 class ServiceCreate(LoginRequiredMixin, CreateView):
     """
@@ -88,8 +88,8 @@ class ServiceUpdate(LoginRequiredMixin, UpdateView):
     model = Service
     # fields = ['machine', 'date', 'description', 'device']
     form_class = ServiceForm
-    
-    
+
+
 class ServiceDelete(LoginRequiredMixin, DeleteView):
     """
     service delete
@@ -128,11 +128,11 @@ class DeviceIndexView(LoginRequiredMixin, FormMixin, ListView):
             initials['device_type'] = self.device_type
         if self.location:
             initials['location'] = self.location
-            
+
         return initials
 
     def dispatch(self, request, *args, **kwargs):
-    
+
         self.device_type = request.GET.get('device_type', None)
         self.location = request.GET.get('location', None)
         return super().dispatch(request, *args, **kwargs)
@@ -157,7 +157,7 @@ class DeviceCreate(LoginRequiredMixin, CreateView):
     def get_initial(self, **kwargs):
         return {'date': time.strftime('%Y-%m-%d')}
 
-    
+
 class DeviceUpdate(LoginRequiredMixin, UpdateView):
     """
     component update
@@ -165,8 +165,8 @@ class DeviceUpdate(LoginRequiredMixin, UpdateView):
     model = Device
     fields = ['type', 'location', 'date', 'name', 'price', 'company',
               'invoice', 'machine']
-    
-    
+
+
 class DeviceDelete(LoginRequiredMixin, DeleteView):
     """
     component delete
@@ -187,8 +187,6 @@ class MachineSetupUpload(FormView):
         form = self.get_form(form_class)
         files = request.FILES.getlist('file_field')
 
-        # import pdb; pdb.set_trace()
-        
         if form.is_valid():
             for f in files:
                 import json
@@ -202,7 +200,7 @@ class MachineSetupUpload(FormView):
                     obj = Machine.objects.get(FQDN=fqdn)
                 except Machine.DoesNotExist:
                     return self.form_invalid(form)
-                    
+
                 obj.date = j['ansible_facts']['ansible_date_time']['date']
                 obj.form = j['ansible_facts']['ansible_form_factor']
                 obj.bios = j['ansible_facts']['ansible_bios_date']
