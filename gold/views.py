@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -14,7 +13,7 @@ class Form(LoginRequiredMixin, FormView):
 
     form_class = ContractForm
     template_name = 'gold/form.html'
-    
+
 
 @login_required
 def latex(request, **kwargs):
@@ -25,7 +24,7 @@ def latex(request, **kwargs):
     seller = request.POST.get('seller', None)
     weight = request.POST.get('weight', None)
     price = request.POST.get('price', None)
-    
+
     file_name = "umowa_{number}_z_{date}.pdf".format(
         number=number, date=date)
 
@@ -34,9 +33,8 @@ def latex(request, **kwargs):
                'seller': seller,
                'weight': weight,
                'price': price,
-               'price_words': num2words(price, lang='pl')
-    }
-    
+               'price_words': num2words(price, lang='pl')}
+
     return render_latex(request, file_name, 'gold/contract.tex',
                         error_template_name='gold/error.html',
                         home_dir=settings.TEX_HOME,
