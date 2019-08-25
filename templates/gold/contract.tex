@@ -17,14 +17,12 @@
 
 %% temporary to reset section counter
 
-\usepackage{xpatch}
 
 \makeatletter
 \@addtoreset{section}{part}
-\xpatchcmd{\@part}{\normalfont}{\normalfont\centering}{}{}
-\xpatchcmd{\@part}{\Large}{\LARGE}{}{}
-\renewcommand\partname{Topic}
 \makeatother
+\titleformat{\part}[display]
+{\normalfont\LARGE\bfseries\centering}{}{0pt}{}
 
 \pagestyle{empty}
 
@@ -82,7 +80,7 @@ Umowa została sporządzona w dwóch jednobrzmiących egzemplarzach, po jednym d
 
 \part{}  % reset section counter
 
-\vspace{2cm}
+% \vspace{2cm}
 
 \begin{center}
   {\LARGE Umowa sprzedaży}
