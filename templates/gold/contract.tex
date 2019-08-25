@@ -1,7 +1,16 @@
-\documentclass[polish,a4wide,10pt]{article}{% load tex_tools %}{% autoescape off %}
-\usepackage{a4wide}
+\documentclass[polish,a4paper,10pt]{article} % {% load tex_tools %}{% autoescape off %}
+
+% geometry
+  
+\usepackage[top=60pt]{geometry}
+\setlength\parskip{\bigskipamount}
+\setlength\parindent{0pt}
+
+% font
 
 \usepackage{Alegreya}
+
+% section formatting
 
 \usepackage{titlesec}
 \usepackage{enumitem}
@@ -11,12 +20,7 @@
 
 \newcommand{\noun}[1]{\textsc{#1}}
 
-\setlength\parskip{\bigskipamount}
-\setlength\parindent{0pt}
-\addtolength{\topmargin}{-20pt}
-
 %% temporary to reset section counter
-
 
 \makeatletter
 \@addtoreset{section}{part}
