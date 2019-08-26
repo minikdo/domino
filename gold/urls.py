@@ -8,7 +8,6 @@ from . import views
 app_name = 'gold'
 
 urlpatterns = [
-    path('', views.Form.as_view(), name='form'),
-    path('latex/', views.latex, name='latex'),
+    path('', views.contract_view, name='form'),
 ]
 
