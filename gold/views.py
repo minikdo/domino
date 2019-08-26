@@ -1,5 +1,6 @@
-from django.views.generic import FormView
-from django.contrib.auth.mixins import LoginRequiredMixin
+# from django.views.generic import FormView
+from django.shortcuts import render
+# from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
@@ -9,33 +10,34 @@ from num2words import num2words
 from .forms import ContractForm
 
 
-class Form(LoginRequiredMixin, FormView):
-
-    form_class = ContractForm
-    template_name = 'gold/form.html'
-
-
 @login_required
-def latex(request, **kwargs):
-    """Generate an invoice in PDF"""
+def contract_view(request):
 
-    number = request.POST.get('number', None)
-    date = request.POST.get('date', None)
-    seller = request.POST.get('seller', None)
-    weight = request.POST.get('weight', None)
-    price = request.POST.get('price', None)
+    if request.method == 'POST':
+        form = ContractForm(request.POST)
 
-    file_name = "umowa_{number}_z_{date}.pdf".format(
-        number=number, date=date)
+        if form.is_valid():
+            number = form.cleaned_data['number']
+            date = form.cleaned_data['date']
+            seller = form.cleaned_data['seller']
+            weight = form.cleaned_data['weight']
+            price = form.cleaned_data['price']
 
-    context = {'number': number,
-               'date': date,
-               'seller': seller,
-               'weight': weight,
-               'price': price,
-               'price_words': num2words(price, lang='pl')}
+            file_name = "umowa_{number}_z_{date}.pdf".format(
+                number=number, date=date)
 
-    return render_latex(request, file_name, 'gold/contract.tex',
-                        error_template_name='gold/error.html',
-                        home_dir=settings.TEX_HOME,
-                        context=context)
+            form_context = {'number': number,
+                            'date': date,
+                            'seller': seller,
+                            'weight': weight,
+                            'price': price,
+                            'price_words': num2words(price, lang='pl')}
+
+            return render_latex(request, file_name, 'gold/contract.tex',
+                                error_template_name='gold/error.html',
+                                home_dir=settings.TEX_HOME,
+                                context=form_context)
+    else:
+        form = ContractForm()
+    context = {'form': form}
+    return render(request, 'gold/form.html', context)
