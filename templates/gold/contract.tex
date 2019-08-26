@@ -1,5 +1,8 @@
 \documentclass[a4paper,10pt]{article} % {% load tex_tools %}{% autoescape off %}
 
+\usepackage[absolute]{textpos}
+\usepackage{xcolor}
+
 % geometry
 
 \usepackage[top=60pt]{geometry}
@@ -17,6 +20,7 @@
 
 \titleformat{\section}[runin]{\normalsize}{\S\thesection.}{0pt}{}{}
 \titlespacing{\section}{0pt}{.5ex plus .1ex minus .1ex}{0.5ex plus .1ex}
+\titlespacing{\part}{0pt}{0pt}{0pt}
 
 \newcommand{\noun}[1]{\textsc{#1}}
 
@@ -40,7 +44,7 @@
     numer {{ number|texify }}
   \end{center} \par
 
-  Zawarta w dniu 2019-08-25 w Wiśle pomiędzy F.H. Domino, Henryk Szmek,
+  Zawarta w dniu {{ date|texify }} w Wiśle pomiędzy F.H. Domino, Henryk Szmek,
   ul. 1 Maja 60, 43-460 Wisła, NIP 548-005-59-88 zwany dalej Kupującym, a
   {\bfseries {{ seller|texify }}}
   zwany dalej Sprzedającym, o~następującej treści:
@@ -87,10 +91,16 @@
 
 \begin{document}
 
+\begin{textblock*}{0.4pt}(\dimexpr\paperwidth/2,\dimexpr\paperheight/2\relax)
+  \noindent\makebox[\linewidth]{%
+    \textcolor[RGB]{220,220,220}{\rule{\paperwidth}{0.4pt}}}
+\end{textblock*}
+
 \x
 
 \part{}
-\vspace{2cm}
+
+\vspace{1.8cm}
 
 \x
 
