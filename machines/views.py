@@ -209,7 +209,7 @@ class MachineSetupUpload(FormView):
                 obj.OS = "%s %s" % (j['ansible_facts']['ansible_distribution'],
                                     j['ansible_facts']['ansible_distribution_version'])  # noqa
                 obj.kernel = j['ansible_facts']['ansible_kernel']
-                obj.CPU = j['ansible_facts']['ansible_processor'][0]
+                obj.CPU = j['ansible_facts']['ansible_processor'][2]
                 obj.cores = j['ansible_facts']['ansible_processor_cores']
                 obj.arch = j['ansible_facts']['ansible_architecture']
                 obj.mem = j['ansible_facts']['ansible_memtotal_mb']
