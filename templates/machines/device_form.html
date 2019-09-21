@@ -6,13 +6,39 @@
     <div class="navbar3">
       <div class="navbar3-header">Device</div>
     </div>
-    
-    <form action="" method="post">
-      {{ form }}
-      {% csrf_token %}
-      <div><button>submit</button></div>
-    </form>
   </div>
 </div>
+<form action="" method="post" enctype="multipart/form-data">
+  <div class="row">
+    <div class="six columns">
+      
+      {% csrf_token %}
+      
+      {# Include the hidden fields #}
+      {% for hidden in form.hidden_fields %}
+      {{ hidden }}
+      {% endfor %}
+      {# Include the visible fields #}
+      {% for field in form.visible_fields %}
+      
+      {% if forloop.counter == 6 %}
+
+    </div>
+    <div class="six columns">
+    
+      {% endif %}
+      
+      <div class="fieldWrapper">
+        {{ field.errors }}
+        {{ field.label_tag }} {{ field }}
+      </div>
+      
+      {% endfor %}
+    
+    </div>
+  </div>
+  <hr>
+  <input name="" type="submit" class="button button-primary" value="save"/>
+</form>
 
 {% endblock %}

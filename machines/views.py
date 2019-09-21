@@ -86,7 +86,6 @@ class ServiceUpdate(LoginRequiredMixin, UpdateView):
     service update
     """
     model = Service
-    # fields = ['machine', 'date', 'description', 'device']
     form_class = ServiceForm
 
 
@@ -152,7 +151,7 @@ class DeviceCreate(LoginRequiredMixin, CreateView):
     """
     model = Device
     fields = ['type', 'location', 'date', 'name', 'price', 'company',
-              'invoice', 'machine']
+              'invoice', 'serial', 'machine']
 
     def get_initial(self, **kwargs):
         return {'date': time.strftime('%Y-%m-%d')}
@@ -164,7 +163,7 @@ class DeviceUpdate(LoginRequiredMixin, UpdateView):
     """
     model = Device
     fields = ['type', 'location', 'date', 'name', 'price', 'company',
-              'invoice', 'machine']
+              'invoice', 'serial', 'machine']
 
 
 class DeviceDelete(LoginRequiredMixin, DeleteView):

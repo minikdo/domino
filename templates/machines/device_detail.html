@@ -41,6 +41,10 @@
     <th>invoice</th>
     <td>{{ device.invoice }}</td>
   </tr>
+  <tr>
+    <th>serial number</th>
+    <td>{{ device.serial|default_if_none:'' }}</td>
+  </tr>
 </table>
 
 

@@ -47,7 +47,7 @@ class Machine(models.Model):
 class Service(models.Model):
     machine = models.ForeignKey('Machine', on_delete=models.CASCADE)
     date = models.DateField()
-    description = models.CharField(max_length=300)
+    description = models.TextField(max_length=500)
     device = models.ForeignKey('Device',
                                blank=True,
                                null=True,
@@ -74,9 +74,12 @@ class Device(models.Model):
                                 blank=True,
                                 null=True)
     company = models.CharField(max_length=150, blank=True, null=True)
-    invoice = models.CharField(max_length=150, blank=True, null=True)
+    invoice = models.CharField(max_length=150, blank=True, null=True,
+                               verbose_name='invoice number')
     location = models.ForeignKey('Location', null=True, blank=True,
                                  on_delete=models.SET_NULL)
+    serial = models.CharField(max_length=150, blank=True, null=True,
+                              verbose_name='serial number')
 
     def get_absolute_url(self):
         return reverse('machines:device_index')
