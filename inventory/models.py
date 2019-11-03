@@ -78,7 +78,7 @@ class Unit(models.Model):
 class Item(models.Model):
     """ item list """
 
-    MAX_PRICE = 11000
+    MAX_PRICE = 25000
     MAX_QTY = 100
     
     inventory = models.ForeignKey('Inventory', on_delete=models.CASCADE,
