@@ -121,15 +121,18 @@ class Item(models.Model):
         return reverse_lazy('inventory:index')
 
     def clean(self):
+        # Quantity cannot be fractions
         if self.unit.pk == Unit.QTY_ID and self.quantity is not None and\
            not self.quantity.is_integer():
             raise ValidationError({'quantity':
                                    _('Ilość sztuk nie może być ułamkowa')})
+        # No gramms in groups other than silver and gold
         if self.unit.pk == Unit.GRAM_ID and\
            self.make.group_id not in [MakeGroup.SILVER_ID, MakeGroup.GOLD_ID]:
             raise ValidationError({'unit':
                                    _('W tej grupie towarowej nie można '
                                      'stosować gramów')})
+        # Net price is higher than gross
         if self.net_price != 0 and\
            isinstance(self.net_price, (int, float)) and\
            isinstance(self.price, (int, float)):
