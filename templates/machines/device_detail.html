@@ -45,6 +45,12 @@
     <th>serial number</th>
     <td>{{ device.serial|default_if_none:'' }}</td>
   </tr>
+  {% if device.invoice_pdf %} 
+  <tr>
+    <th>invoice preview</th>
+    <td> <a target="_blank" href="{{ device.invoice_pdf.url }}"/>invoice</a></td>
+  </tr>
+{% endif %}
 </table>
 
 

@@ -2,6 +2,12 @@ from django.db import models
 from django.urls import reverse
 
 from datetime import date as datetime_date
+import os
+
+
+def device_upload_location(instance, filename):
+    fname, ext = os.path.splitext(filename)
+    return "device/{id}{ext}".format(id=instance.id, ext=ext)
 
 
 class Machine(models.Model):
@@ -80,6 +86,9 @@ class Device(models.Model):
                                  on_delete=models.SET_NULL)
     serial = models.CharField(max_length=150, blank=True, null=True,
                               verbose_name='serial number')
+    invoice_pdf = models.FileField(upload_to=device_upload_location,
+                                   blank=True, null=True)
+    
 
     def get_absolute_url(self):
         return reverse('machines:device_index')

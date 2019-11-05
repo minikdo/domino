@@ -151,7 +151,7 @@ class DeviceCreate(LoginRequiredMixin, CreateView):
     """
     model = Device
     fields = ['type', 'location', 'date', 'name', 'price', 'company',
-              'invoice', 'serial', 'machine']
+              'invoice', 'serial', 'machine', 'invoice_pdf']
 
     def get_initial(self, **kwargs):
         return {'date': time.strftime('%Y-%m-%d')}
@@ -163,7 +163,7 @@ class DeviceUpdate(LoginRequiredMixin, UpdateView):
     """
     model = Device
     fields = ['type', 'location', 'date', 'name', 'price', 'company',
-              'invoice', 'serial', 'machine']
+              'invoice', 'serial', 'machine', 'invoice_pdf']
 
 
 class DeviceDelete(LoginRequiredMixin, DeleteView):
