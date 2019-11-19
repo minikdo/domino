@@ -13,9 +13,13 @@
   % \date{\today}
   % \maketitle
 
-  {\center {\large Remanent z dnia {{ date|date:"Y-m-d"|texify }} }
-  {\center {\large {{ inventory.shop.address|texify }} }
 
+  \begin{center}
+    {\large Remanent z dnia {{ date|date:"Y-m-d"|texify }} } 
+
+    {\large {{ inventory.shop.address|texify }} } 
+  \end{center}
+    
   \sffamily
 
   \footnotesize
@@ -42,7 +46,10 @@
       \hline
     \end{longtable}
 
-    Zakończono na pozycji nr {{ counter|texify }}. Łączna suma towarów {{ inventory.price_mode|texify }}:
+    Remanent z dnia {{ date|date:"Y-m-d"|texify }}, sklep {{ inventory.shop.address|texify }},
+    Zakończono na pozycji nr {{ counter|texify }}.
+
+    Łączna suma towarów {{ inventory.price_mode|texify }}:
     {{ total_sum|floatformat:2|texify }} zł
     
   {% endif %}
