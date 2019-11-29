@@ -1,5 +1,5 @@
 remote_host: adm
-remote_user: www-data
+remote_user: domino
 git_repo: https://github.com/minikdo/domino.git
 proj_name: domino
 proj_path: /var/www/domino/
