@@ -133,7 +133,8 @@ class Item(models.Model):
                                    _('W tej grupie towarowej nie można '
                                      'stosować gramów')})
         # Net price is higher than gross
-        if self.net_price != 0 and\
+        if self.unit.pk == Unit.QTY_ID and\
+           self.net_price != 0 and\
            isinstance(self.net_price, (int, float)) and\
            isinstance(self.price, (int, float)):
             if self.net_price > self.price:
