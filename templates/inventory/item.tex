@@ -34,7 +34,7 @@
     {% for item in items %}
       {{ forloop.counter|texify }} &
       {{ item.make__name_print|texify }} &
-      \makebox[1cm][r]{ {{ item.qty|texify }} } &
+      \makebox[1cm][r]{ {{ item.qty|floatformat:2|texify }} } &
       {{ item.unit__name|texify }} &
       {% if inventory.net_prices %}
       \makebox[2cm][r]{ {{ item.net_price|floatformat:2|texify }} } &
