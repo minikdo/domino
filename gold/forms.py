@@ -6,6 +6,10 @@ from django.core.exceptions import ValidationError
 from datetime import date
 
 
+FINENESS = (("585", "585"),
+            ("333", "333"))
+
+
 class ContractForm(forms.Form):
 
     date = forms.DateField(widget=widgets.AdminDateWidget(),
@@ -19,6 +23,7 @@ class ContractForm(forms.Form):
 
     seller = forms.CharField(label="Umowa zawarta z")
     weight = forms.FloatField(label="Waga")
+    fineness = forms.ChoiceField(choices=FINENESS, label="Próba")
     price = forms.FloatField(label="Cena")
 
     class Media:

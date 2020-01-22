@@ -21,6 +21,7 @@ def contract_view(request):
             date = form.cleaned_data['date']
             seller = form.cleaned_data['seller']
             weight = form.cleaned_data['weight']
+            fineness = form.cleaned_data['fineness']
             price = form.cleaned_data['price']
 
             file_name = "umowa_{number}_z_{date}.pdf".format(
@@ -30,6 +31,7 @@ def contract_view(request):
                             'date': date,
                             'seller': seller,
                             'weight': weight,
+                            'fineness': fineness,
                             'price': price,
                             'price_words': num2words(price, lang='pl')}
 
