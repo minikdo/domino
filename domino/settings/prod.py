@@ -7,9 +7,10 @@ ALLOWED_HOSTS += ['10.4.0.1', 'domino.d']
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 LOGGING = {
+    'version': 1,
     'loggers': {
         'django': {
-            'handlers': {['file']},
+            'handlers': ['file'],
             'level': 'DEBUG'
         }
     },
