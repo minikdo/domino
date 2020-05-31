@@ -13,11 +13,18 @@ SERVER_EMAIL = SERVER_EMAIL
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',  # noqa
+            'style': '{',
+        }
+    },
     'handlers': {
         'file': {
             'level': 'INFO',
             'class': 'logging.handlers.WatchedFileHandler',
-            'filename': '/var/log/django/domino/request.log'
+            'filename': '/var/log/django/domino/request.log',
+            'formatter': 'verbose'
         }
     },
     'loggers': {
