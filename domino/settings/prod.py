@@ -1,4 +1,4 @@
-from .base import BASE_DIR, ALLOWED_HOSTS, os, get_secret
+from .base import *  # noqa
 
 DEBUG = False
 
