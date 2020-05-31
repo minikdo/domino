@@ -1,4 +1,4 @@
-from .base import * # noqa
+from .base import BASE_DIR, ALLOWED_HOSTS, os, get_secret
 
 DEBUG = False
 
@@ -6,19 +6,24 @@ ALLOWED_HOSTS += ['10.4.0.1', 'domino.d']
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+SERVER_EMAIL = get_secret('SERVER_EMAIL')
+DEFAULT_FROM_EMAIL = SERVER_EMAIL
+SERVER_EMAIL = SERVER_EMAIL
+
 LOGGING = {
     'version': 1,
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG'
-        }
-    },
+    'disable_existing_loggers': False,
     'handlers': {
         'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': './django.log'
+            'level': 'INFO',
+            'class': 'logging.handlers.WatchedFileHandler',
+            'filename': '/var/log/django/domino/request.log'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['file'],
+            'level': 'INFO'
         }
     }
 }
