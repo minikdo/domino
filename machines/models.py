@@ -3,11 +3,13 @@ from django.urls import reverse
 
 from datetime import date as datetime_date
 import os
+from uuid import uuid4
 
 
 def device_upload_location(instance, filename):
     fname, ext = os.path.splitext(filename)
-    return "device/{id}{ext}".format(id=instance.id, ext=ext)
+    name = instance.pk if instance.pk else uuid4().hex
+    return "device/{name}{ext}".format(name=name, ext=ext)
 
 
 class Machine(models.Model):
@@ -32,7 +34,7 @@ class Machine(models.Model):
     gate_iface = models.CharField(max_length=250, null=True, blank=True)
     location = models.ForeignKey('Location', null=True, blank=True,
                                  on_delete=models.SET_NULL)
-    
+
     def __str__(self):
         return self.name
 
@@ -48,7 +50,7 @@ class Machine(models.Model):
             return True
         else:
             return False
-        
+
 
 class Service(models.Model):
     machine = models.ForeignKey('Machine', on_delete=models.CASCADE)
@@ -88,10 +90,9 @@ class Device(models.Model):
                               verbose_name='serial number')
     invoice_pdf = models.FileField(upload_to=device_upload_location,
                                    blank=True, null=True)
-    
 
     def get_absolute_url(self):
-        return reverse('machines:device_index')
+        return reverse('machines:device_detail', kwargs={'pk': self.pk})
 
     def __str__(self):
         string = "{} {}".format(str(self.date), self.name)
@@ -106,7 +107,7 @@ class DeviceType(models.Model):
 
     class Meta:
         ordering = ['name']
-    
+
 
 class Location(models.Model):
     """ machine location list """
