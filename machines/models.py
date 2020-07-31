@@ -98,6 +98,9 @@ class Device(models.Model):
         string = "{} {}".format(str(self.date), self.name)
         return string
 
+    class Meta:
+        ordering = ['-pk']
+
 
 class DeviceType(models.Model):
     name = models.CharField(unique=True, max_length=150, null=True)

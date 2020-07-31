@@ -118,7 +118,7 @@ class DeviceIndexView(LoginRequiredMixin, FormMixin, ListView):
         if self.location:
             query = query.filter(location=self.location)
 
-        return query.order_by('-date')
+        return query
 
     def get_initial(self):
         initials = {}
