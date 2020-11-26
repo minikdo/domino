@@ -82,3 +82,13 @@ def get_total_items(inventory):
                  .order_by('make__name_print', price)
     
     return items
+
+
+def sum_by_group(items):
+    # bielizna, wyr. art.
+    sums = items\
+        .filter(make__group__in=[2, 3])\
+        .values('make__group__name')\
+        .annotate(sum=Sum(F('price') * F('quantity')))
+
+    return sums

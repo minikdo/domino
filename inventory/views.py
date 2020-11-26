@@ -17,7 +17,7 @@ from djatex import render_latex
 from .models import Inventory, Item, Unit
 from .forms import ItemForm, InventorySelectForm, SignUpForm
 from .forms import ItemSearchForm
-from .utils import shelf_counter, stats, get_total_items
+from .utils import shelf_counter, stats, get_total_items, sum_by_group
 from .mixins import InventorySessionMixin
 
 
@@ -251,7 +251,8 @@ class Stats(TemplateView):
                                        .values('created_by__username')\
                                        .annotate(count=Count('pk'))
         context['current_inventory'] = self.items.first().inventory
-
+        context['sum_by_group'] = sum_by_group(self.items)
+        
         return context
     
     def dispatch(self, request, *args, **kwargs):

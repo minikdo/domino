@@ -26,4 +26,12 @@
 </table>
 {% endif %}
 
+<table>
+{% for group in sum_by_group %}
+    <tr>
+        <th>{{ group.make__group__name }}</th>
+        <td>{{ group.sum }} zł</td>
+    </tr>
+{% endfor %}
+</table>
 {% endblock %}
