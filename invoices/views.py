@@ -192,13 +192,19 @@ def latex(request, **kwargs):
 
     invoice_data = Invoice.objects.get(pk=invoice)
     items = InvoiceItem.objects.filter(invoice=invoice)
-           
+
+    if invoice_data.created_by_id in [1,14]:
+        account = "40 1050 1096 1000 0090 7197 0892"
+    else:
+        account = "94 1050 1096 1000 0001 0109 3797"
+    
     file_name = "faktura_{id}_z_{date}.pdf".format(
         id=invoice, date=invoice_data.issued)
 
     total, vats = SumItems(invoice)
 
     context = {'invoice': invoice_data,
+               'account': account,
                'items': items,
                'vats': vats,
                'total': total,
