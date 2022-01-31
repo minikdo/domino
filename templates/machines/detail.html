@@ -10,8 +10,15 @@
 
 <table>
   <tr>
-    <th>Name</th><td>{{ machine.name }}</td>
-    <th>FQDN</th><td>{{ machine.FQDN }}</td>
+      <th>Name</th><td>{{ machine.name }}</td>
+      <th>FQDN</th><td>{{ machine.FQDN }}</td>
+      <th>Active</th><td>
+          {% if machine.is_active %}
+              <span style="color:darkgreen;">True</span>
+          {% else %}
+              <span style="color:red;">False</span>
+          {% endif %}
+      </td>
   </tr>
   <tr>
     <th>Date</th><td>{{ machine.date }}</td>

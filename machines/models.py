@@ -34,12 +34,13 @@ class Machine(models.Model):
     gate_iface = models.CharField(max_length=250, null=True, blank=True)
     location = models.ForeignKey('Location', null=True, blank=True,
                                  on_delete=models.SET_NULL)
+    is_active = models.BooleanField(default=True, blank=True)
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('machines:index')
+        return reverse('machines:detail', kwargs={'pk': self.pk})
 
     @property
     def outdated_setup(self):

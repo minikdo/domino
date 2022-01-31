@@ -20,7 +20,11 @@
     <th>Location / Update</th>
   </tr>
   {% for machine in machines %}
-  <tr>
+      <tr
+          {% if not machine.is_active %}
+              class="inactive"
+          {% endif %}
+      >
     <td><a href="{% url 'machines:detail' machine.pk %}">{{ machine.pk }}</a></td>
     <td class="nowrap">{{ machine.name }}<br/>
       <span class="grey">{{ machine.FQDN }}</span></td>
