@@ -1,4 +1,4 @@
-Django==3.2
+Django==3.2.11
 djatex
 django-autocomplete-light
 num2words

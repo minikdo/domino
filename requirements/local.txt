@@ -18,7 +18,7 @@ click==8.0.3
     # via black
 decorator==5.1.1
     # via ipython
-django==3.2
+django==3.2.11
     # via
     #   -r base.txt
     #   django-debug-toolbar
@@ -95,8 +95,6 @@ traitlets==5.1.1
     # via
     #   ipython
     #   matplotlib-inline
-typing-extensions==4.0.1
-    # via black
 wcwidth==0.2.5
     # via prompt-toolkit
 
