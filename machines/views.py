@@ -200,22 +200,25 @@ class MachineSetupUpload(FormView):
                 except Machine.DoesNotExist:
                     return self.form_invalid(form)
 
-                obj.date = j['ansible_facts']['ansible_date_time']['date']
-                obj.form = j['ansible_facts']['ansible_form_factor']
-                obj.bios = j['ansible_facts']['ansible_bios_date']
-                obj.prod = j['ansible_facts']['ansible_product_name']
-                obj.vendor = j['ansible_facts']['ansible_system_vendor']
-                obj.OS = "%s %s" % (j['ansible_facts']['ansible_distribution'],
-                                    j['ansible_facts']['ansible_distribution_version'])  # noqa
-                obj.kernel = j['ansible_facts']['ansible_kernel']
-                obj.CPU = j['ansible_facts']['ansible_processor'][2]
-                obj.cores = j['ansible_facts']['ansible_processor_cores']
-                obj.arch = j['ansible_facts']['ansible_architecture']
-                obj.mem = j['ansible_facts']['ansible_memtotal_mb']
-                # obj.disk = j ['ansible_facts']['ansible_devices']['sda']['model']  # noqa
-                obj.IPs = ', '.join(j['ansible_facts']['ansible_all_ipv4_addresses'])  # noqa
-                obj.gateway = j['ansible_facts']['ansible_default_ipv4']['gateway'],  # noqa
-                obj.gate_iface =j['ansible_facts']['ansible_default_ipv4']['interface']  # noqa
+                try:
+                    obj.date = j['ansible_facts']['ansible_date_time']['date']
+                    obj.form = j['ansible_facts']['ansible_form_factor']
+                    obj.bios = j['ansible_facts']['ansible_bios_date']
+                    obj.prod = j['ansible_facts']['ansible_product_name']
+                    obj.vendor = j['ansible_facts']['ansible_system_vendor']
+                    obj.OS = "%s %s" % (j['ansible_facts']['ansible_distribution'],
+                                        j['ansible_facts']['ansible_distribution_version'])  # noqa
+                    obj.kernel = j['ansible_facts']['ansible_kernel']
+                    obj.CPU = j['ansible_facts']['ansible_processor'][2]
+                    obj.cores = j['ansible_facts']['ansible_processor_cores']
+                    obj.arch = j['ansible_facts']['ansible_architecture']
+                    obj.mem = j['ansible_facts']['ansible_memtotal_mb']
+                    # obj.disk = j ['ansible_facts']['ansible_devices']['sda']['model']  # noqa
+                    obj.IPs = ', '.join(j['ansible_facts']['ansible_all_ipv4_addresses'])  # noqa
+                    obj.gateway = j['ansible_facts']['ansible_default_ipv4']['gateway'],  # noqa
+                    obj.gate_iface =j['ansible_facts']['ansible_default_ipv4']['interface']  # noqa
+                except KeyError:
+                    pass
 
                 obj.save()
 

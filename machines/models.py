@@ -51,6 +51,13 @@ class Machine(models.Model):
         else:
             return False
 
+    @property
+    def days_since(self):
+        if self.date is not None:
+            ds = (datetime_date.today() - self.date)
+            return ds.days
+        return ''
+
 
 class Service(models.Model):
     machine = models.ForeignKey('Machine', on_delete=models.CASCADE)
