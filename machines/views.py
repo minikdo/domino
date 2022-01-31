@@ -19,7 +19,7 @@ class MachineIndex(LoginRequiredMixin, ListView):
     context_object_name = 'machines'
 
     def get_queryset(self):
-        return Machine.objects.prefetch_related('location').order_by('pk')
+        return Machine.objects.prefetch_related('location').order_by('-is_active', 'name')
 
 
 class MachineDetail(DetailView):
