@@ -21,7 +21,7 @@ class MachineSetupForm(forms.Form):
 
 
 class ServiceForm(forms.ModelForm):
-    
+
     class Meta:
         model = Service
         fields = '__all__'

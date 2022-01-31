@@ -19,7 +19,8 @@ class MachineIndex(LoginRequiredMixin, ListView):
     context_object_name = 'machines'
 
     def get_queryset(self):
-        return Machine.objects.prefetch_related('location').order_by('-is_active', 'name')
+        return Machine.objects.prefetch_related('location')\
+                              .order_by('-is_active', 'name')
 
 
 class MachineDetail(DetailView):
@@ -206,7 +207,7 @@ class MachineSetupUpload(FormView):
                     obj.bios = j['ansible_facts']['ansible_bios_date']
                     obj.prod = j['ansible_facts']['ansible_product_name']
                     obj.vendor = j['ansible_facts']['ansible_system_vendor']
-                    obj.OS = "%s %s" % (j['ansible_facts']['ansible_distribution'],
+                    obj.OS = "%s %s" % (j['ansible_facts']['ansible_distribution'],  # noqa
                                         j['ansible_facts']['ansible_distribution_version'])  # noqa
                     obj.kernel = j['ansible_facts']['ansible_kernel']
                     obj.CPU = j['ansible_facts']['ansible_processor'][2]
