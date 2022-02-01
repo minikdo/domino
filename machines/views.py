@@ -194,7 +194,10 @@ class MachineSetupUpload(FormView):
                 j = json.loads(str)
                 if 'failed' in j:
                     continue
-                fqdn = j['ansible_facts']['ansible_fqdn']
+                try:
+                    fqdn = j['ansible_facts']['ansible_fqdn']
+                except KeyError:
+                    return self.form_invalid(form)
 
                 try:
                     obj = Machine.objects.get(FQDN=fqdn)
