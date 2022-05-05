@@ -171,13 +171,13 @@ class ItemSearch(LoginRequiredMixin, InventorySessionMixin, FormMixin,
 
         if self.myuser:
             query = query.filter(created_by=self.myuser)
-        if self.make and self.make is not '':
+        if self.make and self.make != '':
             query = query.filter(make=self.make)
-        if self.id and self.id is not '':
+        if self.id and self.id != '':
             query = query.filter(id=self.id)
-        if self.net_price and self.net_price is not '':
+        if self.net_price and self.net_price != '':
             query = query.filter(net_price=self.net_price)
-        if self.price and self.price is not '':
+        if self.price and self.price != '':
             query = query.filter(price=self.price)
         if not self.show_all and not self.myuser and not self.make and\
            not self.price and self.shelf:

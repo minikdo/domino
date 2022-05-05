@@ -131,7 +131,7 @@ class CustomerIndexView(LoginRequiredMixin, FormMixin, ListView):
 
         name = self.request.GET.get('name', None)
 
-        if name and name is not '':
+        if name and name != '':
             customers = customers.filter(
                 Q(name__icontains=name) |
                 Q(company__icontains=name)
