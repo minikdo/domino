@@ -19,3 +19,6 @@ ALLOWED_HOSTS += ['192.168.8.101']
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),  # add STATIC_ROOT to DIRS
 ]
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails)"
