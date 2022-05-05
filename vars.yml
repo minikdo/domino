@@ -1,4 +1,4 @@
-remote_host: adm
+remote_host: dellwg-fish
 remote_user: domino
 git_repo: https://github.com/minikdo/domino.git
 proj_name: domino
