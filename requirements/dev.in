@@ -1,6 +1,7 @@
--r base.txt # includes the base.txt requirements file
+-c requirements.txt
 
 django-debug-toolbar
 django-extensions
 flake8
 ipython
+
