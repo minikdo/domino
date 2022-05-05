@@ -150,3 +150,8 @@ class Customer(TimeStampedModel):
            not validate_tax_id(self.tax_id):
             raise ValidationError({'tax_id':
                                    _('Nieprawidłowa suma kontrolna NIP')})
+
+        if self.company is None and self.name is None:
+            raise ValidationError({'company':
+                                   _('Musisz wpisać nazwę firmy albo nazwisko')
+                                   })
