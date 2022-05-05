@@ -21,6 +21,7 @@ class Machine(models.Model):
     prod = models.CharField(max_length=150, null=True, blank=True)
     vendor = models.CharField(max_length=150, null=True, blank=True)
     OS = models.CharField(max_length=150, null=True, blank=True)
+    dist_major_ver = models.IntegerField(default=0, null=True, blank=True)
     kernel = models.CharField(max_length=150, null=True, blank=True)
     CPU = models.CharField(max_length=150, null=True, blank=True)
     cores = models.CharField(max_length=150, null=True, blank=True)
@@ -36,11 +37,23 @@ class Machine(models.Model):
                                  on_delete=models.SET_NULL)
     is_active = models.BooleanField(default=True, blank=True)
 
+    class Meta:
+        ordering = ['-is_active', 'FQDN']
+
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return reverse('machines:detail', kwargs={'pk': self.pk})
+
+    @property
+    def mem_mb(self):
+        try:
+            int(self.mem)
+        except (ValueError, TypeError):
+            return ''
+        else:
+            return round(int(self.mem)/1000)
 
     @property
     def outdated_setup(self):
