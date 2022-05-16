@@ -8,23 +8,23 @@ from django.utils.translation import gettext_lazy as _
 
 class Shop(models.Model):
     """ shop list """
-    
+
     address = models.TextField(verbose_name="sklep")
 
     class Meta:
         verbose_name = "adres sklepu"
         verbose_name_plural = "adresy sklepów"
-        
+
     def __str__(self):
         return self.address
-    
+
     def get_absolute_url(self):
         return reverse_lazy('inventory:index')
 
 
 class Make(models.Model):
     """ product names """
-    
+
     name = models.CharField(max_length=70, verbose_name="nazwa towaru")
     name_print = models.CharField(max_length=70,
                                   verbose_name="nazwa do druku",
@@ -35,7 +35,7 @@ class Make(models.Model):
     class Meta:
         verbose_name = "nazwa towaru"
         verbose_name_plural = "nazwy towarów"
-        
+
     def __str__(self):
         return self.name
 
@@ -47,7 +47,7 @@ class MakeGroup(models.Model):
     CRAFT_ID = 2
     LINGERIE_ID = 3
     GOLD_ID = 4
-    
+
     name = models.CharField(max_length=70,
                             verbose_name="nazwa grupy towarowej")
 
@@ -70,17 +70,17 @@ class Unit(models.Model):
     class Meta:
         verbose_name = "jednostka miary"
         verbose_name_plural = "jednostki miar"
-        
+
     def __str__(self):
         return self.name
-    
+
 
 class Item(models.Model):
     """ item list """
 
     MAX_PRICE = 35000
     MAX_QTY = 100
-    
+
     inventory = models.ForeignKey('Inventory', on_delete=models.CASCADE,
                                   verbose_name="remanent", null=True)
     make = models.ForeignKey('Make', on_delete=models.CASCADE,
@@ -111,16 +111,19 @@ class Item(models.Model):
                 return round((self.price/self.net_price), 1)
         else:
             return ''
-        
+
     def __str__(self):
         string = "#{}, {}, cena brutto: {} zł".format(
             str(self.pk), self.make.name, str(self.price))
         return string
-    
+
     def get_absolute_url(self):
         return reverse_lazy('inventory:index')
 
     def clean(self):
+        if not isinstance(self.quantity, float):
+            raise ValidationError({'quantity':
+                                   'ilość powinna być liczbą (float)'})
         # Quantity cannot be fractions
         if self.unit.pk == Unit.QTY_ID and self.quantity is not None and\
            not self.quantity.is_integer():
