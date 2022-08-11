@@ -14,7 +14,7 @@ backcall==0.2.0
     # via ipython
 decorator==5.1.1
     # via ipython
-django==3.2.14
+django==3.2.15
     # via
     #   -c requirements.txt
     #   django-debug-toolbar
