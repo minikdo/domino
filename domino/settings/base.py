@@ -60,6 +60,7 @@ DATABASES = {
         'USER': get_secret('DB_USER'),
         'HOST': get_secret('DB_HOST'),
         'PORT': get_secret('DB_PORT'),
+        'PASSWORD': get_secret('DB_PASS'),
     }
 }
 
