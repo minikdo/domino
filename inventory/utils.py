@@ -76,12 +76,13 @@ def get_total_items(inventory):
             total=(
                 Coalesce(
                     Sum('quantity',
-                        filter=Q(unit=Unit.QTY_ID)),
+                        filter=Q(unit=Unit.QTY_ID),
+                        output_field=IntegerField()),
                     1) * F(price)))
 
     items = items.prefetch_related('make', 'unit')\
                  .order_by('make__name_print', price)
-    
+
     return items
 
 
