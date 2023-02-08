@@ -18,7 +18,7 @@ coreapi==2.3.3
     # via djoser
 coreschema==0.0.4
     # via coreapi
-cryptography==37.0.2
+cryptography==39.0.1
     # via social-auth-core
 defusedxml==0.7.1
     # via
