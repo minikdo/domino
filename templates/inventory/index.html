@@ -48,7 +48,9 @@
 <form action="{% url 'inventory:create' %}" method="post">
   {% csrf_token %}
 
-  {{ form }}
+    {% for field in form %}
+        {{ field }}
+    {% endfor %}
 
   <input name="" type="submit" value="zapisz"/>
 </form>

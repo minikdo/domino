@@ -16,8 +16,8 @@ class MachineSetupForm(forms.Form):
     """ ansible setup form """
 
     file_field = forms.FileField(
-        widget=forms.ClearableFileInput(
-            attrs={'multiple': True}))
+        widget=forms.ClearableFileInput()
+    )
 
 
 class ServiceForm(forms.ModelForm):
