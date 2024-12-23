@@ -39,7 +39,7 @@ class Make(models.Model):
         verbose_name_plural = "nazwy towarów"
 
     def __str__(self):
-        return self.name
+        return f"{self.id}, {self.name} {"(ukryte)" if self.is_hidden else ""}"
 
 
 class MakeGroup(models.Model):
