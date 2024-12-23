@@ -130,8 +130,6 @@ class InventoryCreate(LoginRequiredMixin, CreateView):
 @login_required()
 def inventory_select(request):
     """ select an inventory """
-    # import pdb; pdb.set_trace()
-    
     template = "inventory/inventory_select.html"
     form = InventorySelectForm()
     inventories = Inventory.objects.all()
@@ -144,6 +142,7 @@ def inventory_select(request):
     if request.POST:
         request.session['inventory_id'] = request.POST.get('inventory')
         request.session['group_id'] = request.POST.get('group')
+        request.session['show_hidden'] = request.POST.get('show_hidden', False)
 
         return redirect('inventory:index')
 

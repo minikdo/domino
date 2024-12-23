@@ -31,6 +31,8 @@ class Make(models.Model):
                                   null=True)
     group = models.ForeignKey('MakeGroup', verbose_name="grupa towarowa",
                               on_delete=models.CASCADE)
+    is_hidden = models.BooleanField(default=False,
+                                    verbose_name="ukryte")
 
     class Meta:
         verbose_name = "nazwa towaru"

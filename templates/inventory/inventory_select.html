@@ -16,6 +16,9 @@
 
   {{ form }}
 
+    <label for="show_hidden">pokaż ukryte towary</label>
+    <input type="checkbox" name="show_hidden" value="True" {% if request.session.show_hidden %}checked{% endif %} id="show_hidden" />
+
   <div><input type="submit" value="wybierz"/></div>
 </form>
 

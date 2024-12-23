@@ -10,9 +10,15 @@ class ItemForm(forms.ModelForm):
         
     def __init__(self, *args, session_data=None, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['make'].queryset = self.fields['make'].queryset.filter(
-            group=session_data['group_id']).order_by('name')
 
+        qs = self.fields['make'].queryset.filter(
+            group=session_data['group_id'],
+        ).order_by('name')
+
+        if not session_data['show_hidden']:
+            qs = qs.exclude(is_hidden=True)
+
+        self.fields['make'].queryset = qs
         # check if the inventory is in net prices
         net_prices = Inventory.objects.get(pk=session_data['inventory_id'])\
                                       .net_prices
