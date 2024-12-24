@@ -2,8 +2,5 @@ django
 djatex
 django-autocomplete-light
 num2words
-djangorestframework
-django-cors-headers
-djoser
 psycopg2-binary
 
