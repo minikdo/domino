@@ -180,3 +180,10 @@ form.item_search ul li {
 .inactive {
     opacity: 0.2;
 }
+.logout-btn {
+    text-transform: none;
+    outline: none;
+    padding: 0px;
+    border: 0px;
+    display: inline;
+}
