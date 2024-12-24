@@ -16,7 +16,7 @@ from .models import Invoice, InvoiceItem, Customer
 from .forms import InvoiceForm, InvoiceItemForm, CustomerSearchForm,\
     CustomerForm
 from .utils import SumItems
-from transactions.mixins import CreatedByMixin
+from common.mixins import CreatedByMixin
 
 
 class IndexView(LoginRequiredMixin, ListView):

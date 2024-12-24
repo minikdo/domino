@@ -83,7 +83,6 @@ INSTALLED_APPS = [
     'corsheaders',
     # my apps
     'inventory.apps.InventoryConfig',
-    'transactions.apps.TransactionsConfig',
     'machines.apps.MachinesConfig',
     'invoices.apps.InvoicesConfig',
     'gold.apps.GoldConfig',

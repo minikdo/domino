@@ -3,8 +3,8 @@ from django.urls import reverse
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
-from transactions.validators import validate_tax_id
-from transactions.models import TimeStampedModel
+from common.validators import validate_tax_id
+from common.models import TimeStampedModel
 from inventory.models import Make
 
 

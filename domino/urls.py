@@ -7,7 +7,6 @@ import os
 
 urlpatterns = [
     path('inventory/', include('inventory.urls')),
-    path('transactions/', include('transactions.urls')),
     path('machines/', include('machines.urls')),
     path('invoices/', include('invoices.urls')),
     path('gold/', include('gold.urls')),
