@@ -22,7 +22,7 @@
       <!-- project menu -->
       
       <div class="row">
-        <div class="left ten columns" id="navbar-main">
+        <div class="left nine columns" id="navbar-main">
           <ul>
             <li><a href="{% url 'inventory:index' %}">remanent</a></li>
             <li><a href="{% url 'transactions:index' %}">przelewy</a></li>
@@ -33,17 +33,17 @@
 
           </ul>
         </div>
-        <div class="right two columns" id="navbar-main">
+        <div class="right three columns" id="navbar-main">
           <ul>
             {% if user.is_authenticated %}
                 <li>
                     <strong>{{ user.username }}</strong>
-                    <form method="post" action="{% url 'logout' %}">
+                    <form style="display: inline" method="post" id="logout" action="{% url 'logout' %}">
                         {% csrf_token %}
-                        <button type="submit" class="logout-btn" >
-                            wyloguj
-                            <img  class="ico" alt="logout" src="{% static 'icons/account-logout.svg' %}"/>
-                        </button>
+                        <a onclick="document.getElementById('logout').submit()" style="cursor: pointer">
+                            <span>wyloguj</span>
+                            <img class="ico" alt="logout" src="{% static 'icons/account-logout.svg' %}"/>
+                        </a>
                     </form>
                 </li>
             {% endif %}
