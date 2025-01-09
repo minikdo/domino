@@ -22,6 +22,7 @@ def shelf_counter(inventory, created_by, shelf_id):
 
 def stats(inventory):
 
+    # TODO: move to querysets.py
     items = Item.objects.filter(inventory_id=inventory)
 
     qty = items.filter(unit_id=Unit.QTY_ID)
