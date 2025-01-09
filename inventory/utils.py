@@ -27,27 +27,36 @@ def stats(inventory):
 
     gramms = Item.objects.filter(inventory_id=inventory, unit_id=Unit.GRAM_ID)
 
+    price_field = 'price'
     if net_prices:
-        price = 'net_price'
-        gramms = gramms.aggregate(sum=Sum(F(price) * F('quantity')))
-    else:
-        price = 'price'
-        gramms = gramms.aggregate(sum=Sum(F(price)))
+        price_field = 'net_price'
+        gramms_net = gramms.aggregate(sum=Sum(F(price_field) * F('quantity')))
+
+    gramms_gross = gramms.aggregate(sum=Sum(F('price')))
 
     qty = Item.objects.filter(inventory_id=inventory, unit_id=Unit.QTY_ID)\
-                      .aggregate(sum=Sum(F(price) * F('quantity')))
+                      .aggregate(sum=Sum(F(price_field) * F('quantity')))
 
     if isinstance(qty['sum'], (int, float)):
-        qty = qty['sum']
+        qty_sum = qty['sum']
     else:
-        qty = 0
+        qty_sum = 0
 
-    if isinstance(gramms['sum'], (int, float)):
-        gramms = gramms['sum']
+    if net_prices:
+        if isinstance(gramms_net['sum'], (int, float)):
+            gramms_net_sum = gramms_net['sum']
+        else:
+            gramms_net_sum = 0
+
+    if isinstance(gramms_gross['sum'], (int, float)):
+        gramms_gross_sum = gramms_gross['sum']
     else:
-        gramms = 0
-    
-    return qty + gramms
+        gramms_gross_sum = 0
+
+    return {
+        "net": qty_sum + gramms_net_sum if net_prices else 0,
+        "gross": qty_sum + gramms_gross_sum,
+    }
 
 
 def get_total_items(inventory):
@@ -60,7 +69,7 @@ def get_total_items(inventory):
         price = 'net_price'
     else:
         price = 'price'
-        
+
     items = Item.objects.filter(inventory=inventory)\
                         .values('make__name_print', price, 'unit__name')
 

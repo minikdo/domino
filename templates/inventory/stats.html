@@ -6,8 +6,13 @@
 
 {% block body %}
 
-<p>suma {{ current_inventory.price_mode }}:
-  <h3>{{ sum|floatformat:2 }}</h3>
+    <p>tryb remanentu: <h4>{{ current_inventory.price_mode }}</h4></p>
+
+<p>suma netto:
+  <h3>{{ sum.net|floatformat:2 }}</h3>
+</p>
+<p>suma brutto:
+    <h3>{{ sum.gross|floatformat:2 }}</h3>
 </p>
 <p>ilość pozycji:
   <h4>{{ count }}</h4>
