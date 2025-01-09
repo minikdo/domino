@@ -22,40 +22,24 @@ def shelf_counter(inventory, created_by, shelf_id):
 
 def stats(inventory):
 
-    # FIXME: repeated
-    net_prices = Inventory.objects.get(pk=inventory).net_prices
+    items = Item.objects.filter(inventory_id=inventory)
 
-    gramms = Item.objects.filter(inventory_id=inventory, unit_id=Unit.GRAM_ID)
+    qty = items.filter(unit_id=Unit.QTY_ID)
+    gramms = items.filter(unit_id=Unit.GRAM_ID)
 
-    price_field = 'price'
-    if net_prices:
-        price_field = 'net_price'
-        gramms_net = gramms.aggregate(sum=Sum(F(price_field) * F('quantity')))
+    gramms_net = gramms.aggregate(
+        sum=Sum(F('net_price') * F('quantity')))['sum'] or 0.00
+    qty_net = qty.aggregate(
+        sum=Sum(F('net_price') * F('quantity')))['sum'] or 0.00
 
-    gramms_gross = gramms.aggregate(sum=Sum(F('price')))
-
-    qty = Item.objects.filter(inventory_id=inventory, unit_id=Unit.QTY_ID)\
-                      .aggregate(sum=Sum(F(price_field) * F('quantity')))
-
-    if isinstance(qty['sum'], (int, float)):
-        qty_sum = qty['sum']
-    else:
-        qty_sum = 0
-
-    if net_prices:
-        if isinstance(gramms_net['sum'], (int, float)):
-            gramms_net_sum = gramms_net['sum']
-        else:
-            gramms_net_sum = 0
-
-    if isinstance(gramms_gross['sum'], (int, float)):
-        gramms_gross_sum = gramms_gross['sum']
-    else:
-        gramms_gross_sum = 0
+    qty_gross = qty.aggregate(
+        sum=Sum(F('price') * F('quantity')))['sum'] or 0.00
+    gramms_gross = gramms.aggregate(
+        sum=Sum(F('price')))['sum'] or 0.00
 
     return {
-        "net": qty_sum + gramms_net_sum if net_prices else 0,
-        "gross": qty_sum + gramms_gross_sum,
+        "net": qty_net + gramms_net,
+        "gross": qty_gross + gramms_gross,
     }
 
 
