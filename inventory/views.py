@@ -29,13 +29,19 @@ def latex(request):
            
     inventory = Inventory.objects.get(pk=inventory_id)
 
+    total_sum = stats(inventory_id)
+    if inventory.price_mode == 'netto':
+        total_sum = total_sum['net']
+    else:
+        total_sum = total_sum['gross']
+
     file_name = "rem_nr_{id}_z_{date}.pdf".format(
         id=inventory_id,
         date=inventory._creation_date())
     
     context = {'items': items,
                'counter': items.count(),
-               'total_sum': stats(inventory_id),
+               'total_sum': total_sum,
                'inventory': inventory,
                'date': inventory.created}
     

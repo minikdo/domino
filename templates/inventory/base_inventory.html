@@ -10,7 +10,7 @@
   <div class="ten columns">
     <ul>
       {% if request.user.is_staff %}
-      <li><a href="{% url 'inventory:stats' %}">stats</a></li>
+      <li><a href="{% url 'inventory:stats' %}">sumy</a></li>
       {% endif %}
       <li><a href="{% url 'inventory:inventory_select' %}">zmień sklep</a></li>
       <li><a href="{% url 'inventory:item_search' %}">szukaj</a></li>
@@ -28,9 +28,10 @@
   </div>
   <div class="four columns" id="shelf_counter">
     {% if shelf_counter %}
-    <a href="{% url 'inventory:item_search' %}" title="wyświetl półkę" class="">{{ shelf_counter.piece|add:shelf_counter.weight }}</a>
+        <a href="{% url 'inventory:item_search' %}" title="wyświetl półkę" class="">{{ shelf_counter.piece|add:shelf_counter.weight }}
+            <span style="font-size: 1.1rem;">wyświetl</span>
+        </a>
     {% endif %}
-    {{ aqq }}
   </div>
 </div>
 
